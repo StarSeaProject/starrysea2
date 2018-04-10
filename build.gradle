@@ -1,0 +1,115 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.8.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	} 
+}
+
+repositories {
+	mavenCentral()
+}
+allprojects{
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'org.springframework.boot'
+	group = 'top.starrtsea'
+	version = '1.2.0'
+	sourceCompatibility = 1.8
+}
+project(':top.starrysea.modules.dependencies'){
+		repositories {
+    		mavenCentral()
+		}
+    	dependencies{
+    	compile('org.springframework.boot:spring-boot-starter-web'){
+		exclude module: "spring-boot-starter-tomcat"
+	}
+	compile(
+		'org.springframework.boot:spring-boot-starter-jdbc',
+		'org.springframework.boot:spring-boot-starter-thymeleaf',
+		'org.springframework.boot:spring-boot-starter-jetty',
+		'org.springframework.boot:spring-boot-starter-actuator',
+		'org.springframework.boot:spring-boot-starter-mail',
+		'org.springframework.mobile:spring-mobile-device',
+		'org.springframework.boot:spring-boot-starter-aop',
+		'org.springframework.boot:spring-boot-starter-cache',
+		'org.springframework.boot:spring-boot-devtools',
+		'org.springframework.boot:spring-boot-configuration-processor',
+		'org.springframework.boot:spring-boot-starter-data-redis'
+	)
+	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
+	compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
+	compile fileTree(dir:'lib',include:['*.jar'])
+	runtime('mysql:mysql-connector-java')
+	}
+}
+project(':top.starrysea.modules.common'){
+    dependencies{
+        compile project(':top.starrysea.modules.dependencies')
+    }
+}
+project(':top.starrysea.modules.dao'){
+    dependencies{
+        compile project(':top.starrysea.modules.common')
+    }
+}
+project(':top.starrysea.modules.file'){
+    dependencies{
+        compile project(':top.starrysea.modules.common')
+    }
+}
+project(':top.starrysea.modules.security'){
+    dependencies{
+        compile project(':top.starrysea.modules.common')
+    }
+}
+project(':top.starrysea.modules.mail'){
+    dependencies{
+    	compile project(':top.starrysea.modules.dao')
+    	compile project(':top.starrysea.modules.security')
+    }
+}
+project(':top.starrysea.modules.exception'){
+    dependencies{
+        
+    }
+}
+project(':top.starrysea.modules.service'){
+    dependencies{
+        compile project(':top.starrysea.modules.mail')
+        compile project(':top.starrysea.modules.file')
+        compile project(':top.starrysea.modules.exception')
+    }
+}
+project(':top.starrysea.modules.controller'){
+    dependencies{
+        compile project(':top.starrysea.modules.service')
+    }
+}
+project(':top.starrysea.modules.aspect'){
+    dependencies{
+        compile project(':top.starrysea.modules.service')
+    }
+
+}
+project(':'){
+    dependencies{
+        compile project(':top.starrysea.modules.controller')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
+
+}
+
+
+
+
+
+
+
+
+

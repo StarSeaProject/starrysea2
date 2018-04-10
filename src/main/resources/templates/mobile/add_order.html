@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8"></meta>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<link rel="stylesheet" href="/mobile/mynavbar_mobilepage.min.css"></link>
+<link rel="stylesheet" href="/mobile/myfootbar_mobilepage.min.css"></link>
+<link rel="stylesheet" href="/mobile/add_orderm.min.css"></link>
+
+</head>
+<body class="container-fluid">
+	<div class="navbartop row">
+		<div class="navbar-header col-xs-3">
+			<a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
+		</div>
+		<div class="navbar-right col-xs-9 text-right">
+			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
+				class="ma text-right">活动</a> <a href="/mintro.html"
+				class="ma text-right">关于</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 imgbarcontainer">
+			<img class="imgbar" src="/navbar.jpg"></img>
+		</div>
+	</div>
+
+	<div class="container row">
+		<h1 class="h2">收货人信息</h1>
+		<div class="container">
+			<p id="statusinfo"></p>
+		</div>
+		<form id="addOrderForm" action="/order/add" method="post">
+			<div class="col-xs-6">
+				<p>收货人姓名:</p>
+			</div>
+			<div class="col-xs-6">
+				<input type="text" name="orderName" id="ordname" />
+			</div>
+
+			<div class="col-xs-6">
+				<p>手机号:</p>
+			</div>
+			<div class="col-xs-6">
+				<input type="text" name="orderPhone" id="ordphone" />
+			</div>
+
+			<div class="col-xs-6">
+				<p>收货地址</p>
+			</div>
+			<div class="col-xs-6">
+				<select id="province">
+					<option>请选择省份</option>
+					<option th:each="province:${provinces}" th:value="${province.key}"
+						th:text="${province.value.provinceName}"></option>
+				</select> <select id="city" disabled="disabled">
+				</select> <select id="area" disabled="disabled">
+				</select> <input type="hidden" id="areasub" name="orderArea" />
+			</div>
+			<div class="col-xs-6">
+				<p>收货详细地址</p>
+			</div>
+			<div class="col-xs-6">
+				<input type="text" name="orderAddress" id="ordadddel" />
+			</div>
+			<div class="col-xs-6">
+				<p>收货人电子邮箱:</p>
+			</div>
+			<div class="col-xs-6">
+				<input type="text" name="orderEmail" id="ordemail" />
+			</div>
+
+
+			<div class="col-xs-6">
+				<p>备注:</p>
+			</div>
+			<div class="col-xs-6">
+				<input type="text" name="orderRemark" id="orderRemark" />
+			</div>
+
+			<div class="col-xs-6">
+				<p id="advicep">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
+			</div>
+			<div class="col-xs-6"></div>
+			<div th:each="workType,status:${workTypes.workTypes}">
+				<input type="hidden"
+					th:name="'orderDetails['+${status.index}+'].workId'"
+					th:value="${workType.workId}" /> <input type="hidden"
+					th:name="'orderDetails['+${status.index}+'].workTypeId'"
+					th:value="${workType.workTypeId}" />
+			</div>
+			<input type="hidden" name="token" th:value="${token}" />
+		</form>
+		<button id="addOrderBtn" class="btn btn-danger">提交</button>
+	</div>
+
+	<div class="mfoot text-center row">
+		<p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script
+		src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="/add_order.min.js"></script>
+	<script th:inline="javascript">
+		$(function () {
+			let provinces = [[${provinces}]];
+		    let citys;
+		    $("#province").on("change",function(e){
+		    	let provinceId=$(e.target).val();
+		    	citys=provinces[provinceId].citys;
+		    	let str=`<option>请选择城市</option>`;
+		    	for(let city in citys){
+		    		str+=`<option value='${citys[city].cityId}'>${citys[city].cityName}</option>`;
+		    	}
+		    	$("#area").html("").attr("disabled","disabled");
+		    	$("#city").html(str);
+		    	if($("#city").attr("disabled")=="disabled"){
+		    		$("#city").removeAttr("disabled");
+		    	}
+		    });
+		    $("#city").on("change",function(e){
+		    	let cityId=$(e.target).val();
+		    	let areas=citys[cityId].areas;
+		    	let str=`<option>请选择区县</option>`;
+		    	for(let area in areas){
+		    		str+=`<option value='${areas[area].areaId}'>${areas[area].areaName}</option>`;
+		    	}
+		    	$("#area").html(str);
+		    	if($("#area").attr("disabled")=="disabled"){
+		    		$("#area").removeAttr("disabled");
+		    	}
+		    });
+		});
+	</script>
+</body>
+</html>

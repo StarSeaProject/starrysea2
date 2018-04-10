@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"></meta>
+    <title>星之海志愿者公会</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+    <link rel="stylesheet" href="/mycss.min.css"></link>
+    <link rel="stylesheet" href="/question.min.css"></link>
+    <link rel="stylesheet" media="screen and (min-width: 992px)" href="/mynavbar_commonpage.min.css"></link>
+    <link rel="stylesheet" media="screen and (max-width: 991px)" href="/mobile/mynavbar_mobilepage.min.css"></link>
+    <link rel="stylesheet" media="screen and (min-width: 992px)" href="/myfootbar_commonpage.min.css"></link>
+    <link rel="stylesheet" media="screen and (max-width: 991px)" href="/mobile/myfootbar_mobilepage.min.css"></link>
+
+</head>
+
+<body class="container-fluid">
+<!--Desktop Navbar-->
+<div class="container-fluid common-navbar">
+    <nav class="row heading"
+         role="navigation" id="mybar">
+        <div class="navbar-header" >
+            <a href="/" class="col-sm-4">
+                <img src="/starsea.png" class="navimg"></img>
+            </a>
+            <span class="col-sm-4">
+				</span>
+            <button class="navbar-toggle col-sm-4" data-toggle="collapse"
+                    data-target="#shownav" id="btnnav">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse navbar-right" id="shownav">
+            <ul class="nav navbar-nav mynavul">
+                <li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+                <li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+                <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
+            </ul>
+        </div>
+
+    </nav>
+</div>
+<!--Mobile Navbar-->
+
+<div class="navbartop container-fluid row">
+    <div class="row">
+        <div class="navbar-header col-xs-3">
+            <a href="/"><img src="/starsea.png" class="navimg"></img></a>
+        </div>
+        <div class="navbar-right col-xs-9 text-right">
+            <a href="/work" class="ma text-right">作品</a>
+            <a href="/activity"class="ma text-right">活动</a>
+            <a href="/mintro.html"class="ma text-right">关于</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 imgbarcontainer">
+            <img class="imgbar" src="/navbar.jpg"></img>
+        </div>
+    </div>
+</div>
+
+<!--Body Element-->
+<div class="container">
+    <!--Intro Text-->
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <p class="h2">有什么疑问或者是想咨询的问题</p>
+            <p class="h2">请在质问箱里面提出来吧</p>
+        </div>
+    </div>
+    <!--Form Element-->
+    <div class="row">
+        <div class="col-sm-12">
+            <form id="askQuestion" action="/question/ask" method="post">
+                <div class="form-group center-block">
+                    <label for="message">您的消息:</label>
+                    <textarea class="form-control" id="message" name="question" rows="7"></textarea>
+                    <p class="text-center text-muted">提问是完全匿名，不符合社会主义核心价值观和让人感到伤心的问题还是请不要提出，谢谢茄子</p>
+                </div>
+                <button type="submit" id="submitBtn" class="btn">确认送出</button>
+            </form>
+        </div>
+    </div>
+    <!--QA Box-->
+    <p class="h3 qaText">已回答的问题一览</p>
+    <div id="questions">
+        <div class="row qaBox" th:each="question:${result}">
+            <div class="col-sm-12 col-md-10 qBox">
+                <p class="qText" th:text="'Q:'+${question.question}">
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-10 aBox">
+                <p class="aText" th:text="'A:'+${question.answer}">
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footbar text-center">
+    <p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
+<div class="mfoot text-center row">
+    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/question.min.js"></script>
+<script th:inline="javascript">
+    let total = [[${totalPage}]];
+</script>
+<script type="text/javascript" src="/mynavbar_commonpage.min.js"></script>
+
+</body>
+</html>

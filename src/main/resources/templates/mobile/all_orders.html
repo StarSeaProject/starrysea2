@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8"></meta>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+    <title>星之海志愿者公会</title>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+    <link rel="stylesheet" href="/mobile/mynavbar_mobilepage.min.css"></link>
+    <link rel="stylesheet" href="/mobile/myfootbar_mobilepage.min.css"></link>
+    <link rel="stylesheet" href="/all_orders.min.css"></link>
+</head>
+
+<body class="container-fluid">
+<div class="navbartop row">
+    <div class="navbar-header col-xs-3">
+        <a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
+    </div>
+    <div class="navbar-right col-xs-9 text-right">
+        <a href="/work" class="ma text-right">作品</a>
+        <a href="/activity" class="ma text-right">活动</a>
+        <a href="/mintro.html" class="ma text-right">关于</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 imgbarcontainer">
+        <img class="imgbar" src="/navbar.jpg" ></img>
+    </div>
+</div>
+
+<div class="container row">
+    <table>
+        <thead>
+        <tr>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody id="activitys">
+        <tr th:each="activity:${result}">
+            <td><a th:attr="data-activityid=${activity.activityId}"
+                   href="javascript:void(0)" th:text="${activity.activityName}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <div id="pages">
+        <a href="javascript:void(0)"
+           th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a> <span
+            th:text="${nowPage}"></span> <a href="javascript:void(0)"
+                                            th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
+    </div>
+</div>
+<form id="activityDetail row" action="/activity/detail" method="get">
+    <input id="activityId" type="hidden" name="activityId"/>
+</form>
+<div class="mfoot text-center row">
+    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
+
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="/common.min.js"></script>
+<script src="/activity.min.js"></script>
+
+</body>
+
+</html>

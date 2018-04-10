@@ -1,0 +1,10 @@
+include 'top.starrysea.modules.common',
+		'top.starrysea.modules.dependencies',
+		'top.starrysea.modules.dao',
+		'top.starrysea.modules.file',
+		'top.starrysea.modules.mail',
+		'top.starrysea.modules.security',
+		'top.starrysea.modules.service',
+		'top.starrysea.modules.exception',
+		'top.starrysea.modules.controller',
+		'top.starrysea.modules.aspect'

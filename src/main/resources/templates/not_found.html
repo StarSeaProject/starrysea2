@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8"></meta>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<link rel="stylesheet" href="/not_found.min.css"></link>
+
+</head>
+<body>
+<div class="container-fluid header">
+<div class="navbartop row">
+		<div class="navbar-header col-xs-3">
+			<a href="/"><img src="/starsea.png"
+				class="img-reponsive navimg"></img></a>
+		</div>
+		<div class="navbar-right col-xs-9 text-right">
+			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
+				class="ma text-right">活动</a> <a href="/mintro.html"
+				class="ma text-right">关于</a>
+		</div>
+		
+	</div>
+</div>
+<div class="addheight container"></div>
+<div class="container">
+	<div class="col-md-4">
+	<img class="cucuimg" th:src="'/cucu/'+${cucuImg}" id="cutu"/>
+	</div>
+	<div class="col-md-8">
+	<p id="p1">啊哦！</p>
+	<p id="p2">您要访问的页面好像走丢了，不过您可以观看我们的公会之花的照片~</p>
+	<p></p>
+	<p id="p3">想看他的更多照片，您可以<a href="https://weibo.com/u/6435503026?from=myfollow_all&is_all=1">查看更多</a></p>
+	
+	
+	</div>
+</div>
+
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</body>
+</html>
