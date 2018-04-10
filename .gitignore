@@ -17,7 +17,7 @@
 
 # Package Files #
 *.jar
-!/lib/*jar
+!*/lib/*jar
 *.war
 *.ear
 *.zip
@@ -32,6 +32,4 @@
 hs_err_pid*
 /build/
 .idea/
-out/
-/.classpath
-/.project
+
