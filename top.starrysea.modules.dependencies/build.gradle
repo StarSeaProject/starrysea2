@@ -5,6 +5,29 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+		repositories {
+    		mavenCentral()
+		}
+    	dependencies{
+    	compile('org.springframework.boot:spring-boot-starter-web'){
+		exclude module: "spring-boot-starter-tomcat"
+	}
+	compile(
+		'org.springframework.boot:spring-boot-starter-jdbc',
+		'org.springframework.boot:spring-boot-starter-thymeleaf',
+		'org.springframework.boot:spring-boot-starter-jetty',
+		'org.springframework.boot:spring-boot-starter-actuator',
+		'org.springframework.boot:spring-boot-starter-mail',
+		'org.springframework.mobile:spring-mobile-device',
+		'org.springframework.boot:spring-boot-starter-aop',
+		'org.springframework.boot:spring-boot-starter-cache',
+		'org.springframework.boot:spring-boot-devtools',
+		'org.springframework.boot:spring-boot-configuration-processor',
+		'org.springframework.boot:spring-boot-starter-data-redis'
+	)
+	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
+	compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
+	compile fileTree(dir:'lib',include:['*.jar'])
+	runtime('mysql:mysql-connector-java')
+	}
 }

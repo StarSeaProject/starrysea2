@@ -2,5 +2,5 @@ repositories {
 	mavenCentral()
 }
 dependencies {
-
+    compile project(':top.starrysea.modules.common')
 }

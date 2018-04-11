@@ -3,5 +3,7 @@ repositories {
 }
 
 dependencies {
-
+    dependencies{
+        compile project(':top.starrysea.modules.common')
+    }
 }

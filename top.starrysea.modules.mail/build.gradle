@@ -3,5 +3,6 @@ repositories {
 }
 
 dependencies {
-
+	    compile project(':top.starrysea.modules.dao')
+    	compile project(':top.starrysea.modules.security')
 }
