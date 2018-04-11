@@ -9,7 +9,6 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	} 
 }
-
 repositories {
 	mavenCentral()
 }
@@ -20,6 +19,12 @@ allprojects{
 	group = 'top.starrtsea'
 	version = '1.2.0'
 	sourceCompatibility = 1.8
+}
+subprojects{
+    build.doLast{
+        delete 'build/libs'
+    }
+
 }
 project(':top.starrysea.modules.dependencies'){
 		repositories {
@@ -100,10 +105,12 @@ project(':top.starrysea.modules.aspect'){
 project(':'){
     dependencies{
         compile project(':top.starrysea.modules.controller')
+       	compile project(':top.starrysea.modules.aspect')
         testCompile('org.springframework.boot:spring-boot-starter-test')
     }
 
 }
+
 
 
 
