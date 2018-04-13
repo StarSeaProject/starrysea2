@@ -5,5 +5,6 @@ repositories {
 dependencies {
 	    dependencies{
         compile project(':top.starrysea.modules.dependencies')
+        compile project(':top.starrysea.modules.kumasql')
     }
 }
