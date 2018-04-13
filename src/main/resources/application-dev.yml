@@ -4,7 +4,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     password: developer
-    url: jdbc:mysql://120.79.24.63:3306/ss_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://120.77.144.60/ss_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: developer
   http:
     multipart:
