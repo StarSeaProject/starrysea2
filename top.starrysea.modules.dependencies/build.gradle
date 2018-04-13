@@ -1,14 +1,7 @@
-
 repositories {
 	mavenCentral()
 }
-
-
-dependencies {
-		repositories {
-    		mavenCentral()
-		}
-    	dependencies{
+dependencies{
     	compile('org.springframework.boot:spring-boot-starter-web'){
 		exclude module: "spring-boot-starter-tomcat"
 	}
@@ -29,4 +22,3 @@ dependencies {
 	compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
 	runtime('mysql:mysql-connector-java')
 	}
-}
