@@ -27,7 +27,6 @@ dependencies {
 	)
 	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
 	compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
-	compile fileTree(dir:'lib',include:['*.jar'])
 	runtime('mysql:mysql-connector-java')
 	}
 }

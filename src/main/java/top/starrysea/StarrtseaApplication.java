@@ -19,14 +19,4 @@ public class StarrtseaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StarrtseaApplication.class, args);
 	}
-
-	@Bean
-	public KumaSqlDao getKumaSqlDao() {
-		return new KumaSqlDaoImpl();
-	}
-	
-	@Bean
-	public KumaRedisDao getKumaRedisDao() {
-		return new KumaRedisDaoImpl();
-	}
 }
