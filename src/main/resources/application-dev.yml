@@ -4,7 +4,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     password: developer
-    url: jdbc:mysql://120.77.144.60/ss_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://123.207.27.244/ss_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: developer
   http:
     multipart:
@@ -27,7 +27,7 @@ spring:
     content-type: text/html
     mode: LEGACYHTML5
   redis:
-    host: 120.79.24.63
+    host: 123.207.27.244
     port: 6379
     password: root1
     pool:
@@ -37,6 +37,6 @@ spring:
       min-idle: 0
     timeout: 0 
 ss:
-  fileroot: D:/nginx/starrysea/
+  fileroot: D:/develop/nginx-1.12.1/
 banner:
   charset: UTF-8
