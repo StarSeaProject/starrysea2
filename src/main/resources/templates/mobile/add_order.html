@@ -33,73 +33,103 @@
 		</div>
 	</div>
 
-	<div class="container row">
+	<div class="container main row">
 		<h1 class="h2">收货人信息</h1>
-		<div class="container">
-			<p id="statusinfo"></p>
-		</div>
-		<form id="addOrderForm" action="/order/add" method="post">
-			<div class="col-xs-6">
-				<p>收货人姓名:</p>
-			</div>
-			<div class="col-xs-6">
-				<input type="text" name="orderName" id="ordname" />
+
+		<form id="addOrderForm" class="container row" action="/order/add" method="post">
+
+			<div class="row">
+				<div class="col-xs-6">
+					<p>收货人姓名:</p>
+				</div>
+				<div class="col-xs-6 inputct">
+					<input type="text" name="orderName" id="ordname" />
+				</div>
+
 			</div>
 
-			<div class="col-xs-6">
-				<p>手机号:</p>
-			</div>
-			<div class="col-xs-6">
-				<input type="text" name="orderPhone" id="ordphone" />
-			</div>
-
-			<div class="col-xs-6">
-				<p>收货地址</p>
-			</div>
-			<div class="col-xs-6">
-				<select id="province">
-					<option>请选择省份</option>
-					<option th:each="province:${provinces}" th:value="${province.key}"
-						th:text="${province.value.provinceName}"></option>
-				</select> <select id="city" disabled="disabled">
-				</select> <select id="area" disabled="disabled">
-				</select> <input type="hidden" id="areasub" name="orderArea" />
-			</div>
-			<div class="col-xs-6">
-				<p>收货详细地址</p>
-			</div>
-			<div class="col-xs-6">
-				<input type="text" name="orderAddress" id="ordadddel" />
-			</div>
-			<div class="col-xs-6">
-				<p>收货人电子邮箱:</p>
-			</div>
-			<div class="col-xs-6">
-				<input type="text" name="orderEmail" id="ordemail" />
+			<div class="row">
+				<div class="col-xs-6" >
+					<p>手机号:</p>
+				</div>
+				<div class="col-xs-6 inputct" >
+					<input type="text" name="orderPhone" id="ordphone" />
+				</div>
 			</div>
 
+			<div class="row">
+				<div class="col-xs-6" >
+					<p>收货地址</p>
+				</div>
+				<div class="col-xs-6" >
+					<select id="province">
+						<option>请选择省份</option>
+						<option th:each="province:${provinces}" th:value="${province.key}"
+								th:text="${province.value.provinceName}">
 
-			<div class="col-xs-6">
-				<p>备注:</p>
-			</div>
-			<div class="col-xs-6">
-				<input type="text" name="orderRemark" id="orderRemark" />
+						</option>
+					</select>
+					<select id="city" disabled="disabled">
+					</select>
+					<select id="area" disabled="disabled">
+					</select>
+					<input type="hidden" id="areasub" name="orderArea" />
+				</div>
 			</div>
 
-			<div class="col-xs-6">
-				<p id="advicep">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
+			<div class="row">
+				<div class="col-xs-6" >
+					<p>收货详细地址</p>
+				</div>
+				<div class="col-xs-6 inputct" >
+					<input type="text" name="orderAddress" id="ordadddel" />
+				</div>
 			</div>
-			<div class="col-xs-6"></div>
-			<div th:each="workType,status:${workTypes.workTypes}">
-				<input type="hidden"
-					th:name="'orderDetails['+${status.index}+'].workId'"
-					th:value="${workType.workId}" /> <input type="hidden"
-					th:name="'orderDetails['+${status.index}+'].workTypeId'"
-					th:value="${workType.workTypeId}" />
+
+			<div class="row">
+				<div class="col-xs-6" >
+					<p>收货人电子邮箱：(*接收运单号使用)</p>
+				</div>
+				<div class="col-xs-6 inputct" >
+					<input type="text" name="orderEmail" id="ordemail" />
+				</div>
 			</div>
-			<input type="hidden" name="token" th:value="${token}" />
+
+			<div class="row">
+				<div class="col-xs-6" >
+					<p>备注:</p>
+				</div>
+				<div class="col-xs-6 inputct" >
+					<input type="text" name="orderRemark" id="orderRemark" />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6" >
+					<small id="advice">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</small>
+				</div>
+				<div class="col-xs-6 inputct" >
+					<div th:each="workType,status:${workTypes.workTypes}">
+						<input type="hidden" th:name="'orderDetails['+${status.index}+'].workId'" th:value="${workType.workId}"/>
+						<input type="hidden" th:name="'orderDetails['+${status.index}+'].workTypeId'" th:value="${workType.workTypeId}"/>
+					</div>
+				</div>
+
+				<input type="hidden" name="token" th:value="${token}" />
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6" >
+
+				</div>
+				<div class="col-xs-6" >
+					<button id="addOrderBtn" class="btn btn-danger">提交</button>
+				</div>
+
+			</div>
+
 		</form>
-		<button id="addOrderBtn" class="btn btn-danger">提交</button>
+
 	</div>
 
 	<div class="mfoot text-center row">

@@ -36,16 +36,16 @@
 	<div class="container checklist row">
 
 		<div class="row">
-			<div class="col-xs-4">
-				<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
+			<div class="col-xs-4 imgct">
+				<img th:attr="src=${work.workCover}" class="img-responsive"></img>
 			</div>
 			<div class="col-xs-1"></div>
 			<div class="col-xs-6">
 				<div class="h1">
-					<h1 th:text="${work.workName}" class="titleh1"></h1>
+					<h3 th:text="${work.workName}" class="titleh1">No data</h3>
 				</div>
-				<div class="h6" th:text="'上架时间:'+${work.workUploadTime}"></div>
-				<div class="h6" th:text="'点击量:'+${work.workClick}"></div>
+				<div class="h6" th:text="'上架时间:'+${work.workUploadTime}">No data</div>
+				<div class="h6" th:text="'点击量:'+${work.workClick}">No data</div>
 				<div class="h6">
 					<a th:href="@{${work.workPdfpath}}"
 						th:attr="download=${work.workName}">下载链接</a>
