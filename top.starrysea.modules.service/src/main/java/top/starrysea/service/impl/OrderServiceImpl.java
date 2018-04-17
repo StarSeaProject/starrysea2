@@ -31,6 +31,7 @@ import top.starrysea.dao.IWorkTypeDao;
 import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
+import top.starrysea.kql.facede.KumaRedisDao;
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	private IOrderDetailDao orderDetailDao;
 	@Autowired
-	private JedisPool jedispool;
+	private KumaRedisDao kumaRedisDao;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -258,19 +259,14 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public ServiceResult queryShoppingCarListService(String redisKey) {
 		ServiceResult serviceResult = ServiceResult.of();
-		Jedis jedis = jedispool.getResource();
-		try {
-			if (jedis.exists(redisKey)) {
-				List<OrderDetailForAddOrder> orderDetailForAddOrders = Common.jsonToList(jedis.get(redisKey),
-						OrderDetailForAddOrder.class);
-				serviceResult.setResult(LIST_1, orderDetailForAddOrders);
-				serviceResult.setSuccessed(true);
-			} else {
-				serviceResult.setResult(LIST_1, new ArrayList<OrderDetailForAddOrder>());
-				serviceResult.setSuccessed(true);
-			}
-		} finally {
-			jedis.close();
+		List<OrderDetailForAddOrder> orderDetailForAddOrders = kumaRedisDao.getList(redisKey,
+				OrderDetailForAddOrder.class);
+		if (!orderDetailForAddOrders.isEmpty()) {
+			serviceResult.setResult(LIST_1, orderDetailForAddOrders);
+			serviceResult.setSuccessed(true);
+		} else {
+			serviceResult.setResult(LIST_1, new ArrayList<OrderDetailForAddOrder>());
+			serviceResult.setSuccessed(true);
 		}
 		return serviceResult;
 	}
@@ -278,29 +274,17 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
 			List<OrderDetailForAddOrder> orderDetailForAddOrders) {
-		Jedis jedis = jedispool.getResource();
 		ServiceResult serviceResult = ServiceResult.of();
-		try {
-			jedis.set(redisKey, Common.toJson(orderDetailForAddOrders));
-			serviceResult.setSuccessed(true);
-		} finally {
-			jedis.close();
-		}
+		kumaRedisDao.set(redisKey, Common.toJson(orderDetailForAddOrders));
+		serviceResult.setSuccessed(true);
 		return serviceResult;
 	}
 
 	@Override
 	public ServiceResult removeShoppingCarListService(String redisKey) {
-		Jedis jedis = jedispool.getResource();
 		ServiceResult serviceResult = ServiceResult.of();
-		try {
-			if (jedis.exists(redisKey)) {
-				jedis.del(redisKey);
-				serviceResult.setSuccessed(true);
-			}
-		} finally {
-			jedis.close();
-		}
+		kumaRedisDao.delete(redisKey);
+		serviceResult.setSuccessed(true);
 		return serviceResult;
 	}
 }
