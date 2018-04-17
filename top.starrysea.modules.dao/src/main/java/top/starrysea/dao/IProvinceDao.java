@@ -1,8 +1,10 @@
 package top.starrysea.dao;
 
-import top.starrysea.common.DaoResult;
+import java.util.List;
+
+import top.starrysea.object.dto.Area;
 
 public interface IProvinceDao {
 
-	DaoResult getAllProvinceDao();
+	List<Area> getAllProvinceDao();
 }

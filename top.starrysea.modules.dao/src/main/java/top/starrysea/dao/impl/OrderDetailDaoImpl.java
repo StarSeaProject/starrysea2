@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
-import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IOrderDetailDao;
 import top.starrysea.kql.clause.SelectClause;
 import top.starrysea.kql.clause.WhereType;
@@ -30,7 +29,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	private KumaSqlDao kumaSqlDao;
 
 	@Override
-	public DaoResult getAllOrderDetailDao(OrderDetail orderDetail) {
+	public List<OrderDetail> getAllOrderDetailDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
 				.from(OrderDetail.class, "od").innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
@@ -43,11 +42,11 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 								.workType(new WorkType.Builder().name(rs.getString("name"))
 										.work(new Work.Builder().workName(rs.getString("work_name")).build()).build())
 								.build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 
 	@Override
-	public DaoResult saveOrderDetailsDao(List<OrderDetail> orderDetails) {
+	public void saveOrderDetailsDao(List<OrderDetail> orderDetails) {
 		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("id").insert("work_type_id").insert("order_id").table(OrderDetail.class)
 				.batchEnd(new BatchPreparedStatementSetter() {
@@ -64,11 +63,10 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 						return orderDetails.size();
 					}
 				});
-		return new DaoResult(true);
 	}
 
 	@Override
-	public DaoResult isOrderDetailExistDao(OrderDetail orderDetail) {
+	public boolean isOrderDetailExistDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
 		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(OrderDetail.class)
 				.leftjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
@@ -79,13 +77,13 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.endForNumber();
 		int count = theResult.getResult();
 		if (count == 0)
-			return new DaoResult(true, false);
+			return false;
 		else
-			return new DaoResult(true, true);
+			return true;
 	}
 
 	@Override
-	public DaoResult getAllOrderDetailForXls() {
+	public List<OrderDetail> getAllOrderDetailForXls() {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("order_name").select("province_name", "p")
 				.select("city_name", "c").select("area_name", "a").select("order_address").select("order_remark")
@@ -111,11 +109,11 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 						.workType(new WorkType.Builder().name(rs.getString("wt.name"))
 								.work(new Work.Builder().workName(rs.getString("w.work_name")).build()).build())
 						.build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 
 	@Override
-	public DaoResult getAllResendOrderDetailDao(OrderDetail orderDetail) {
+	public List<OrderDetail> getAllResendOrderDetailDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
 				.select("work_type_id", "wt").select("work_id", "w").select("order_num", "o").select("order_email", "o")
@@ -133,7 +131,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 						.order(new Orders.Builder().orderEMail(rs.getString("order_email"))
 								.orderNum(rs.getString("order_num")).build())
 						.build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 
 }

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
-import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IWorkImageDao;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.KumaSqlDao;
@@ -22,16 +21,16 @@ public class WorkImageDaoImpl implements IWorkImageDao {
 	private KumaSqlDao kumaSqlDao;
 
 	@Override
-	public DaoResult getAllWorkImageDao(WorkImage workImage) {
+	public List<WorkImage> getAllWorkImageDao(WorkImage workImage) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<WorkImage> theResult = kumaSqlDao.select("work_image_path").from(WorkImage.class)
 				.where("work_id", WhereType.EQUALS, workImage.getWork().getWorkId()).endForList(
 						(rs, row) -> new WorkImage.Builder().workImagePath(rs.getString("work_image_path")).build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 
 	@Override
-	public DaoResult saveWorkImageDao(List<WorkImage> workImages) {
+	public void saveWorkImageDao(List<WorkImage> workImages) {
 		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("work_id").insert("work_image_path").table(WorkImage.class)
 				.batchEnd(new BatchPreparedStatementSetter() {
@@ -48,7 +47,6 @@ public class WorkImageDaoImpl implements IWorkImageDao {
 					}
 
 				});
-		return new DaoResult(true);
 	}
 
 }

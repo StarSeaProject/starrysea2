@@ -1,9 +1,10 @@
 package top.starrysea.dao.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IProvinceDao;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
@@ -17,7 +18,7 @@ public class ProvinceDaoImpl implements IProvinceDao {
 	@Autowired
 	private KumaSqlDao kumaSqlDao;
 
-	public DaoResult getAllProvinceDao() {
+	public List<Area> getAllProvinceDao() {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Area> theResult = kumaSqlDao.select("province_name", "p").select("province_id", "c")
 				.select("city_name", "c").select("city_id", "a").select("area_id", "a").select("area_name", "a")
@@ -31,6 +32,6 @@ public class ProvinceDaoImpl implements IProvinceDao {
 								.province(new Province(rs.getInt("province_id"), rs.getString("province_name")))
 								.build())
 						.build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
-import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IWorkTypeDao;
 import top.starrysea.kql.clause.UpdateSetType;
 import top.starrysea.kql.clause.WhereType;
@@ -28,39 +27,39 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 	private KumaSqlDao kumaSqlDao;
 
 	@Override
-	public DaoResult getAllWorkTypeDao(WorkType workType) {
+	public List<WorkType> getAllWorkTypeDao(WorkType workType) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<WorkType> theResult = kumaSqlDao.select("work_type_id").select("name").select("stock")
 				.from(WorkType.class).where("work_id", WhereType.EQUALS, workType.getWork().getWorkId())
 				.endForList((rs, row) -> new WorkType.Builder().workTypeId(rs.getInt("work_type_id"))
 						.name(rs.getString("name")).stock(rs.getInt("stock")).build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 
 	@Override
-	public DaoResult getWorkTypeStockDao(WorkType workType) {
+	public int getWorkTypeStockDao(WorkType workType) {
 		kumaSqlDao.selectMode();
 		EntitySqlResult<WorkType> theResult = kumaSqlDao.select("stock").from(WorkType.class)
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId())
 				.where("work_id", "w", WhereType.EQUALS, workType.getWork().getWorkId())
 				.endForObject((rs, row) -> new WorkType.Builder().stock(rs.getInt("stock")).build());
-		return new DaoResult(true, theResult.getResult().getStock());
+		return theResult.getResult().getStock();
 	}
 
 	@Override
-	public DaoResult getWorkTypeNameDao(WorkType workType) {
+	public WorkType getWorkTypeNameDao(WorkType workType) {
 		kumaSqlDao.selectMode();
 		EntitySqlResult<WorkType> theResult = kumaSqlDao.select("name").from(WorkType.class)
 				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId())
 				.endForObject((rs, row) -> new WorkType.Builder().name(rs.getString("name")).build());
 		WorkType wt = theResult.getResult();
 		wt.setWorkTypeId(workType.getWorkTypeId());
-		return new DaoResult(true, wt);
+		return wt;
 	}
 
 	@Override
-	public DaoResult saveWorkTypeDao(List<WorkType> workTypes) {
+	public void saveWorkTypeDao(List<WorkType> workTypes) {
 		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("work_id").insert("name").insert("stock").table(WorkType.class)
 				.batchEnd(new BatchPreparedStatementSetter() {
@@ -77,34 +76,30 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 						return workTypes.size();
 					}
 				});
-		return new DaoResult(true);
 	}
 
 	@Override
-	public DaoResult deleteWorkTypeDao(WorkType workType) {
+	public void deleteWorkTypeDao(WorkType workType) {
 		kumaSqlDao.deleteMode();
 		kumaSqlDao.table(WorkType.class).where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId()).end();
-		return new DaoResult(true);
 	}
 
 	@Override
-	public DaoResult updateWorkTypeStockDao(WorkType workType) {
+	public void updateWorkTypeStockDao(WorkType workType) {
 		kumaSqlDao.updateMode();
 		kumaSqlDao.update("stock", UpdateSetType.ASSIGN, workType.getStock()).table(WorkType.class)
 				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId()).end();
-		return new DaoResult(true);
 	}
 
 	@Override
-	public DaoResult reduceWorkTypeStockDao(WorkType workType) {
+	public void reduceWorkTypeStockDao(WorkType workType) {
 		kumaSqlDao.updateMode();
 		kumaSqlDao.update("stock", UpdateSetType.REDUCE, workType.getStock()).table(WorkType.class)
 				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId()).end();
-		return new DaoResult(true);
 	}
 
 	@Override
-	public DaoResult updateWorkTypeStockDao(Orders order) {
+	public void updateWorkTypeStockDao(Orders order) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Integer> theResult = kumaSqlDao.select("work_type_id").from(OrderDetail.class)
 				.where("order_id", WhereType.EQUALS, order.getOrderId()).endForList(Integer.class);
@@ -124,11 +119,10 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 						return workTypeIds.size();
 					}
 				});
-		return new DaoResult(true);
 	}
 
 	@Override
-	public DaoResult getAllWorkTypeForShoppingCarDao(List<WorkType> workTypes) {
+	public List<WorkType> getAllWorkTypeForShoppingCarDao(List<WorkType> workTypes) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<WorkType> theResult = kumaSqlDao.select("work_type_id").select("name").select("work_id", "w")
 				.select("work_name", "w").select("work_cover", "w").select("stock").from(WorkType.class, "wt")
@@ -140,7 +134,7 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 						.work(new Work.Builder().workId(rs.getInt("w.work_id")).workName(rs.getString("w.work_name"))
 								.workCover(rs.getString("w.work_cover")).build())
 						.build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 
 }

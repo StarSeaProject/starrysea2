@@ -1,20 +1,21 @@
 package top.starrysea.dao;
 
+import java.util.List;
+
 import top.starrysea.common.Condition;
-import top.starrysea.common.DaoResult;
 import top.starrysea.object.dto.Work;
 
 public interface IWorkDao {
-	DaoResult getAllWorkDao(Condition condition, Work work);
+	List<Work> getAllWorkDao(Condition condition, Work work);
 
-	DaoResult getWorkCountDao(Condition condition, Work work);
+	int getWorkCountDao(Condition condition, Work work);
 
-	DaoResult getWorkDao(Work work);
+	Work getWorkDao(Work work);
 
-	DaoResult saveWorkDao(Work work);
+	int saveWorkDao(Work work);
 
-	DaoResult deleteWorkDao(Work work);
+	void deleteWorkDao(Work work);
 	
-	DaoResult addWorkClick(Work work);
+	void addWorkClick(Work work);
 
 }
