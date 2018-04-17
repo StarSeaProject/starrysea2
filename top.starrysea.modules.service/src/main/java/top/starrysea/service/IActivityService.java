@@ -20,8 +20,8 @@ public interface IActivityService {
 	ServiceResult modifyActivityService(Activity activity);
 
 	ServiceResult removeActivityService(Activity activity);
-	
+
 	ServiceResult addFundingService(List<Funding> fundings);
-	
+
 	ServiceResult removeFundingService(Funding funding);
 }
