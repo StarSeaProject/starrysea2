@@ -47,14 +47,10 @@ public class ActivityServiceImpl implements IActivityService {
 	@Override
 	// 查询所有众筹活动
 	public ServiceResult queryAllActivityService(Condition condition, Activity activity) {
-		DaoResult daoResult = activityDao.getNewestActivityDao();
-		Activity a = daoResult.getResult(Activity.class);
-		daoResult = activityDao.getAllActivityDao(condition, activity);
-		@SuppressWarnings("unchecked")
-		List<Activity> activitylist = daoResult.getResult(List.class);
+		Activity a = activityDao.getNewestActivityDao();
+		List<Activity> activitylist = activityDao.getAllActivityDao(condition, activity);
 		int totalPage = 0;
-		daoResult = activityDao.getActivityCountDao(condition, activity);
-		int count = daoResult.getResult(Integer.class);
+		int count = activityDao.getActivityCountDao(condition, activity);
 		if (count % PAGE_LIMIT == 0)
 			totalPage = count / PAGE_LIMIT;
 		else
@@ -68,10 +64,9 @@ public class ActivityServiceImpl implements IActivityService {
 	// 查询一个众筹活动的详情页
 	public ServiceResult queryActivityService(Activity activity) {
 		ServiceResult result = ServiceResult.of();
-		DaoResult daoResult = activityDao.getActivityDao(activity);
-		Activity a = daoResult.getResult(Activity.class);
+		Activity a = activityDao.getActivityDao(activity);
 		result.setSuccessed(true).setResult(ACTIVITY, a);
-		daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
+		DaoResult daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
 		@SuppressWarnings("unchecked")
 		List<Funding> fundings = daoResult.getResult(List.class);
 		double fundingMoneySum = fundings.stream().collect(Collectors.summingDouble(Funding::getFundingMoney));
@@ -100,8 +95,7 @@ public class ActivityServiceImpl implements IActivityService {
 					FileCondition.of(FileType.IMG, 1, "activity_" + activity.getActivityId() + "_"));
 			activity.setActivityCover(originCoverFileName);
 			activity.setActivityStatus((short) 1);
-			DaoResult daoResult = activityDao.saveActivityDao(activity);
-			activity.setActivityId(daoResult.getResult(Integer.class));
+			activity.setActivityId(activityDao.saveActivityDao(activity));
 			for (ActivityImage activityImage : activityImages) {
 				activityImage.setActivity(activity);
 			}
