@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import top.starrysea.common.Condition;
-import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IActivityDao;
 import top.starrysea.dao.IActivityImageDao;
@@ -66,9 +65,7 @@ public class ActivityServiceImpl implements IActivityService {
 		ServiceResult result = ServiceResult.of();
 		Activity a = activityDao.getActivityDao(activity);
 		result.setSuccessed(true).setResult(ACTIVITY, a);
-		DaoResult daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
-		@SuppressWarnings("unchecked")
-		List<Funding> fundings = daoResult.getResult(List.class);
+		List<Funding> fundings = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
 		double fundingMoneySum = fundings.stream().collect(Collectors.summingDouble(Funding::getFundingMoney));
 		double richThreshold = fundingMoneySum * FUNDING_FACTOR;
 		List<Funding> richFundings = new ArrayList<>();

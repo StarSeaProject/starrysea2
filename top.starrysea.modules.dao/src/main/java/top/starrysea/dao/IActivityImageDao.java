@@ -8,7 +8,7 @@ import top.starrysea.object.dto.ActivityImage;
 
 public interface IActivityImageDao {
 
-	DaoResult getAllActivityImageDao(Activity activity);
+	List<ActivityImage> getAllActivityImageDao(Activity activity);
 
-	DaoResult saveActivityImageDao(List<ActivityImage> activityImages);
+	void saveActivityImageDao(List<ActivityImage> activityImages);
 }
