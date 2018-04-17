@@ -71,12 +71,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
-		DaoResult daoResult = orderDao.getAllOrderDao(condition, order);
-		@SuppressWarnings("unchecked")
-		List<Orders> ordersList = daoResult.getResult(List.class);
+		List<Orders> ordersList = orderDao.getAllOrderDao(condition, order);
 		int totalPage = 0;
-		daoResult = orderDao.getOrderCountDao(condition, order);
-		int count = daoResult.getResult(Integer.class);
+		int count = orderDao.getOrderCountDao(condition, order);
 		if (count % PAGE_LIMIT == 0) {
 			totalPage = count / PAGE_LIMIT;
 		} else {
@@ -90,8 +87,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	public ServiceResult queryOrderService(Orders order) {
-		DaoResult daoResult = orderDao.getOrderDao(order);
-		Orders o = daoResult.getResult(Orders.class);
+		Orders o = orderDao.getOrderDao(order);
 		List<OrderDetail> ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(order).build())
 				.getResult(List.class);
 		return ServiceResult.of(true).setResult(ORDER, o).setResult(LIST_1, ods);
@@ -136,7 +132,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult modifyOrderService(Orders order) {
 		order.setOrderStatus((short) 2);
 		orderDao.updateOrderDao(order);
-		return ServiceResult.of(true).setResult(ORDER, orderDao.getOrderDao(order).getResult(Orders.class));
+		return ServiceResult.of(true).setResult(ORDER, orderDao.getOrderDao(order));
 	}
 
 	@Override
@@ -229,7 +225,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult resendEmailService(Orders order) {
-		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
+		Orders result = orderDao.getOrderDao(order);
 		if (result.getOrderStatus() == 1) {
 			List<OrderDetail> ods = orderDetailDao
 					.getAllResendOrderDetailDao(new OrderDetail.Builder().order(order).build()).getResult(List.class);
@@ -257,7 +253,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult modifyAddressEmailService(Orders order) {
-		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
+		Orders result = orderDao.getOrderDao(order);
 		if (result.getOrderStatus() != 2) {
 			modifyOrderMailService.sendMailService(result);
 			return SUCCESS_SERVICE_RESULT;
