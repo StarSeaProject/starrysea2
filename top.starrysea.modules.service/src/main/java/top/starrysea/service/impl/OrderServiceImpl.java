@@ -23,7 +23,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
-import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IProvinceDao;
 import top.starrysea.dao.IOrderDao;
@@ -71,12 +70,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
-		DaoResult daoResult = orderDao.getAllOrderDao(condition, order);
-		@SuppressWarnings("unchecked")
-		List<Orders> ordersList = daoResult.getResult(List.class);
+		List<Orders> ordersList = orderDao.getAllOrderDao(condition, order);
 		int totalPage = 0;
-		daoResult = orderDao.getOrderCountDao(condition, order);
-		int count = daoResult.getResult(Integer.class);
+		int count = orderDao.getOrderCountDao(condition, order);
 		if (count % PAGE_LIMIT == 0) {
 			totalPage = count / PAGE_LIMIT;
 		} else {
@@ -90,10 +86,8 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	public ServiceResult queryOrderService(Orders order) {
-		DaoResult daoResult = orderDao.getOrderDao(order);
-		Orders o = daoResult.getResult(Orders.class);
-		List<OrderDetail> ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(order).build())
-				.getResult(List.class);
+		Orders o = orderDao.getOrderDao(order);
+		List<OrderDetail> ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(order).build());
 		return ServiceResult.of(true).setResult(ORDER, o).setResult(LIST_1, ods);
 	}
 
@@ -104,12 +98,11 @@ public class OrderServiceImpl implements IOrderService {
 		try {
 			for (OrderDetail orderDetail : orderDetails) {
 				orderDetail.setOrder(order);
-				if (orderDetailDao.isOrderDetailExistDao(orderDetail).getResult(Boolean.class))
+				if (orderDetailDao.isOrderDetailExistDao(orderDetail))
 					throw new LogicException("购物车中有已经领取过的应援物,不能重复领取");
 				WorkType workType = orderDetail.getWorkType();
 				workType.setStock(1);
-				DaoResult daoResult = workTypeDao.getWorkTypeStockDao(workType);
-				int stock = daoResult.getResult(Integer.class);
+				int stock = workTypeDao.getWorkTypeStockDao(workType);
 				if (stock == 0) {
 					throw new EmptyResultException("购物车中有作品已被全部领取");
 				} else if (stock - workType.getStock() < 0) {
@@ -136,7 +129,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult modifyOrderService(Orders order) {
 		order.setOrderStatus((short) 2);
 		orderDao.updateOrderDao(order);
-		return ServiceResult.of(true).setResult(ORDER, orderDao.getOrderDao(order).getResult(Orders.class));
+		return ServiceResult.of(true).setResult(ORDER, orderDao.getOrderDao(order));
 	}
 
 	@Override
@@ -151,7 +144,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	@Cacheable(value = "provinces", cacheManager = "defaultCacheManager")
 	public ServiceResult queryAllProvinceService() {
-		List<Area> areas = provinceDao.getAllProvinceDao().getResult(List.class);
+		List<Area> areas = provinceDao.getAllProvinceDao();
 		Map<Integer, ProvinceForAddOrder> provinceVos = new HashMap<>();
 		for (Area area : areas) {
 			int provinceId = area.getCity().getProvince().getProvinceId();
@@ -177,11 +170,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult queryWorkTypeStock(List<WorkType> workTypes) {
-		DaoResult daoResult;
 		try {
 			for (WorkType workType : workTypes) {
-				daoResult = workTypeDao.getWorkTypeStockDao(workType);
-				Integer stock = daoResult.getResult(Integer.class);
+				Integer stock = workTypeDao.getWorkTypeStockDao(workType);
 				if (stock <= 0)
 					throw new LogicException("库存不足");
 			}
@@ -195,7 +186,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult exportOrderToXlsService() {
-		List<OrderDetail> result = orderDetailDao.getAllOrderDetailForXls().getResult(List.class);
+		List<OrderDetail> result = orderDetailDao.getAllOrderDetailForXls();
 		HSSFWorkbook excel = new HSSFWorkbook();
 		HSSFSheet sheet = excel.createSheet("发货名单");
 		HSSFRow row = sheet.createRow(0);
@@ -229,10 +220,10 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult resendEmailService(Orders order) {
-		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
+		Orders result = orderDao.getOrderDao(order);
 		if (result.getOrderStatus() == 1) {
 			List<OrderDetail> ods = orderDetailDao
-					.getAllResendOrderDetailDao(new OrderDetail.Builder().order(order).build()).getResult(List.class);
+					.getAllResendOrderDetailDao(new OrderDetail.Builder().order(order).build());
 			orderMailService.sendMailService(ods);
 		} else if (result.getOrderStatus() == 2) {
 			sendOrderMailService.sendMailService(result);
@@ -245,8 +236,7 @@ public class OrderServiceImpl implements IOrderService {
 		if (workTypes.isEmpty()) {
 			return ServiceResult.of(false).setResult(LIST_1, new ArrayList<>());
 		}
-		return ServiceResult.of(true).setResult(LIST_1,
-				workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes).getResult(List.class));
+		return ServiceResult.of(true).setResult(LIST_1, workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes));
 	}
 
 	@Override
@@ -257,7 +247,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult modifyAddressEmailService(Orders order) {
-		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
+		Orders result = orderDao.getOrderDao(order);
 		if (result.getOrderStatus() != 2) {
 			modifyOrderMailService.sendMailService(result);
 			return SUCCESS_SERVICE_RESULT;

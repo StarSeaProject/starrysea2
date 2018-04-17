@@ -9,7 +9,6 @@ import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
 
 import java.util.List;
 import top.starrysea.common.Condition;
-import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IQuestionDao;
 import top.starrysea.object.dto.Question;
@@ -23,11 +22,9 @@ public class QuestionServiceImpl implements IQuestionService {
 
 	@Override
 	public ServiceResult queryAllQuestionService(Condition condition, Question question) {
-		DaoResult daoResult = questionDao.getAllQuestionDao(condition, question);
-		List<Question> questionsList = daoResult.getResult(List.class);
+		List<Question> questionsList = questionDao.getAllQuestionDao(condition, question);
 		int totalPage = 0;
-		daoResult = questionDao.getQuestionCountDao(question);
-		int count = daoResult.getResult(Integer.class);
+		int count = questionDao.getQuestionCountDao(question);
 		if (count % PAGE_LIMIT == 0) {
 			totalPage = count / PAGE_LIMIT;
 		} else {

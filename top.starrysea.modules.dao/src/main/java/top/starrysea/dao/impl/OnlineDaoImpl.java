@@ -1,5 +1,7 @@
 package top.starrysea.dao.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +35,11 @@ public class OnlineDaoImpl implements IOnlineDao {
 	}
 
 	@Override
-	public DaoResult getAllOnlineDao() {
+	public List<Online> getAllOnlineDao() {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Online> theResult = kumaSqlDao.select("online_email").from(Online.class)
 				.endForList((rs, row) -> new Online.Builder().onlineEmail(rs.getString("online_email")).build());
-		return new DaoResult(true, theResult.getResult());
+		return theResult.getResult();
 	}
 
 }

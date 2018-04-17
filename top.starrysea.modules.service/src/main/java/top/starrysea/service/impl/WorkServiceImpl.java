@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
-import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IWorkImageDao;
@@ -46,12 +45,9 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	// 查询所有作品
 	public ServiceResult queryAllWorkService(Condition condition, Work work) {
-		DaoResult daoResult = workDao.getAllWorkDao(condition, work);
-		@SuppressWarnings("unchecked")
-		List<Work> workList = daoResult.getResult(List.class);
+		List<Work> workList = workDao.getAllWorkDao(condition, work);
 		int totalPage = 0;
-		daoResult = workDao.getWorkCountDao(condition, work);
-		int count = (int) daoResult.getResult(Integer.class);
+		int count = workDao.getWorkCountDao(condition, work);
 		if (count % PAGE_LIMIT == 0) {
 			totalPage = count / PAGE_LIMIT;
 		} else {
@@ -66,13 +62,10 @@ public class WorkServiceImpl implements IWorkService {
 	// 查询一个作品的详情页
 	public ServiceResult queryWorkService(Work work) {
 		workDao.addWorkClick(work);
-		DaoResult daoResult = workDao.getWorkDao(work);
 		ServiceResult result = ServiceResult.of(true);
-		result.setResult(WORK, daoResult.getResult(Work.class));
-		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
-		result.setResult(LIST_1, daoResult.getResult(List.class));
-		daoResult = workTypeDao.getAllWorkTypeDao(new WorkType.Builder().work(work).build());
-		result.setResult(LIST_2, daoResult.getResult(List.class));
+		result.setResult(WORK, workDao.getWorkDao(work));
+		result.setResult(LIST_1, workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build()));
+		result.setResult(LIST_2, workTypeDao.getAllWorkTypeDao(new WorkType.Builder().work(work).build()));
 		return result;
 	}
 
@@ -86,8 +79,7 @@ public class WorkServiceImpl implements IWorkService {
 					FileCondition.of(FileType.IMG, 1, "work_" + work.getWorkId() + "_"));
 			work.setWorkUploadTime(Common.getNowDate());
 			work.setWorkCover(originCoverFileName);
-			DaoResult daoResult = workDao.saveWorkDao(work);
-			work.setWorkId(daoResult.getResult(Integer.class));
+			work.setWorkId(workDao.saveWorkDao(work));
 			List<WorkImage> workImages = new ArrayList<>();
 			for (MultipartFile imageFile : imageFiles) {
 				String originImageFileName = fileUtil.saveFile(imageFile,

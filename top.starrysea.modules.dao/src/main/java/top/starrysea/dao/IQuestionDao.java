@@ -1,16 +1,17 @@
 package top.starrysea.dao;
 
+import java.util.List;
+
 import top.starrysea.common.Condition;
-import top.starrysea.common.DaoResult;
 import top.starrysea.object.dto.Question;
 
 public interface IQuestionDao {
 
-	DaoResult getAllQuestionDao(Condition condition, Question question);
+	List<Question> getAllQuestionDao(Condition condition, Question question);
 
-	DaoResult saveQuestionDao(Question question);
+	void saveQuestionDao(Question question);
 
-	DaoResult updateQuestionDao(Question question);
+	void updateQuestionDao(Question question);
 	
-	DaoResult getQuestionCountDao(Question question);
+	int getQuestionCountDao(Question question);
 }

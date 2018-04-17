@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IOnlineDao;
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.mail.Mail;
@@ -21,12 +20,7 @@ public class WorkMailServiceImpl extends MailServiceImpl {
 
 	@Override
 	public void sendMailService(Entity entity) {
-		DaoResult daoResult = onlineDao.getAllOnlineDao();
-		if (!daoResult.isSuccessed()) {
-			return;
-		}
-		@SuppressWarnings("unchecked")
-		List<Online> receivers = daoResult.getResult(List.class);
+		List<Online> receivers = onlineDao.getAllOnlineDao();
 		Work work = (Work) entity;
 		receivers.parallelStream().forEach(
 				receiver -> mailCommon.send(new Mail(receiver.getOnlineEmail(), "星之海志愿者公会", work.getWorkPdfpath())));

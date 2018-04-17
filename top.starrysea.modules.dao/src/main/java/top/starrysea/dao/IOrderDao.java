@@ -1,23 +1,24 @@
 package top.starrysea.dao;
 
+import java.util.List;
+
 import top.starrysea.common.Condition;
-import top.starrysea.common.DaoResult;
 import top.starrysea.object.dto.Orders;
 
 public interface IOrderDao {
 
-	DaoResult getAllOrderDao(Condition condition, Orders order);
+	List<Orders> getAllOrderDao(Condition condition, Orders order);
 
-	DaoResult getOrderCountDao(Condition condition, Orders order);
+	int getOrderCountDao(Condition condition, Orders order);
 
-	DaoResult getOrderDao(Orders order);
+	Orders getOrderDao(Orders order);
 
-	DaoResult saveOrderDao(Orders order);
+	Orders saveOrderDao(Orders order);
 
-	DaoResult updateOrderDao(Orders order);
+	void updateOrderDao(Orders order);
 
-	DaoResult deleteOrderDao(Orders order);
+	void deleteOrderDao(Orders order);
 
-	DaoResult updateAddressDao(Orders order);
+	void updateAddressDao(Orders order);
 
 }
