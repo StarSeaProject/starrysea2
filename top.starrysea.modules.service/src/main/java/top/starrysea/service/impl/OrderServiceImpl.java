@@ -19,8 +19,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
@@ -274,17 +272,13 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
 			List<OrderDetailForAddOrder> orderDetailForAddOrders) {
-		ServiceResult serviceResult = ServiceResult.of();
 		kumaRedisDao.set(redisKey, Common.toJson(orderDetailForAddOrders));
-		serviceResult.setSuccessed(true);
-		return serviceResult;
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
 	public ServiceResult removeShoppingCarListService(String redisKey) {
-		ServiceResult serviceResult = ServiceResult.of();
 		kumaRedisDao.delete(redisKey);
-		serviceResult.setSuccessed(true);
-		return serviceResult;
+		return SUCCESS_SERVICE_RESULT;
 	}
 }
