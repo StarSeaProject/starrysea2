@@ -53,6 +53,6 @@ public class EMailAspect {
 	@Before(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.removeOrderService(..))")
 	public void deleteOrderMail(JoinPoint jp) {
 		Orders order = (Orders) jp.getArgs()[0];
-		deleteOrderMailService.sendMailService(orderDao.getOrderDao(order).getResult(Orders.class));
+		deleteOrderMailService.sendMailService(orderDao.getOrderDao(order));
 	}
 }
