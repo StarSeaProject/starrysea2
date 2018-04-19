@@ -1,8 +1,11 @@
 repositories {
 	mavenCentral()
 }
+configurations {
+   	all*.exclude group: 'org.apache.tomcat.embed'
+}
 dependencies{
-    	compile('org.springframework.boot:spring-boot-starter-web'){
+	compile('org.springframework.boot:spring-boot-starter-web'){
 		exclude module: "spring-boot-starter-tomcat"
 	}
 	compile(
@@ -18,7 +21,14 @@ dependencies{
 		'org.springframework.boot:spring-boot-configuration-processor',
 		'org.springframework.boot:spring-boot-starter-data-redis'
 	)
+	compile('org.springframework.boot:spring-boot-starter-websocket'){
+		exclude module:'spring-boot-starter-web'
+	}
+	compile group: 'org.webjars', name: 'webjars-locator'
+	compile group: 'org.webjars', name: 'sockjs-client', version: '1.0.2'
+	compile group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3'
+	
 	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
 	compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
 	runtime('mysql:mysql-connector-java')
-	}
+}
