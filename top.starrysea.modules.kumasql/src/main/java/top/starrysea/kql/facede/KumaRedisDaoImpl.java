@@ -2,6 +2,7 @@ package top.starrysea.kql.facede;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,25 @@ public class KumaRedisDaoImpl implements KumaRedisDao {
 			logger.error(e.getMessage(), e);
 		}
 		return 0L;
+	}
+	
+	@Override
+	public void mapSet(String hashKey, String key, String value) {
+		try (Jedis jedis = jedisPool.getResource();) {
+			jedis.hset(hashKey, key, value);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public Map<String, String> mapGetAll(String hashKey) {
+		try (Jedis jedis = jedisPool.getResource();) {
+			return jedis.hgetAll(hashKey);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return null;
 	}
 
 }

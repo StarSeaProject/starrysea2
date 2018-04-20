@@ -12,13 +12,13 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.enableSimpleBroker("/position");
+		registry.enableSimpleBroker("/update_position", "/get_position");
 		registry.setApplicationDestinationPrefixes("/position");
 	}
-	
+
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/position-websocket").withSockJS(); 
+		registry.addEndpoint("/position-websocket").withSockJS();
 	}
 
 }

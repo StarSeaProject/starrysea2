@@ -1,30 +1,49 @@
 package top.starrysea.controller.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import top.starrysea.common.Common;
+import top.starrysea.kql.facede.KumaRedisDao;
 import top.starrysea.object.view.out.Position;
-import top.starrysea.object.view.out.Positions;
 
 @Controller
 public class PositionController {
 
-	@MessageMapping("/get_position")
-    @SendTo("/position")
-	public Positions getPosition() {
-		List<Position> position=new ArrayList<>();
-		Position p1=new Position("1","1");
-		Position p2=new Position("2","2");
-		Position p3=new Position("3","3");
-		position.add(p1);
-		position.add(p2);
-		position.add(p3);
-		Positions ps=new Positions();
-		ps.setPositions(position);
-		return ps;
+	@Autowired
+	private KumaRedisDao kumaRedisDao;
+
+	@MessageMapping("/update_position")
+	@SendTo("/update_position")
+	public Success updatePosition(Position position) {
+		kumaRedisDao.mapSet("position", "kuma", Common.toJson(position));
+		return new Success("更新成功");
 	}
+
+	@MessageMapping("/get_position")
+	@SendTo("/get_position")
+	public Map<String, String> getPosition() {
+		return kumaRedisDao.mapGetAll("position");
+	}
+}
+
+class Success {
+	private String message;
+
+	public Success(String message) {
+		this.message = message;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 }

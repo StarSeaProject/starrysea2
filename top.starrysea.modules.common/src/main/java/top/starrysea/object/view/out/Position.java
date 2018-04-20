@@ -4,6 +4,7 @@ public class Position {
 
 	private String x;
 	private String y;
+	public Position() {}
 	public Position(String x,String y) {
 		this.x=x;
 		this.y=y;
