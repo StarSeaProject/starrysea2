@@ -37,6 +37,6 @@ spring:
       min-idle: 0
     timeout: 0 
 ss:
-  fileroot: D:/nginx/starrysea/
+  fileroot: D:/develop/nginx-1.12.1/
 banner:
   charset: UTF-8
