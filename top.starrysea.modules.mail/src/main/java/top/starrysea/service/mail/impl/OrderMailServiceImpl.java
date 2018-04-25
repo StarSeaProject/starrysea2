@@ -14,7 +14,6 @@ import top.starrysea.kql.entity.Entity;
 import top.starrysea.mail.Mail;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 
 @Service("orderMailService")
@@ -30,8 +29,8 @@ public class OrderMailServiceImpl extends MailServiceImpl {
 		List<OrderDetail> orderDetails = new ArrayList<>();
 		for (Entity entity : entitys) {
 			OrderDetail orderDetail = (OrderDetail) entity;
-			WorkType wt = workTypeDao.getWorkTypeNameDao(orderDetail.getWorkType()).getResult(WorkType.class);
-			wt.setWork(workDao.getWorkDao(orderDetail.getWorkType().getWork()).getResult(Work.class));
+			WorkType wt = workTypeDao.getWorkTypeNameDao(orderDetail.getWorkType());
+			wt.setWork(workDao.getWorkDao(orderDetail.getWorkType().getWork()));
 			orderDetail.setWorkType(wt);
 			orderDetails.add(orderDetail);
 		}

@@ -18,8 +18,8 @@ public interface IWorkService {
 			List<WorkType> workTypes);
 
 	ServiceResult removeWorkService(Work work);
-	
+
 	ServiceResult removeWorkTypeService(WorkType workType);
-	
+
 	ServiceResult modifyWorkTypeService(WorkType workType);
 }

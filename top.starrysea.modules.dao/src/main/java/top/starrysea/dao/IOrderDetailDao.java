@@ -2,18 +2,17 @@ package top.starrysea.dao;
 
 import java.util.List;
 
-import top.starrysea.common.DaoResult;
 import top.starrysea.object.dto.OrderDetail;
 
 public interface IOrderDetailDao {
 
-	DaoResult getAllOrderDetailDao(OrderDetail orderDetail);
+	List<OrderDetail> getAllOrderDetailDao(OrderDetail orderDetail);
 	
-	DaoResult saveOrderDetailsDao(List<OrderDetail> orderDetails);
+	void saveOrderDetailsDao(List<OrderDetail> orderDetails);
 	
-	DaoResult isOrderDetailExistDao(OrderDetail orderDetail);
+	boolean isOrderDetailExistDao(OrderDetail orderDetail);
 	
-	DaoResult getAllOrderDetailForXls();
+	List<OrderDetail> getAllOrderDetailForXls();
 	
-	DaoResult getAllResendOrderDetailDao(OrderDetail orderDetail);
+	List<OrderDetail> getAllResendOrderDetailDao(OrderDetail orderDetail);
 }

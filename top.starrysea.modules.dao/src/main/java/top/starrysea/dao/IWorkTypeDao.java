@@ -2,27 +2,26 @@ package top.starrysea.dao;
 
 import java.util.List;
 
-import top.starrysea.common.DaoResult;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
 
 public interface IWorkTypeDao {
 
-	DaoResult getAllWorkTypeDao(WorkType workType);
+	List<WorkType> getAllWorkTypeDao(WorkType workType);
 	
-	DaoResult getWorkTypeStockDao(WorkType workType);
+	int getWorkTypeStockDao(WorkType workType);
 	
-	DaoResult getWorkTypeNameDao(WorkType workType);
+	WorkType getWorkTypeNameDao(WorkType workType);
 	
-	DaoResult saveWorkTypeDao(List<WorkType> workTypes);
+	void saveWorkTypeDao(List<WorkType> workTypes);
 	
-	DaoResult deleteWorkTypeDao(WorkType workType);
+	void deleteWorkTypeDao(WorkType workType);
 	
-	DaoResult updateWorkTypeStockDao(WorkType workType);
+	void updateWorkTypeStockDao(WorkType workType);
 	
-	DaoResult reduceWorkTypeStockDao(WorkType workType);
+	void reduceWorkTypeStockDao(WorkType workType);
 	
-	DaoResult updateWorkTypeStockDao(Orders order);
+	void updateWorkTypeStockDao(Orders order);
 	
-	DaoResult getAllWorkTypeForShoppingCarDao(List<WorkType> workTypes);
+	List<WorkType> getAllWorkTypeForShoppingCarDao(List<WorkType> workTypes);
 }
