@@ -1,5 +1,7 @@
 package top.starrysea.controller.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,17 @@ public class PositionController {
 	@MessageMapping("/update_position")
 	@SendTo("/update_position")
 	public Success updatePosition(Position position) {
-		kumaRedisDao.mapSet("position", "kuma", Common.toJson(position));
+		kumaRedisDao.mapSet("position", position.getName(), Common.toJson(position));
 		return new Success("更新成功");
 	}
 
 	@MessageMapping("/get_position")
 	@SendTo("/get_position")
-	public Map<String, String> getPosition() {
-		return kumaRedisDao.mapGetAll("position");
+	public List<String> getPosition() {
+		Map<String,String> positions=kumaRedisDao.mapGetAll("position");
+		List<String> result=new ArrayList<>();
+		positions.forEach((name,position)->result.add(position));
+		return result;
 	}
 }
 
