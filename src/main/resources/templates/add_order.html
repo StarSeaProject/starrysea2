@@ -43,6 +43,20 @@
 	</nav>
 </div>
 
+<div class="pagetitle">
+	<h1 class="h1 pagetitleh1">收货信息填写</h1>
+	<h2 class="h2 pagetitleh2">Information Fill-in</h2>
+</div>
+<div class="processbar">
+	<ul class="ul" >
+		<li class="processbarli text-center">作品信息</li>
+		<li class="processbarli text-center">></li>
+		<li class="processbarli text-center nowprocess">确认订单</li>
+		<li class="processbarli text-center">></li>
+		<li class="processbarli text-center">处理结果</li>
+	</ul>
+</div>
+
 	<div class="container main">
 		<h1 class="h2">收货人信息</h1>
 
@@ -72,17 +86,35 @@
 					<p>收货地址</p>
 				</div>
 				<div class="col-xs-6" >
-					<select id="province">
-						<option>请选择省份</option>
-						<option th:each="province:${provinces}" th:value="${province.key}"
-								th:text="${province.value.provinceName}">
+					<a id="addressbutton">
+						请点击选择地址
+					</a>
+					<div class="container addressmap" >
+						<div class="row" id="addressnav">
+							<div class="col-xs-4">
+								<a class="navbutton" id="provincenav">
+									省/直辖市
+								</a>
+							</div>
+							<div class="col-xs-4">
+								<a class="navbutton" id="citynav">
+									城市
+								</a>
+							</div>
+							<div class="col-xs-4">
+								<a class="navbutton" id="areanav">
+									县区
+								</a>
+							</div>
+						</div>
+						<div class="container-fluid addresspanel row" id="province">
+						</div>
+						<div class="container-fluid addresspanel row" id="city">
+						</div>
+						<div class="container-fluid addresspanel row" id="area">
+						</div>
+					</div>
 
-						</option>
-					</select>
-					<select id="city" disabled="disabled">
-					</select>
-					<select id="area" disabled="disabled">
-					</select>
 					<input type="hidden" id="areasub" name="orderArea" />
 				</div>
 			</div>
@@ -98,7 +130,7 @@
 
 			<div class="row">
 				<div class="col-xs-6" >
-					<p>收货人电子邮箱：(*接收运单号使用)</p>
+					<p>收货人电子邮箱：<span class="note">(*接收运单号使用)</span> </p>
 				</div>
 				<div class="col-xs-6" >
 					<input type="text" name="orderEmail" id="ordemail" />
@@ -116,7 +148,7 @@
 
 			<div class="row">
 				<div class="col-xs-6" >
-					<p id="advice">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
+					<p class="note" id="advice">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
 				</div>
 				<div class="col-xs-6" >
 					<div th:each="workType,status:${workTypes.workTypes}">
@@ -146,37 +178,87 @@
 		<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
 
-
 	<script src="https://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script th:inline="javascript">
+
+
         let provinces = [[${provinces}]];
         let citys;
-        $("#province").on("change",function(e){
-            let provinceId=$(e.target).val();
+
+        function WriteProvince(){
+            let i=0;
+            let str='';
+            for (let province in provinces){
+				let stra=`
+					<div class="col-xs-3" >
+						<a class="addressbutton  provincebutton" value="${provinces[province].provinceId}">
+								${provinces[province].provinceName}
+						</a>
+					</div>
+					`
+				str+=tableformat(stra,i);
+				i+=1;
+			}
+			if(i%4===0){
+                str+=`</div>`;
+			}
+            $("#province").html(str);
+		}
+        function WriteCity(provinceId){
+            let i=0;
+            let str='';
             citys=provinces[provinceId].citys;
-            let str=`<option>请选择城市</option>`;
-            for(let city in citys){
-                str+=`<option value='${citys[city].cityId}'>${citys[city].cityName}</option>`;
+            for (let city in citys){
+                let stra=`
+					<div class="col-xs-3" >
+						<a class="addressbutton  citybutton" value="${citys[city].cityId}">
+								${citys[city].cityName}
+						</a>
+					</div>
+					`
+                str+=tableformat(stra,i);
+                i+=1;
             }
-            $("#area").html("").attr("disabled","disabled");
+            if(i%4===0){
+                str+=`</div>`;
+            }
             $("#city").html(str);
-            if($("#city").attr("disabled")=="disabled"){
-                $("#city").removeAttr("disabled");
-            }
-        });
-        $("#city").on("change",function(e){
-            let cityId=$(e.target).val();
+        }
+        function WriteArea(cityId){
+            let i=0;
+            let str='';
             let areas=citys[cityId].areas;
-            let str=`<option>请选择区县</option>`;
-            for(let area in areas){
-                str+=`<option value='${areas[area].areaId}'>${areas[area].areaName}</option>`;
+            for (let area in areas){
+                let stra=`
+					<div class="col-xs-3" >
+						<a class="addressbutton  areabutton" value="${areas[area].areaId}">
+								${areas[area].areaName}
+						</a>
+					</div>
+					`
+                str+=tableformat(stra,i);
+                i+=1;
+            }
+            if(i%4===0){
+                str+=`</div>`;
             }
             $("#area").html(str);
-            if($("#area").attr("disabled")=="disabled"){
-                $("#area").removeAttr("disabled");
+        }
+
+        function tableformat(str,i){
+            let strout="";
+            if (i%4===0) {
+                strout+=`<div class="row">`;
             }
-        });
+
+            strout+=str;
+
+            if (i%4===3) {
+                strout+=`</div>`;
+            }
+            return(strout);
+        }
 	</script>
 	<script src="/add_order.min.js"></script>
 	<script src="/mynavbar_commonpage.min.js"></script>
