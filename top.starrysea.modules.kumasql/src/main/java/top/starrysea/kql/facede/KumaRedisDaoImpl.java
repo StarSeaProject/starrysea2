@@ -72,23 +72,4 @@ public class KumaRedisDaoImpl implements KumaRedisDao {
 		return Collections.emptyMap();
 	}
 
-	@Override
-	public void listPush(String key, String value) {
-		try (Jedis jedis = jedisPool.getResource();) {
-			jedis.lpush(key, value);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-	}
-	
-	@Override
-	public List<String> listGetAll(String key) {
-		try (Jedis jedis = jedisPool.getResource();) {
-			return jedis.lrange(key, 0, -1);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-		return Collections.emptyList();
-	}
-
 }
