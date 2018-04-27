@@ -8,7 +8,6 @@
 <link rel="stylesheet"
 	href="https://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
-<link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/shopcar.min.css"></link>
 
 </head>
@@ -42,11 +41,17 @@
 		<h1 class="h1 pagetitleh1">购物车</h1>
 		<h2 class="h2 pagetitleh2">Shopping Cart</h2>
 	</div>
-	<div class="addheight1">
-		<hr class="titleline"  />
+	<div class="processbar">
+		<ul class="ul" >
+			<li class="processbarli text-center">作品信息</li>
+			<li class="processbarli text-center">></li>
+			<li class="processbarli text-center nowprocess">确认订单</li>
+			<li class="processbarli text-center">></li>
+			<li class="processbarli text-center">处理结果</li>
+		</ul>
 	</div>
 	<form class="form ">
-		<div class="container-fluid upperform">
+		<div class="container upperform">
 			<div class="formtitle row">
 				<div class="col-xs-1  " >
 					<input type="checkbox" class="selectall" /> 全选
@@ -97,15 +102,20 @@
 		</div>
 
 		<div class="navbar-fixed-bottom container-fluid" id="jiesuanbar">
-			<div class="col-xs-3 text-center selectallc">
-				<input type="checkbox" class="selectall" /> 全 选
+			<div class="col-xs-2 text-center selectallc">
+				<div class="vertical-center">
+					<input type="checkbox" class="selectall"  />
+					<span class="" > 全 选 </span>
+				</div>
 			</div>
-			<a class="col-xs-4 text-center btncontainer">
-				<button class="btn btn-info pull-right" id="delselect">
+			<div class="col-xs-4">
+			</div>
+			<a class="col-xs-3 text-center btncontainer" id="delselect">
+				<div class="vertical-center">
 					删除所选作品
-				</button>
+				</div>
 			</a>
-			<div class="col-xs-5" id="confdivv">
+			<div class="col-xs-3" id="confdivv">
 				<button id="confbutt" class="pull-right text-center">确 认</button>
 			</div>
 		</div>
