@@ -52,7 +52,7 @@ public class KumaRedisDaoImpl implements KumaRedisDao {
 		}
 		return 0L;
 	}
-	
+
 	@Override
 	public void mapSet(String hashKey, String key, String value) {
 		try (Jedis jedis = jedisPool.getResource();) {
@@ -69,7 +69,7 @@ public class KumaRedisDaoImpl implements KumaRedisDao {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		return null;
+		return Collections.emptyMap();
 	}
 
 }
