@@ -1,10 +1,5 @@
-repositories {
-	mavenCentral()
-}
 dependencies {
-        compile project(':top.starrysea.modules.mail')
-        compile project(':top.starrysea.modules.file')
-        compile project(':top.starrysea.modules.exception')
+	compile project(':top.starrysea.modules.mail')
+	compile project(':top.starrysea.modules.file')
+	compile project(':top.starrysea.modules.exception')
 }
-
-

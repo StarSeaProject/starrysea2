@@ -1,8 +1,4 @@
-repositories {
-	mavenCentral()
-}
-
 dependencies {
-        compile project(':top.starrysea.modules.dependencies')
-        compile project(':top.starrysea.modules.kumasql')
+	compile project(':top.starrysea.modules.dependencies')
+	compile project(':top.starrysea.modules.kumasql')
 }

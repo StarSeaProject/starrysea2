@@ -7,7 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	} 
+	}
 }
 repositories {
 	mavenCentral()
@@ -24,7 +24,9 @@ subprojects{
     build.doLast{
         delete 'build/libs'
     }
-
+	repositories {
+		mavenCentral()
+	}
 }
 project(':'){
     dependencies{
