@@ -63,9 +63,11 @@ public class ActivityControllerImpl implements IActivityController {
 		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(),
 				activity.toDTO());
 		List<Activity> result = serviceResult.getResult(LIST_1);
+		Activity newestActivity = serviceResult.getResult(ACTIVITY);
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("activityName", activity.getActivityName());
 		theResult.put("result", result.stream().map(Activity::toVoForAll).collect(Collectors.toList()));
+		theResult.put("newest", newestActivity);
 		theResult.put("nowPage", serviceResult.getNowPage());
 		theResult.put("totalPage", serviceResult.getTotalPage());
 		return theResult;

@@ -77,6 +77,7 @@ public class ActivityServiceImpl implements IActivityService {
 				normalFundings.add(funding);
 			}
 		}
+		richFundings.sort((funding1, funding2) -> funding2.getFundingMoney().compareTo(funding1.getFundingMoney()));
 		richFundings.addAll(normalFundings);
 		result.setResult(LIST_1, richFundings).setResult(DOUBLE, richThreshold);
 		return result;
