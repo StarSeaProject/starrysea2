@@ -39,7 +39,11 @@
 	</div>
 	<div class="row container">
 		<div class="col-xs-12 leftbox" id="he2">
-			<p th:utext="${activity.activityContent}"></p>
+			<div id="contentpara">
+				<p th:utext="${activity.activityContent}" >
+				</p>
+			</div>
+
 			<div th:if="${activity.activityStatus eq 2}">
 				<h4>你可以通过以下的方式参与众筹:</h4>
 				<img class="mainimg" src="/zfb.jpg" /> <img class="mainimg"
