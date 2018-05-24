@@ -1,3 +1,3 @@
 dependencies {
-	compile project(':top.starrysea.modules.service')
+	compile project(':top.starrysea.modules.controller')
 }
