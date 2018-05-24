@@ -1,6 +1,8 @@
 package top.starrysea.service.mail.impl;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,11 @@ public class DeleteOrderMailServiceImpl extends MailServiceImpl {
 
 	@Override
 	public void sendMailService(Entity entity) {
+		List<String> mailList = new ArrayList<>();
 		Orders order = (Orders) entity;
 		String content = MessageFormat.format(contentTemplate, order.getOrderNum());
-		mailCommon.send(new Mail(order.getOrderEMail(), "星之海志愿者公会", content));
+		mailList.add(order.getOrderEMail());
+		mailCommon.send(new Mail(mailList, "星之海志愿者公会", content));
 	}
 
 	@Override

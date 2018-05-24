@@ -52,7 +52,7 @@ public class MailCommon implements InitializingBean {
 			MimeMessageHelper mimeMessageHelper;
 			try {
 				mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, CHARSET);
-				mimeMessageHelper.setTo(mail.getTo());
+				mimeMessageHelper.setTo(mail.getTo().toArray(new String[mail.getTo().size()]));
 				String nick = MimeUtility.encodeText("星之海志愿者公会");
 				mimeMessageHelper.setFrom(new InternetAddress(nick + "<mumuzhizhi@starrysea.top>"));
 				mimeMessageHelper.setSubject(mail.getTitle());

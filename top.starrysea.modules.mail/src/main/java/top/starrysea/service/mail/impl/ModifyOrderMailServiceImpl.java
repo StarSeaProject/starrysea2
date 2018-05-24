@@ -4,8 +4,10 @@ import static top.starrysea.common.Const.CHARSET;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -28,6 +30,7 @@ public class ModifyOrderMailServiceImpl extends MailServiceImpl {
 
 	@Override
 	public void sendMailService(Entity entity) {
+		List<String> mailList = new ArrayList<>();
 		Orders order = (Orders) entity;
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -39,7 +42,8 @@ public class ModifyOrderMailServiceImpl extends MailServiceImpl {
 							order.getOrderAddress(), calendar.getTime().getTime()))).replaceAll("\r|\n", "").trim(),
 					CHARSET);
 			String content = MessageFormat.format(contentTemplate, order.getOrderNum(), order.getOrderNum(), key);
-			mailCommon.send(new Mail(order.getOrderEMail(), "星之海志愿者公会", content));
+			mailList.add(order.getOrderEMail());
+			mailCommon.send(new Mail(mailList, "星之海志愿者公会", content));
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e.getMessage(), e);
 		}

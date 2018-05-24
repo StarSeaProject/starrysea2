@@ -26,6 +26,7 @@ public class OrderMailServiceImpl extends MailServiceImpl {
 
 	@Override
 	public void sendMailService(List<? extends Entity> entitys) {
+		List<String> mailList = new ArrayList<>();
 		List<OrderDetail> orderDetails = new ArrayList<>();
 		for (Entity entity : entitys) {
 			OrderDetail orderDetail = (OrderDetail) entity;
@@ -47,7 +48,8 @@ public class OrderMailServiceImpl extends MailServiceImpl {
 		orderDetailsStr.append("</table>");
 		String content = MessageFormat.format(contentTemplate, orderDetailsStr.toString(), order.getOrderNum(),
 				order.getOrderNum());
-		mailCommon.send(new Mail(order.getOrderEMail(), "星之海志愿者公会", content));
+		mailList.add(order.getOrderEMail());
+		mailCommon.send(new Mail(mailList, "星之海志愿者公会", content));
 	}
 
 	@Override
