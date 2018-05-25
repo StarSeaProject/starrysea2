@@ -18,30 +18,47 @@
 <body >
 
 
-	<div class="head">
-		<h1 th:text="${activity.activityName}" class="headh1"></h1>
-	</div>
+
 	<div class="container">
-		<div class="col-md-7 leftbox" id="he2">
-			<p th:utext="${activity.activityContent}"></p>
-			<div th:if="${activity.activityStatus eq 2}">
-				<h4>你可以通过以下的方式参与众筹:</h4>
-				<img class="fundimg" src="/zfb.jpg" />
-				<img class="fundimg" src="/wechat.jpg"  />
+		<div class="row">
+			<div class="col-md-12">
+				<div class="head">
+					<h1 th:text="${activity.activityName}" class="headh1">No Title</h1>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-5 rightbox" id="he2">
-			<h4 th:text="'众筹总金额为:'+${activity.activityMoney}">No data</h4>
-			<ul class="newbox" th:each="funding:${fundings}">
-				<li class="everybox">
-					<span th:if="${funding.fundingMoney} gt ${fundingFactor}" th:text="${funding.fundingName}" class="fnamebold">No data</span>
-					<br />
-					<span th:if="${funding.fundingMoney} le ${fundingFactor}" th:text="${funding.fundingName}" class="fname">No data</span>
-					<br />
-					<span th:text="${funding.fundingMoney}" class="fmoney">No data</span>
-					<span th:text="${funding.fundingMessage}" class="fms">No data</span>
-				</li>
-			</ul>
+		<div class="row" >
+			<div class="col-md-7" >
+				<div class="leftcont" >
+					<div class="leftbox" >
+						<div class="contentpara">
+							<p th:utext="${activity.activityContent}"></p>
+						</div>
+						<div th:if="${activity.activityStatus eq 2}">
+							<h4>你可以通过以下的方式参与众筹:</h4>
+							<img class="fundimg" src="/zfb.jpg" />
+							<img class="fundimg" src="/wechat.jpg"  />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5" >
+				<div class="rightcont" >
+					<div class="rightbox">
+						<h4 th:text="'众筹总金额为:'+${activity.activityMoney}">No data</h4>
+						<ul class="newbox" th:each="funding:${fundings}">
+							<li class="everybox">
+								<span th:if="${funding.fundingMoney} gt ${fundingFactor}" th:text="${funding.fundingName}" class="fnamebold">No data</span>
+								<br />
+								<span th:if="${funding.fundingMoney} le ${fundingFactor}" th:text="${funding.fundingName}" class="fname">No data</span>
+								<br />
+								<span th:text="${funding.fundingMoney}" class="fmoney">No data</span>
+								<span th:text="${funding.fundingMessage}" class="fms">No data</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
