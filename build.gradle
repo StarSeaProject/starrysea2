@@ -17,7 +17,7 @@ allprojects{
 	apply plugin: 'eclipse'
 	apply plugin: 'org.springframework.boot'
 	group = 'top.starrtsea'
-	version = '2.1.0'
+	version = '2.1.1'
 	sourceCompatibility = 1.8
 }
 subprojects{
@@ -30,6 +30,6 @@ subprojects{
 }
 project(':'){
     dependencies{
-        compile project(':top.starrysea.modules.controller')
+        compile project(':top.starrysea.modules.aspect')
     }
 }

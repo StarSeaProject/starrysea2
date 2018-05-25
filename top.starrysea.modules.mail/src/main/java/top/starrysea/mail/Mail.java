@@ -1,22 +1,24 @@
 package top.starrysea.mail;
 
+import java.util.List;
+
 public class Mail {
 
-	private String to;
+	private List<String> to;
 	private String title;
 	private String content;
 
-	public Mail(String to, String title, String content) {
+	public Mail(List<String> to, String title, String content) {
 		this.to = to;
 		this.title = title;
 		this.content = content;
 	}
 
-	public String getTo() {
+	public List<String> getTo() {
 		return to;
 	}
 
-	public void setTo(String to) {
+	public void setTo(List<String> to) {
 		this.to = to;
 	}
 
