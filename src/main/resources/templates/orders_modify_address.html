@@ -8,9 +8,15 @@
 
 <title>星之海志愿者公会</title>
 <link rel="stylesheet"
-	href="/lib/bootstrap.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+	integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet"
-	href="/lib/bootstrap-theme.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+	integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/orders_modify_address.min.css"></link>
@@ -20,121 +26,101 @@
 
 	<div class="main container">
 		<h1 class="row h2">收货人信息</h1>
-		<form class="row container-fluid" id="modifyAddressForm" action="/order/address/modify"
-			method="post">
+		<form class="row container-fluid" id="modifyAddressForm"
+			action="/order/address/modify" method="post">
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>收货人姓名:</p>
 				</div>
-				<div class="col-xs-6"
-					 th:text="${order.orderName}">
-					No data
-				</div>
+				<div class="col-xs-6" th:text="${order.orderName}">No data</div>
 			</div>
 
 
-			<div class="row container inner1" th:each="orderDetail:${orderDetails}">
+			<div class="row container inner1"
+				th:each="orderDetail:${orderDetails}">
 
 				<div class="row">
-					<div class="col-xs-6"  >
+					<div class="col-xs-6">
 						<p>作品名称:</p>
 					</div>
-					<div class="col-xs-6"
-						 th:text="${orderDetail.workName}">
-						No data
-					</div>
+					<div class="col-xs-6" th:text="${orderDetail.workName}">No
+						data</div>
 				</div>
 
 				<div class="row">
-					<div class="col-xs-6"  >
+					<div class="col-xs-6">
 						<p>作品类型:</p>
 					</div>
-					<div class="col-xs-6"
-						 th:text="${orderDetail.workTypeName}">
-						No data
-					</div>
+					<div class="col-xs-6" th:text="${orderDetail.workTypeName}">
+						No data</div>
 				</div>
 
 			</div>
 
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>收货地址</p>
 				</div>
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<select id="province">
 						<option>请选择省份</option>
 						<option th:each="province:${provinces}" th:value="${province.key}"
-								th:text="${province.value.provinceName}"></option>
+							th:text="${province.value.provinceName}"></option>
 					</select> <select id="city" disabled="disabled">
-				</select> <select id="area" disabled="disabled">
-				</select> <input type="hidden" id="areasub" name="orderArea" />
+					</select> <select id="area" disabled="disabled">
+					</select> <input type="hidden" id="areasub" name="orderArea" />
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>收货详细地址</p>
 				</div>
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<input type="text" name="orderAddress" id="ordadddel" />
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>发货状态:</p>
 				</div>
-				<div class="col-xs-6"
-					 th:text="${order.orderStatus}">
-					No data
-				</div>
+				<div class="col-xs-6" th:text="${order.orderStatus}">No data</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>快递单号:</p>
 				</div>
-				<div class="col-xs-6"
-					 th:text="${order.orderExpressnum}">
-					No data
-				</div>
+				<div class="col-xs-6" th:text="${order.orderExpressnum}">No
+					data</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>下单时间</p>
 				</div>
-				<div class="col-xs-6"
-					 th:text="${order.orderTime}">
-					No data
-				</div>
+				<div class="col-xs-6" th:text="${order.orderTime}">No data</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>电子邮件:</p>
 				</div>
-				<div class="col-xs-6"
-					 th:text="${order.orderEMail}">
-					No data
-				</div>
+				<div class="col-xs-6" th:text="${order.orderEMail}">No data</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-6"  >
+				<div class="col-xs-6">
 					<p>备注:</p>
 				</div>
-				<div class="col-xs-6"
-					 th:text="${order.orderRemark}">
-					No data
-				</div>
+				<div class="col-xs-6" th:text="${order.orderRemark}">No data</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-6"  ></div>
+				<div class="col-xs-6"></div>
 				<input type="hidden" name="orderNum" th:value="${order.orderNum}" />
 			</div>
 		</form>
@@ -142,8 +128,15 @@
 	</div>
 
 
-	<script src="/lib/jquery.min.js"></script>
-	<script src="/lib/bootstrap.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
 	<script src="/mynavbar_commonpage.min.js"></script>
 	<script src="/modify_address.min.js"></script>
 	<script src="/header_and_footer.min.js"></script>

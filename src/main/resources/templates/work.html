@@ -8,9 +8,15 @@
 
 <title>星之海志愿者公会</title>
 <link rel="stylesheet"
-	href="/lib/bootstrap.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+	integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet"
-	href="/lib/bootstrap-theme.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+	integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/work.min.css"></link>
@@ -29,11 +35,11 @@
 					<div class="row workbox">
 						<div class="col-xs-3 workimage">
 							<img th:attr="src=${work.workCover},data-workid=${work.workId}"
-								 class="workimg img-responsive"></img>
+								class="workimg img-responsive"></img>
 						</div>
 						<div class="col-xs-9 workdetail">
 							<a th:text="${work.workName}" class="h3 worktitle"
-							   th:href="@{'/work/'+${work.workId}}"></a>
+								th:href="@{'/work/'+${work.workId}}"></a>
 							<p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
 							<a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
 						</div>
@@ -62,14 +68,19 @@
 			</button>
 		</div>
 		<div id="btncon">
-			<a id="anchorbutton" href="#mybar">
-				返回顶部
-			</a>
+			<a id="anchorbutton" href="#mybar"> 返回顶部 </a>
 		</div>
 	</div>
 
-	<script src="/lib/jquery.min.js"></script>
-	<script src="/lib/bootstrap.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
 	<script src="/header_and_footer.min.js"></script>
 	<script th:inline="javascript">
 		let total=[[${totalPage}]];

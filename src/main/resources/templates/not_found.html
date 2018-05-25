@@ -8,44 +8,59 @@
 
 <title>星之海志愿者公会</title>
 <link rel="stylesheet"
-	href="/lib/bootstrap.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+	integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet"
-	href="/lib/bootstrap-theme.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+	integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet" href="/not_found.min.css"></link>
 
 </head>
 <body>
-<div class="container-fluid header">
-<div class="navbartop row">
-		<div class="navbar-header col-xs-3">
-			<a href="/"><img src="/starsea.png"
-				class="img-reponsive navimg"></img></a>
+	<div class="container-fluid header">
+		<div class="navbartop row">
+			<div class="navbar-header col-xs-3">
+				<a href="/"><img src="/starsea.png" class="img-reponsive navimg"></img></a>
+			</div>
+			<div class="navbar-right col-xs-9 text-right">
+				<a href="/work" class="ma text-right">作品</a> <a href="/activity"
+					class="ma text-right">活动</a> <a href="/mintro.html"
+					class="ma text-right">关于</a>
+			</div>
+
 		</div>
-		<div class="navbar-right col-xs-9 text-right">
-			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
-				class="ma text-right">活动</a> <a href="/mintro.html"
-				class="ma text-right">关于</a>
+	</div>
+	<div class="addheight container"></div>
+	<div class="container">
+		<div class="col-md-4">
+			<img class="cucuimg" th:src="'/cucu/'+${cucuImg}" id="cutu" />
 		</div>
-		
-	</div>
-</div>
-<div class="addheight container"></div>
-<div class="container">
-	<div class="col-md-4">
-	<img class="cucuimg" th:src="'/cucu/'+${cucuImg}" id="cutu"/>
-	</div>
-	<div class="col-md-8">
-	<p id="p1">啊哦！</p>
-	<p id="p2">您要访问的页面好像走丢了，不过您可以观看我们的公会之花的照片~</p>
-	<p></p>
-	<p id="p3">想看他的更多照片，您可以<a href="https://weibo.com/u/6435503026?from=myfollow_all&is_all=1">查看更多</a></p>
-	
-	
-	</div>
-</div>
+		<div class="col-md-8">
+			<p id="p1">啊哦！</p>
+			<p id="p2">您要访问的页面好像走丢了，不过您可以观看我们的公会之花的照片~</p>
+			<p></p>
+			<p id="p3">
+				想看他的更多照片，您可以<a
+					href="https://weibo.com/u/6435503026?from=myfollow_all&is_all=1">查看更多</a>
+			</p>
 
 
-<script src="/lib/jquery.min.js"></script>
-<script src="/lib/bootstrap.min.js"></script>
+		</div>
+	</div>
+
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
 </body>
 </html>

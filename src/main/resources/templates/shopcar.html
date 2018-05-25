@@ -4,9 +4,15 @@
 <meta charset="UTF-8"></meta>
 <title>星之海志愿者公会</title>
 <link rel="stylesheet"
-	href="/lib/bootstrap.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+	integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet"
-	href="/lib/bootstrap-theme.min.css"></link>
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+	integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+	crossorigin="anonymous"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/shopcar.min.css"></link>
 
@@ -17,7 +23,7 @@
 		<h2 class="h2 pagetitleh2">Shopping Cart</h2>
 	</div>
 	<div class="processbar">
-		<ul class="ul" >
+		<ul class="ul">
 			<li class="processbarli text-center">作品信息</li>
 			<li class="processbarli text-center">></li>
 			<li class="processbarli text-center nowprocess">确认订单</li>
@@ -28,25 +34,23 @@
 	<form class="form ">
 		<div class="container upperform">
 			<div class="formtitle row">
-				<div class="col-xs-1  " >
+				<div class="col-xs-1  ">
 					<input type="checkbox" class="selectall" /> 全选
 				</div>
 				<div class="col-xs-3 text-center">
 					<p></p>
 				</div>
 				<div class="col-xs-3  text-center">
-					<p >商品信息</p>
+					<p>商品信息</p>
 				</div>
 				<div class="col-xs-2  text-center">
 					<p></p>
 				</div>
 				<div class="col-xs-2  text-center">
-					<p >操作</p>
+					<p>操作</p>
 				</div>
 			</div>
-			<div id="NoItemDiv" class="noitem">
-				购物车中无物品
-			</div>
+			<div id="NoItemDiv" class="noitem">购物车中无物品</div>
 			<div class="formdata row" th:each="workType,status:${workTypes}">
 				<div class="col-xs-1 selectwork">
 					<input type="checkbox" class="selectallinput" />
@@ -75,16 +79,13 @@
 		<div class="navbar-fixed-bottom container-fluid" id="jiesuanbar">
 			<div class="col-xs-2 text-center selectallc">
 				<div class="vertical-center">
-					<input type="checkbox" class="selectall"  />
-					<span class="" > 全 选 </span>
+					<input type="checkbox" class="selectall" /> <span class="">
+						全 选 </span>
 				</div>
 			</div>
-			<div class="col-xs-4">
-			</div>
+			<div class="col-xs-4"></div>
 			<a class="col-xs-3 text-center btncontainer" id="delselect">
-				<div class="vertical-center">
-					删除所选作品
-				</div>
+				<div class="vertical-center">删除所选作品</div>
 			</a>
 			<div class="col-xs-3" id="confdivv">
 				<button id="confbutt" class="pull-right text-center">确 认</button>
@@ -93,14 +94,14 @@
 	</form>
 
 	<!-- Modal -->
-	<div class="modal fade" id="Modalbox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="Modalbox" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="ModalLabel">星之海志愿者公会</h5>
 				</div>
-				<div class="modal-body">
-				</div>
+				<div class="modal-body"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 				</div>
@@ -108,8 +109,15 @@
 		</div>
 	</div>
 
-	<script src="/lib/jquery.min.js"></script>
-	<script src="/lib/bootstrap.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
 	<script src="/shopcar.min.js"></script>
 	<script src="/mynavbar_commonpage.min.js"></script>
 	<script src="/modalalert.min.js"></script>

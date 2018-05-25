@@ -2,44 +2,57 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+<meta charset="utf-8"></meta>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <title>星之海志愿者公会</title>
-    <link rel="stylesheet"
-          href="/lib/bootstrap.min.css"></link>
-    <link rel="stylesheet"
-          href="/lib/bootstrap-theme.min.css"></link>
-    <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
-    <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
-    <link rel="stylesheet" href="/errandsuc.min.css"></link>
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+	integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+	crossorigin="anonymous"></link>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+	integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+	crossorigin="anonymous"></link>
+<link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/errandsuc.min.css"></link>
 
 </head>
 <body>
 
-<div class="container text-center" id="mainblock">
-	<div class="col-xs-3">
-	<img class="img-responsive" src="/ruby.png" />
+	<div class="container text-center" id="mainblock">
+		<div class="col-xs-3">
+			<img class="img-responsive" src="/ruby.png" />
+		</div>
+		<div class="col-xs-9">
+			<h1 th:text="${info}" class="h2">Success Info</h1>
+		</div>
 	</div>
-	<div class="col-xs-9">
-    <h1 th:text="${info}" class="h2">Success Info</h1>
-    </div>
-</div>
-<div id="bottommargin"></div>
+	<div id="bottommargin"></div>
 
-<div class="fixedbutton">
-    <div id="cardiv">
-        <button id="gotocar" onclick="window.location.href='/car'">
-            <span class="glyphicon glyphicon-shopping-cart"></span>
-        </button>
-    </div>
-</div>
+	<div class="fixedbutton">
+		<div id="cardiv">
+			<button id="gotocar" onclick="window.location.href='/car'">
+				<span class="glyphicon glyphicon-shopping-cart"></span>
+			</button>
+		</div>
+	</div>
 
-<script src="/lib/jquery.min.js"></script>
-<script src="/lib/bootstrap.min.js"></script>
-<script src="/mynavbar_commonpage.min.js"></script>
-<script src="/header_and_footer.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
+	<script src="/mynavbar_commonpage.min.js"></script>
+	<script src="/header_and_footer.min.js"></script>
 
 </body>
 

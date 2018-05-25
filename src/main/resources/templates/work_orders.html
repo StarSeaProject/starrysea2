@@ -2,62 +2,74 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+<meta charset="utf-8"></meta>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <title>星之海志愿者公会</title>
-    <link rel="stylesheet"
-          href="/lib/bootstrap.min.css"></link>
-    <link rel="stylesheet"
-          href="/lib/bootstrap-theme.min.css"></link>
-    <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
-    <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
-    <link rel="stylesheet" href="/work_orders.min.css"></link>
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+	integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+	crossorigin="anonymous"></link>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+	integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+	crossorigin="anonymous"></link>
+<link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/work_orders.min.css"></link>
 
 </head>
 
 <body>
 
 
-<div class="container pagecontain">
-    <div class="worktable col-md-9">
-        <div id="work_orders">
-            <div th:each="work:${result}">
-                <div class="row workbox">
-                    <div class="col-xs-3 workimage">
-                        <img th:attr="src=${work.workCover}"
-                             class="workimg img-reponsive"></img>
-                    </div>
-                    <div class="col-xs-9 workdetail">
-                        <p th:text="${work.workName}" class="h3 worktitle"></p>
-                        <p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
-                        <a th:attr="data-workid=${work.workId}" class="h4 detailhref"
-                           href="javascript:void(0)">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
-                    </div>
-                </div>
-                <hr/>
-            </div>
-        </div>
-    </div>
-    <div class="weibo col-md-3">
-        <iframe id="weibo" frameborder="0"
-                scrolling="no"
-                src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe>
-    </div>
-</div>
+	<div class="container pagecontain">
+		<div class="worktable col-md-9">
+			<div id="work_orders">
+				<div th:each="work:${result}">
+					<div class="row workbox">
+						<div class="col-xs-3 workimage">
+							<img th:attr="src=${work.workCover}"
+								class="workimg img-reponsive"></img>
+						</div>
+						<div class="col-xs-9 workdetail">
+							<p th:text="${work.workName}" class="h3 worktitle"></p>
+							<p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
+							<a th:attr="data-workid=${work.workId}" class="h4 detailhref"
+								href="javascript:void(0)">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
+						</div>
+					</div>
+					<hr />
+				</div>
+			</div>
+		</div>
+		<div class="weibo col-md-3">
+			<iframe id="weibo" frameborder="0" scrolling="no"
+				src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe>
+		</div>
+	</div>
 
-<form id="workDetail" action="/order/getWork" method="get">
-    <input id="workId" type="hidden" name="workId"/>
-</form>
+	<form id="workDetail" action="/order/getWork" method="get">
+		<input id="workId" type="hidden" name="workId" />
+	</form>
 
 
-<script src="/lib/jquery.min.js"></script>
-<script src="/lib/bootstrap.min.js"></script>
-<script src="/mynavbar_commonpage.min.js"></script>
-<script src="/common.min.js"></script>
-<script src="/work_orders.min.js"></script>
-<script src="/header_and_footer.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
+	<script src="/mynavbar_commonpage.min.js"></script>
+	<script src="/common.min.js"></script>
+	<script src="/work_orders.min.js"></script>
+	<script src="/header_and_footer.min.js"></script>
 </body>
 
 </html>
