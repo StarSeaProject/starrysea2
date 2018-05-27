@@ -51,8 +51,12 @@ public class MailCommon implements InitializingBean {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mimeMessageHelper;
 			try {
+				InternetAddress[] mailList = new InternetAddress[mail.getTo().size()];
+				for (int i = 0; i < mail.getTo().size(); i++) {
+					mailList[i] = new InternetAddress(mail.getTo().get(i));
+				}
 				mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, CHARSET);
-				mimeMessageHelper.setTo(mail.getTo().toArray(new String[mail.getTo().size()]));
+				mimeMessageHelper.setBcc(mailList);
 				String nick = MimeUtility.encodeText("星之海志愿者公会");
 				mimeMessageHelper.setFrom(new InternetAddress(nick + "<mumuzhizhi@starrysea.top>"));
 				mimeMessageHelper.setSubject(mail.getTitle());
