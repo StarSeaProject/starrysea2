@@ -22,7 +22,7 @@ public class WorkMailServiceImpl extends MailServiceImpl {
 	@Override
 	public void sendMailService(Entity entity) {
 		List<String> mailList = new ArrayList<>();
-		List<Online> receivers = onlineDao.getAllOnlineDao();
+		List<Online> receivers = onlineDao.getAllOnlineDao(new Online.Builder().build());
 		Work work = (Work) entity;
 		receivers.parallelStream().forEach(receiver -> mailList.add(receiver.getOnlineEmail()));
 		mailCommon.send(new Mail(mailList, "星之海志愿者公会", work.getWorkPdfpath()));

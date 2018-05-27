@@ -3,6 +3,7 @@ package top.starrysea.aspect;
 import javax.annotation.Resource;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Component;
 
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IOrderDao;
+import top.starrysea.object.dto.Online;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Work;
+import top.starrysea.service.IOnlineService;
 import top.starrysea.service.mail.IMailService;
 
 import static top.starrysea.common.ResultKey.*;
@@ -33,6 +36,8 @@ public class EMailAspect {
 	private IMailService deleteOrderMailService;
 	@Resource
 	private IOrderDao orderDao;
+	@Resource
+	private IOnlineService onlineService;
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.WorkServiceImpl.addWorkService(..))", returning = "serviceResult")
 	public void sendWorkEmail(ServiceResult serviceResult) {
@@ -54,5 +59,11 @@ public class EMailAspect {
 	public void deleteOrderMail(JoinPoint jp) {
 		Orders order = (Orders) jp.getArgs()[0];
 		deleteOrderMailService.sendMailService(orderDao.getOrderDao(order));
+	}
+
+	@After(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.addOrderService(..))")
+	public void addMailOnline(JoinPoint pjp) {
+		Orders order = (Orders) pjp.getArgs()[0];
+		onlineService.addMailService(new Online.Builder().onlineEmail(order.getOrderEMail()).build());
 	}
 }

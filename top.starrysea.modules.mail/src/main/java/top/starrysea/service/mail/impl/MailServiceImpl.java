@@ -28,6 +28,11 @@ public abstract class MailServiceImpl implements IMailService, InitializingBean 
 	}
 
 	@Override
+	public void sendMailService(String title, String content) {
+		throw new UnsupportedOperationException("这是公共的邮件服务,不支持调用,请使用具体的子类!");
+	}
+
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		contentTemplate = getHtml();
 	}

@@ -7,16 +7,22 @@ public class Online implements Entity {
 
 	private String onlineId;
 	private String onlineEmail;
+	private String onlinePhone;
+	private short onlineStatus;
 
 	private Online(Builder builder) {
 		this.onlineId = builder.onlineId;
 		this.onlineEmail = builder.onlineEmail;
+		this.onlinePhone = builder.onlinePhone;
+		this.onlineStatus = builder.onlineStatus;
 	}
 
 	public static class Builder implements IBuilder<Online> {
 
 		private String onlineId;
 		private String onlineEmail;
+		private String onlinePhone;
+		private short onlineStatus;
 
 		public Builder onlineId(String onlineId) {
 			this.onlineId = onlineId;
@@ -25,6 +31,16 @@ public class Online implements Entity {
 
 		public Builder onlineEmail(String onlineEmail) {
 			this.onlineEmail = onlineEmail;
+			return this;
+		}
+
+		public Builder onlinePhone(String onlinePhone) {
+			this.onlinePhone = onlinePhone;
+			return this;
+		}
+
+		public Builder onlineStatus(short onlineStatus) {
+			this.onlineStatus = onlineStatus;
 			return this;
 		}
 
@@ -49,6 +65,22 @@ public class Online implements Entity {
 
 	public void setOnlineEmail(String onlineEmail) {
 		this.onlineEmail = onlineEmail;
+	}
+
+	public String getOnlinePhone() {
+		return onlinePhone;
+	}
+
+	public void setOnlinePhone(String onlinePhone) {
+		this.onlinePhone = onlinePhone;
+	}
+
+	public short getOnlineStatus() {
+		return onlineStatus;
+	}
+
+	public void setOnlineStatus(short onlineStatus) {
+		this.onlineStatus = onlineStatus;
 	}
 
 }
