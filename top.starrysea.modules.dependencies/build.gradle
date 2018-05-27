@@ -1,5 +1,6 @@
 configurations {
-   	all*.exclude group: 'org.apache.tomcat.embed'
+   	all*.exclude module: 'tomcat-annotations-api'
+   	all*.exclude module: 'tomcat-embed-el'
 }
 dependencies{
 	compile('org.springframework.boot:spring-boot-starter-web'){

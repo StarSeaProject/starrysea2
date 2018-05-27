@@ -31,5 +31,6 @@ subprojects{
 project(':'){
     dependencies{
         compile project(':top.starrysea.modules.aspect')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
     }
 }
