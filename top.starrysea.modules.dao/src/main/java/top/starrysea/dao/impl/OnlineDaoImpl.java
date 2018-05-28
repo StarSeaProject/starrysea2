@@ -66,7 +66,7 @@ public class OnlineDaoImpl implements IOnlineDao {
 			}
 			return onlines;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("查询为空！");
 			return onlines;
 		}
 	}
@@ -78,6 +78,7 @@ public class OnlineDaoImpl implements IOnlineDao {
 			kumaSqlDao.insert("online_id", online.getOnlineId()).insert("online_email", online.getOnlineEmail())
 					.insert("online_status", online.getOnlineStatus()).table(Online.class).end();
 		} catch (DuplicateKeyException e) {
+			logger.info(online.getOnlineEmail() + "已存在！");
 			return new DaoResult(false, "重复的email!");
 		}
 		return new DaoResult(true);
