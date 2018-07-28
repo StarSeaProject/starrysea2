@@ -112,11 +112,12 @@
 		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
 		crossorigin="anonymous"></script>
 	<script src="/modalalert.min.js"></script>
+	<script src="/compatible/compatible.js"></script>
 	<script th:inline="javascript">
-	    const workImages = [[${workImages}]];
-	    const workTypes=[[${workTypes}]];
+	    var workImages = [[${workImages}]];
+	    var workTypes=[[${workTypes}]];
+	    compatible("/old/work_detail.js","/work_detail.min.js");
 	</script>
-	<script src="/work_detail.min.js"></script>
 	<script src="/mynavbar_commonpage.min.js"></script>
 	<script src="/header_and_footer.min.js"></script>
 </body>
