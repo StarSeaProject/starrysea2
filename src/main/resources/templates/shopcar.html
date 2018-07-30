@@ -114,82 +114,19 @@
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 		crossorigin="anonymous"></script>
 	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
-"
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"
 		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
 		crossorigin="anonymous"></script>
-	<script src="/shopcar.min.js"></script>
+	<script src="/compatible/compatible.min.js"></script>
 	<script src="/mynavbar_commonpage.min.js"></script>
 	<script src="/modalalert.min.js"></script>
 	<script src="/header_and_footer.min.js"></script>
 	<script th:inline="javascript">
-	$(function(){
-		const orderDetails=[[${orderDetails}]];
-		//全选功能
-
-	    $(".selectall").click(function () {
-	        var isall = $(this).prop("checked");
-	        var status = $(".selectallinput").prop("checked", isall);
-            countchecked();
-	    });
-
-		$("#confbutt").on("click",function(e){
-			let gotoOrderForm=$(`<form action="/order/toAddOrder" method="post"></form>`);
-			let workTypes="";
-			let count=0;
-			$(".formdata").each(function(i,div){
-				const selected=$(div).eq(0).find("input").is(':checked');
-				if(selected){
-					const workId=orderDetails[i].workId;
-					const workTypeId=orderDetails[i].workTypeId;
-					workTypes+=`<input type="hidden" name="workTypes[${count}].workId" value="${workId}"/>`;
-					workTypes+=`<input type="hidden" name="workTypes[${count}].workTypeId" value="${workTypeId}"/>`;
-					count++;
-				}
-			});
-			if(count==0){
-                modalalert("请至少选择一个作品!");
-				e.stopPropagation();
-				return false;
-			}
-			gotoOrderForm.append(workTypes);
-			gotoOrderForm.appendTo(document.body);
-			gotoOrderForm.submit();
-			document.body.removeChild(gotoOrderForm[0]);
-			return false;
-		});
-
-		$("#delselect").on("click",function(e){
-			let count=0;
-			let removeWorkTypeForm=$(`<form action="/car/removes" method="post"></form>`);
-			let workTypes="";
-			const token=[[${token}]];
-			$(".formdata").each(function(i,div){
-				const selected=$(div).eq(0).find("input").is(':checked');
-				if(selected){
-					workTypes+=`<input type="hidden" name="workTypes[${count}].index" value="${i}" />`;
-					workTypes+=`<input type="hidden" name="workTypes[${count}].token" value="${token}" />`;
-					count++;
-				}
-			});
-			if(count==0){
-				modalalert("请至少选择一个作品!");
-				e.stopPropagation();
-				return false;
-			}
-			workTypes+=`<input type="hidden" name="token" value="${token}"/>`;
-			removeWorkTypeForm.append(workTypes);
-			removeWorkTypeForm.appendTo(document.body);
-			if(!confirm("确定要删除选中的所有作品吗?")){
-				e.stopPropagation();
-				return false;
-			}
-			removeWorkTypeForm.submit();
-			document.body.removeChild(removeWorkTypeForm[0]);
-			return false;
-		});
-	});
-</script>
+		var orderDetails=[[${orderDetails}]];
+		var token=[[${token}]];
+		compatible("/old/shopcar.js","/shopcar.min.js");
+		compatible("/old/shoppingcar.js","/shoppingcar.js");
+	</script>
 
 </body>
 </html>
