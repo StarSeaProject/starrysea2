@@ -160,87 +160,12 @@
 		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
 		crossorigin="anonymous"></script>
 
+	<script src="/compatible/compatible.min.js"></script>
 	<script th:inline="javascript">
-
-
-        let provinces = [[${provinces}]];
-        let citys;
-
-        function WriteProvince(){
-            let i=0;
-            let str='';
-            for (let province in provinces){
-				let stra=`
-					<div class="col-xs-3" >
-						<a class="addressbutton  provincebutton" value="${provinces[province].provinceId}">
-								${provinces[province].provinceName}
-						</a>
-					</div>
-					`
-				str+=tableformat(stra,i);
-				i+=1;
-			}
-			if(i%4===0){
-                str+=`</div>`;
-			}
-            $("#province").html(str);
-		}
-        function WriteCity(provinceId){
-            let i=0;
-            let str='';
-            citys=provinces[provinceId].citys;
-            for (let city in citys){
-                let stra=`
-					<div class="col-xs-3" >
-						<a class="addressbutton  citybutton" value="${citys[city].cityId}">
-								${citys[city].cityName}
-						</a>
-					</div>
-					`
-                str+=tableformat(stra,i);
-                i+=1;
-            }
-            if(i%4===0){
-                str+=`</div>`;
-            }
-            $("#city").html(str);
-        }
-        function WriteArea(cityId){
-            let i=0;
-            let str='';
-            let areas=citys[cityId].areas;
-            for (let area in areas){
-                let stra=`
-					<div class="col-xs-3" >
-						<a class="addressbutton  areabutton" value="${areas[area].areaId}">
-								${areas[area].areaName}
-						</a>
-					</div>
-					`
-                str+=tableformat(stra,i);
-                i+=1;
-            }
-            if(i%4===0){
-                str+=`</div>`;
-            }
-            $("#area").html(str);
-        }
-
-        function tableformat(str,i){
-            let strout="";
-            if (i%4===0) {
-                strout+=`<div class="row">`;
-            }
-
-            strout+=str;
-
-            if (i%4===3) {
-                strout+=`</div>`;
-            }
-            return(strout);
-        }
+        var provinces = [[${provinces}]];
+        compatible("/old/add_order.js","/add_order.min.js");
 	</script>
-	<script src="/add_order.min.js"></script>
+	<!-- <script src="/add_order.min.js"></script> -->
 	<script src="/mynavbar_commonpage.min.js"></script>
 	<script src="/header_and_footer.min.js"></script>
 
