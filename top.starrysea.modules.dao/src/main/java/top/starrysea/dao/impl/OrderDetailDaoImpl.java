@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
 import top.starrysea.dao.IOrderDetailDao;
+import top.starrysea.kql.clause.OrderByType;
 import top.starrysea.kql.clause.SelectClause;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.IntegerSqlResult;
@@ -94,9 +95,8 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.leftjoin(OrderDetail.class, "od", "order_id", Orders.class, "order_id")
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
-				.where("order_status", WhereType.EQUALS, 1).orderBy("order_phone").orderBy("order_email")
-				.orderBy(
-						"order_name")
+				.where("order_status", WhereType.EQUALS, 1).orderBy("order_time",
+						OrderByType.DESC)
 				.endForList((rs, row) -> new OrderDetail.Builder()
 						.order(new Orders.Builder().orderName(rs.getString("order_name"))
 								.orderAddress(rs.getString("order_address")).orderRemark(rs.getString("order_remark"))
