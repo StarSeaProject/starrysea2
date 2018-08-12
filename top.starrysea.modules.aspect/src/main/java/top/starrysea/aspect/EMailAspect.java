@@ -47,8 +47,8 @@ public class EMailAspect {
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.addOrderService(..))", returning = "serviceResult")
 	public void sendOrderEmail(ServiceResult serviceResult) {
 		if (serviceResult.isSuccessed()) {
-			List<OrderDetail> orderDetails = serviceResult.getResult(LIST_1);
-			orderMailService.sendMailService(orderDetails);
+			List<OrderDetail> orderDetailList = serviceResult.getResult(LIST_1);
+			orderMailService.sendMailService(orderDetailList);
 		}
 	}
 
