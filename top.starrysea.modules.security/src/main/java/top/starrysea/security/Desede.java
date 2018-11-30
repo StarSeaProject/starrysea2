@@ -7,7 +7,9 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +18,7 @@ import top.starrysea.common.Common;
 @Component("desede")
 public class Desede implements SecurityAlgorithm {
 
-	private Logger logger = Logger.getLogger(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	// 初始秘钥
 	private String key = "YeahTiger!NoTiger!iyaiyaiyaiyaYeahTiger!";
 	// 加解密向量,不要改
