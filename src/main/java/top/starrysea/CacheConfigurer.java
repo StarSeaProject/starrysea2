@@ -20,16 +20,16 @@ public class CacheConfigurer {
 	@Value("${spring.redis.password}")
 	private String password;
 
-	@Value("${spring.redis.pool.max-active}")
+	@Value("${spring.redis.jedis.pool.max-active}")
 	private String maxActive;
 
-	@Value("${spring.redis.pool.max-idle}")
+	@Value("${spring.redis.jedis.pool.max-idle}")
 	private String maxIdle;
 
-	@Value("${spring.redis.pool.max-wait}")
+	@Value("${spring.redis.jedis.pool.max-wait}")
 	private long maxWaitMillis;
 
-	@Value("${spring.redis.pool.min-idle}")
+	@Value("${spring.redis.jedis.pool.min-idle}")
 	private String minIdle;
 
 	@Value("${spring.redis.timeout}")

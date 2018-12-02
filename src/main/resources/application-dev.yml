@@ -2,11 +2,11 @@ logging:
   config: classpath:logback-dev.xml
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     password: developer
     url: jdbc:mysql://111.230.9.229/ss_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: developer
-  http:
+  servlet:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
@@ -24,19 +24,21 @@ spring:
       enabled: 'false'
   thymeleaf:
     cache: 'false'
-    content-type: text/html
     mode: LEGACYHTML5
+    servlet:
+      content-type: text/html
   redis:
     host: 111.230.9.229
     port: 6379
     password: root1
-    pool:
-      max-active: 8
-      max-wait: 1800
-      max-idle: 8
-      min-idle: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: 1800
+        max-idle: 8
+        min-idle: 0
     timeout: 0 
+  banner:
+    charset: UTF-8
 ss:
   fileroot: D:/develop/nginx-1.12.1/
-banner:
-  charset: UTF-8
