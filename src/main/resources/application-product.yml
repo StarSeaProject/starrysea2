@@ -4,11 +4,11 @@ server:
   port: '8080'
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     password: root1
     url: jdbc:mysql://127.0.0.1:3306/starrysea?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: root
-  http:
+  servlet:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
@@ -30,19 +30,23 @@ spring:
     favicon:
       enabled: 'false'
   thymeleaf:
-    content-type: text/html
     mode: LEGACYHTML5
+    servlet:
+      content-type: text/html
   redis:
     host: 127.0.0.1
     port: 6379
     password: root1
-    pool:
-      max-active: 8
-      max-wait: 1800
-      max-idle: 8
-      min-idle: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: 1800
+        max-idle: 8
+        min-idle: 0
     timeout: 0 
+  devtools: 
+    add-properties: false
+  banner:
+    charset: UTF-8
 ss:
   fileroot: /usr/share/nginx/
-banner:
-  charset: UTF-8
