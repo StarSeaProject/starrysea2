@@ -20,6 +20,12 @@ allprojects{
 	group = 'top.starrtsea'
 	version = '2.3.0'
 	sourceCompatibility = 1.8
+	jar {
+        enabled = true
+    }
+    bootJar {
+        mainClassName = 'top.starrysea.StarryseaApplication'
+    }
 }
 subprojects{
     build.doLast{
