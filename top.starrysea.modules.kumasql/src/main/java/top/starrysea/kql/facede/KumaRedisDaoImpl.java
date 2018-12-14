@@ -72,4 +72,13 @@ public class KumaRedisDaoImpl implements KumaRedisDao {
 		return Collections.emptyMap();
 	}
 
+	@Override
+	public void mapDel(String hashKey, String... key) {
+		try (Jedis jedis = jedisPool.getResource();) {
+			jedis.hdel(hashKey, key);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
+
 }

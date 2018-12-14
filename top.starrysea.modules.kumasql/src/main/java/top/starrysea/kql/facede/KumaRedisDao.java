@@ -13,5 +13,7 @@ public interface KumaRedisDao {
 
 	void mapSet(String hashKey, String key, String value);
 
+	void mapDel(String hashKey, String... key);
+
 	Map<String, String> mapGetAll(String hashKey);
 }
