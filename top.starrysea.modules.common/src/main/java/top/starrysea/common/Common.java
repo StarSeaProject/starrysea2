@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import reactor.core.publisher.Mono;
 import top.starrysea.kql.entity.Entity;
 
 public class Common {
@@ -182,7 +183,7 @@ public class Common {
 		return clazz.cast(new Object());
 	}
 
-	public static ModelAndView handleVaildError(BindingResult bindingResult, Device device) {
+	public static Mono<ModelAndView> handleVaildError(BindingResult bindingResult, Device device) {
 		String errInfo = bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
 				.collect(Collectors.joining("\n"));
 		return ModelAndViewFactory.newErrorMav(errInfo, device);
