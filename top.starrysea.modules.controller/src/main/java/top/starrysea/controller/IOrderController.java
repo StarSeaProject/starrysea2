@@ -9,6 +9,7 @@ import org.springframework.mobile.device.Device;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import reactor.core.publisher.Mono;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAddress;
@@ -21,35 +22,35 @@ import top.starrysea.object.view.in.WorkTypesForRemoveCar;
 
 public interface IOrderController {
 
-	Map<String, Object> queryAllOrderController(OrderForAll order);
+	Mono<Map<String, Object>> queryAllOrderController(OrderForAll order);
 
-	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult, Device device);
+	Mono<ModelAndView> queryOrderController(OrderForOne order, BindingResult bindingResult, Device device);
 
-	Map<String, Object> queryOrderControllerAjax(OrderForRemove order, BindingResult bindingResult);
+	Mono<Map<String, Object>> queryOrderControllerAjax(OrderForRemove order, BindingResult bindingResult);
 
-	ModelAndView addOrderController(OrderForAdd order, BindingResult bindingResult, Device device, HttpSession session);
+	Mono<ModelAndView> addOrderController(OrderForAdd order, BindingResult bindingResult, Device device, HttpSession session);
 
-	ModelAndView modifyOrderController(OrderForModify order, BindingResult bindingResult, Device device);
+	Mono<ModelAndView> modifyOrderController(OrderForModify order, BindingResult bindingResult, Device device);
 
-	ModelAndView removeOrderController(OrderForRemove order, BindingResult bindingResult, Device device);
+	Mono<ModelAndView> removeOrderController(OrderForRemove order, BindingResult bindingResult, Device device);
 
 	void exportOrderToXlsController(HttpServletResponse response);
 
-	Map<String, Object> resendEmailController(OrderForRemove order, BindingResult bindingResult);
+	Mono<Map<String, Object>> resendEmailController(OrderForRemove order, BindingResult bindingResult);
 
-	Map<String, Object> addWorkToShoppingCarController(HttpSession session, OrderDetailForAddOrder orderDetail,
+	Mono<Map<String, Object>> addWorkToShoppingCarController(HttpSession session, OrderDetailForAddOrder orderDetail,
 			BindingResult bindingResult, Device device);
 
-	ModelAndView removeWorkFromShoppingCarController(HttpSession session, WorkTypeForRemoveCar workType,
+	Mono<ModelAndView> removeWorkFromShoppingCarController(HttpSession session, WorkTypeForRemoveCar workType,
 			BindingResult bindingResult, Device device);
 
-	ModelAndView removeWorksFromShoppingCarController(HttpSession session, WorkTypesForRemoveCar workTypes,
+	Mono<ModelAndView> removeWorksFromShoppingCarController(HttpSession session, WorkTypesForRemoveCar workTypes,
 			BindingResult bindingResult, Device device);
 
-	ModelAndView queryShoppingCarController(HttpSession session, Device device);
+	Mono<ModelAndView> queryShoppingCarController(HttpSession session, Device device);
 
-	ModelAndView modifyAddressController(HttpSession session, OrderForAddress order, BindingResult bindingResult,
+	Mono<ModelAndView> modifyAddressController(HttpSession session, OrderForAddress order, BindingResult bindingResult,
 			Device device);
 
-	ModelAndView modifyAddressEmailController(OrderForOne order, BindingResult bindingResult, Device device);
+	Mono<ModelAndView> modifyAddressEmailController(OrderForOne order, BindingResult bindingResult, Device device);
 }
