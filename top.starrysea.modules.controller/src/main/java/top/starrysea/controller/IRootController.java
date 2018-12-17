@@ -7,10 +7,12 @@ import org.springframework.mobile.device.Device;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import reactor.core.publisher.Mono;
+
 public interface IRootController {
 
-	ModelAndView index(Device device);
+	Mono<ModelAndView> index(Device device);
 
-	void upload(HttpServletRequest request, HttpServletResponse response, MultipartFile file);
+	Mono<Void> upload(HttpServletRequest request, HttpServletResponse response, MultipartFile file);
 	
 }

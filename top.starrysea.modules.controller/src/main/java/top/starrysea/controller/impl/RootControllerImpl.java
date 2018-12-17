@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import reactor.core.publisher.Mono;
 import top.starrysea.controller.IRootController;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
@@ -38,21 +39,21 @@ public class RootControllerImpl implements IRootController {
 
 	@Override
 	@RequestMapping("/")
-	public ModelAndView index(Device device) {
-		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
+	public Mono<ModelAndView> index(Device device) {
+		return Mono.justOrEmpty(new ModelAndView(device.isMobile() ? MOBILE + "index" : "index"));
 	}
 
 	@RequestMapping("/admin")
-	public ModelAndView admin(HttpSession session, Device device) {
+	public Mono<ModelAndView> admin(HttpSession session, Device device) {
 		if (session.getAttribute(ADMIN_SESSION_KEY) != null) {
-			return new ModelAndView(device.isMobile() ? MOBILE + BOSS : BOSS);
+			return Mono.justOrEmpty(new ModelAndView(device.isMobile() ? MOBILE + BOSS : BOSS));
 		}
-		return new ModelAndView("admin_login");
+		return Mono.justOrEmpty(new ModelAndView("admin_login"));
 	}
 
 	@Override
 	@RequestMapping("/uploads")
-	public void upload(HttpServletRequest request, HttpServletResponse response,
+	public Mono<Void> upload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("file") MultipartFile file) {
 		String filePath = null;
 		try {
@@ -73,6 +74,7 @@ public class RootControllerImpl implements IRootController {
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
+		return Mono.empty();
 	}
 
 }
