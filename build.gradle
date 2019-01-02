@@ -28,7 +28,7 @@ allprojects{
     }
 }
 subprojects{
-    build.doLast{
+    bootJar.doLast{
         delete 'build/libs'
     }
 	repositories {
