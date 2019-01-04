@@ -3,21 +3,21 @@ package top.starrysea.object.view.in;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import top.starrysea.object.dto.Activity;
 import top.starrysea.object.dto.ActivityImage;
 
 public class ActivityForAdd {
 
-	@NotEmpty(message = "活动名称不能为空")
-	@Length(max = 30, message = "活动名称长度不能超过30")
+	@NotBlank(message = "活动名称不能为空")
+	@Size(max = 30, message = "活动名称长度不能超过30")
 	private String activityName;
-	@NotEmpty(message = "活动内容不能为空")
+	@NotBlank(message = "活动内容不能为空")
 	private String activityContent;
 	private List<ActivityImageForAdd> activityImages;
-	@NotEmpty(message = "活动概要不能为空")
+	@NotBlank(message = "活动概要不能为空")
 	private String activitySummary;
 
 	public String getActivityName() {
@@ -53,7 +53,8 @@ public class ActivityForAdd {
 	}
 
 	public Activity toDTO() {
-		return new Activity.Builder().activityName(activityName).activityContent(activityContent).activitySummary(activitySummary).build();
+		return new Activity.Builder().activityName(activityName).activityContent(activityContent)
+				.activitySummary(activitySummary).build();
 	}
 
 	public List<ActivityImage> toDTOImage() {

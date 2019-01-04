@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.OrderDetail;
@@ -19,23 +19,23 @@ public class OrderForAdd {
 	@Valid
 	@NotEmpty(message = "购物车中没有物品")
 	private List<OrderDetailForAddOrder> orderDetails;
-	@NotEmpty(message = "收货人姓名不能为空")
-	@Length(max = 10, message = "姓名长度不能超过10")
+	@NotBlank(message = "收货人姓名不能为空")
+	@Size(max = 10, message = "姓名长度不能超过10")
 	private String orderName;
 	@NotNull(message = "地区Id不能为空")
 	private Integer orderArea;
-	@NotEmpty(message = "收货地址不能为空")
-	@Length(max = 50, message = "收货地址长度不能超过50")
+	@NotBlank(message = "收货地址不能为空")
+	@Size(max = 50, message = "收货地址长度不能超过50")
 	private String orderAddress;
-	@NotEmpty(message = "收件人邮箱不能为空")
+	@NotBlank(message = "收件人邮箱不能为空")
 	@Email(message = "输入的邮箱地址不是合法的")
 	private String orderEmail;
-	@Length(max = 50, message = "备注长度不能超过50")
+	@Size(max = 50, message = "备注长度不能超过50")
 	private String orderRemark;
-	@NotEmpty(message = "收货人手机不能为空")
-	@Length(max = 15, message = "收货人手机长度不能超过15")
+	@NotBlank(message = "收货人手机不能为空")
+	@Size(max = 15, message = "收货人手机长度不能超过15")
 	private String orderPhone;
-	@NotEmpty(message = "token序列不能为空!这是二次提交!")
+	@NotBlank(message = "token序列不能为空!这是二次提交!")
 	private String token;
 
 	public String getOrderName() {

@@ -1,13 +1,13 @@
 package top.starrysea.object.view.in;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import top.starrysea.object.dto.Question;
 
 public class QuestionForAsk {
-	@NotEmpty(message = "问题或意见不能为空")
-	@Length(max = 150, message = "质问长度不能超过150")
+	@NotBlank(message = "问题或意见不能为空")
+	@Size(max = 150, message = "质问长度不能超过150")
 	private String question;
 
 	public String getQuestion() {

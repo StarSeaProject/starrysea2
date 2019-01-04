@@ -1,11 +1,11 @@
 package top.starrysea.object.view.in;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import top.starrysea.object.dto.Orders;
 
 public class OrderForOne {
-	@NotNull(message = "订单号不能为空")
+	@NotBlank(message = "订单号不能为空")
 	private String orderNum;
 
 	public String getOrderNum() {

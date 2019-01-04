@@ -1,12 +1,12 @@
 package top.starrysea.object.view.in;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import top.starrysea.object.dto.Orders;
 
 public class OrderForRemove {
 
-	@NotNull(message = "订单id不能为空")
+	@NotBlank(message = "订单id不能为空")
 	private String orderId;
 
 	public String getOrderId() {

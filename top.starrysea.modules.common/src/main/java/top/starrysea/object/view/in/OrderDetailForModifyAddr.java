@@ -1,13 +1,13 @@
 package top.starrysea.object.view.in;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import top.starrysea.object.dto.Orders;
 
 public class OrderDetailForModifyAddr {
-	@NotNull(message = "订单号不能为空")
+	@NotBlank(message = "订单号不能为空")
 	private String orderNum;
-	@NotNull(message = "校验码不能为空")
+	@NotBlank(message = "校验码不能为空")
 	private String key;
 
 	public String getKey() {

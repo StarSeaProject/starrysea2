@@ -1,10 +1,10 @@
 package top.starrysea.object.view.in;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 public class OrderDetailForRemoveOrder {
 
-	@NotEmpty(message="作品详细id不能为空")
+	@NotBlank(message = "作品详细id不能为空")
 	private String orderDetailId;
 
 	public String getOrderDetailId() {
@@ -14,5 +14,5 @@ public class OrderDetailForRemoveOrder {
 	public void setOrderDetailId(String orderDetailId) {
 		this.orderDetailId = orderDetailId;
 	}
-	
+
 }

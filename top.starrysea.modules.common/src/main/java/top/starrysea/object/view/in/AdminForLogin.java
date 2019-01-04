@@ -1,14 +1,14 @@
 package top.starrysea.object.view.in;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 import top.starrysea.object.dto.Admin;
 
 public class AdminForLogin {
 
-	@NotEmpty(message = "账号不能为空!")
+	@NotBlank(message = "账号不能为空!")
 	private String adminUseraccount;
-	@NotEmpty(message = "密码不能为空!")
+	@NotBlank(message = "密码不能为空!")
 	private String adminPassword;
 
 	public String getAdminUseraccount() {

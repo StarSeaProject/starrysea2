@@ -3,7 +3,7 @@ package top.starrysea.object.view.in;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import top.starrysea.object.dto.Activity;
 import top.starrysea.object.dto.Funding;

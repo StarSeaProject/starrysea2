@@ -2,7 +2,7 @@ package top.starrysea.object.view.in;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
+import javax.validation.constraints.Email;
 
 import top.starrysea.object.dto.Online;
 

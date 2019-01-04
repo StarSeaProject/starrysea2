@@ -1,12 +1,13 @@
 package top.starrysea.object.view.in;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class WorkTypeForRemoveCar {
 
-	@NotNull(message="删除下标不能为空")
+	@NotNull(message = "删除下标不能为空")
 	private Integer index;
-	@NotNull(message="不要重复提交")
+	@NotBlank(message = "不要重复提交")
 	private String token;
 
 	public void setIndex(Integer index) {

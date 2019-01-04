@@ -4,23 +4,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 
 public class WorkForAdd {
-	@NotEmpty(message = "作品名称不能为空")
-	@Length(max = 30, message = "作品名称长度不能超过30")
+	@NotBlank(message = "作品名称不能为空")
+	@Size(max = 30, message = "作品名称长度不能超过30")
 	private String workName;
-	@NotEmpty(message = "作品概要不能为空")
-	@Length(max = 50, message = "作品概要长度不能超过50")
+	@NotBlank(message = "作品概要不能为空")
+	@Size(max = 50, message = "作品概要长度不能超过50")
 	private String workSummary;
-	@NotEmpty(message = "作品pdf文件路径不能为空")
-	@Length(max = 50, message = "作品pdf文件路径长度不能超过50")
+	@NotBlank(message = "作品pdf文件路径不能为空")
+	@Size(max = 50, message = "作品pdf文件路径长度不能超过50")
 	@URL(message = "作品pdf文件路径不是一个合法的网址")
 	private String workPdfpath;
 	@Valid
