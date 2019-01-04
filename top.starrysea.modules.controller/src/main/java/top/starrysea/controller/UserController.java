@@ -1,4 +1,4 @@
-package top.starrysea.controller.impl;
+package top.starrysea.controller;
 
 import javax.validation.Valid;
 
@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import reactor.core.publisher.Mono;
 import top.starrysea.common.ServiceResult;
-import top.starrysea.controller.IUserController;
 import top.starrysea.object.dto.Admin;
 import top.starrysea.object.view.in.AdminForLogin;
 import top.starrysea.service.IUserService;
@@ -23,15 +21,14 @@ import static top.starrysea.common.ResultKey.ADMIN;
 
 @Controller
 @RequestMapping("/user")
-public class UserControllerImpl implements IUserController {
+public class UserController {
 
 	@Autowired
 	private IUserService userService;
 
-	@Override
 	// 管理员登陆
 	@PostMapping("/login")
-	public Mono<ModelAndView> loginController(@Valid AdminForLogin admin, BindingResult bindingResult, Device device) {
+	public ModelAndView loginController(@Valid AdminForLogin admin, BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = userService.loginService(admin.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (serviceResult.isSuccessed()) {
@@ -44,13 +41,12 @@ public class UserControllerImpl implements IUserController {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo())
 					.setViewName(device.isMobile() ? MOBILE + LOGIN_VIEW : LOGIN_VIEW);
 		}
-		return Mono.justOrEmpty(modelAndView);
+		return modelAndView;
 	}
 
-	@Override
 	@GetMapping("/exit")
-	public Mono<ModelAndView> exitController(Device device) {
-		return Mono.justOrEmpty(new ModelAndView(device.isMobile() ? MOBILE + LOGIN_VIEW : LOGIN_VIEW));
+	public ModelAndView exitController(Device device) {
+		return new ModelAndView(device.isMobile() ? MOBILE + LOGIN_VIEW : LOGIN_VIEW);
 	}
 
 }

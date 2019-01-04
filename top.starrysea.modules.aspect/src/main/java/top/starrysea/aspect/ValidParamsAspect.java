@@ -13,7 +13,7 @@ import top.starrysea.common.Common;
 @Aspect
 public class ValidParamsAspect {
 
-	@Around("execution(org.springframework.web.servlet.ModelAndView top.starrysea.controller.impl.*.*(..))")
+	@Around("execution(org.springframework.web.servlet.ModelAndView top.starrysea.controller.*.*(..))")
 	public Object vaildParams(ProceedingJoinPoint pjp) throws Throwable {
 		BindingResult bindingResult = null;
 		Device device = null;
@@ -30,7 +30,7 @@ public class ValidParamsAspect {
 		return pjp.proceed();
 	}
 
-	@Around("execution(java.util.Map top.starrysea.controller.impl.*.*(..))")
+	@Around("execution(java.util.Map top.starrysea.controller.*.*(..))")
 	public Object vaildParamsAjax(ProceedingJoinPoint pjp) throws Throwable {
 		for (Object param : pjp.getArgs()) {
 			if (param instanceof BindingResult) {
