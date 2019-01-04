@@ -21,7 +21,7 @@ public class ParamsAspect {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Around("execution(* top.starrysea.controller.impl.*.*(..))")
+	@Around("execution(* top.starrysea.controller.*.*(..))")
 	public Object paramsLog(ProceedingJoinPoint pjp) throws Throwable {
 		String className = pjp.getSignature().getDeclaringTypeName();
 		String methodName = pjp.getSignature().getName();
