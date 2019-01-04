@@ -1,4 +1,4 @@
-package top.starrysea.controller.impl;
+package top.starrysea.controller;
 
 import static top.starrysea.common.Const.*;
 
@@ -24,36 +24,32 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import reactor.core.publisher.Mono;
-import top.starrysea.controller.IRootController;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
 import top.starrysea.file.FileUtil;
 
 @Controller
-public class RootControllerImpl implements IRootController {
+public class RootController {
 
 	@Autowired
 	private FileUtil fileUtil;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Override
 	@RequestMapping("/")
-	public Mono<ModelAndView> index(Device device) {
-		return Mono.justOrEmpty(new ModelAndView(device.isMobile() ? MOBILE + "index" : "index"));
+	public ModelAndView index(Device device) {
+		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
 	}
 
 	@RequestMapping("/admin")
-	public Mono<ModelAndView> admin(HttpSession session, Device device) {
+	public ModelAndView admin(HttpSession session, Device device) {
 		if (session.getAttribute(ADMIN_SESSION_KEY) != null) {
-			return Mono.justOrEmpty(new ModelAndView(device.isMobile() ? MOBILE + BOSS : BOSS));
+			return new ModelAndView(device.isMobile() ? MOBILE + BOSS : BOSS);
 		}
-		return Mono.justOrEmpty(new ModelAndView("admin_login"));
+		return new ModelAndView("admin_login");
 	}
 
-	@Override
 	@RequestMapping("/uploads")
-	public Mono<Void> upload(HttpServletRequest request, HttpServletResponse response,
+	public void upload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("file") MultipartFile file) {
 		String filePath = null;
 		try {
@@ -74,7 +70,6 @@ public class RootControllerImpl implements IRootController {
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
-		return Mono.empty();
 	}
 
 }
