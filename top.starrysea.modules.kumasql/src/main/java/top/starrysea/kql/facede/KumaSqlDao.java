@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import reactor.core.publisher.Mono;
 import top.starrysea.kql.clause.OrderByType;
 import top.starrysea.kql.clause.SelectClause;
 import top.starrysea.kql.clause.UpdateSetType;
@@ -33,7 +34,7 @@ public interface KumaSqlDao {
 	KumaSqlDao from(Class<? extends Entity> table, String alias);
 
 	KumaSqlDao where(String columnName, WhereType whereType, Object value);
-	
+
 	KumaSqlDao where(String columnName, WhereType whereType, List<Object> value);
 
 	KumaSqlDao where(String columnName, String alias, WhereType whereType, Object value);
@@ -77,15 +78,27 @@ public interface KumaSqlDao {
 
 	<T> ListSqlResult<T> endForList(RowMapper<T> rowMapper);
 
+	<T> Mono<ListSqlResult<T>> endForListMono(RowMapper<T> rowMapper);
+
 	<T> ListSqlResult<T> endForList(Class<T> clazz);
+
+	<T> Mono<ListSqlResult<T>> endForListMono(Class<T> clazz);
 
 	IntegerSqlResult endForNumber();
 
+	Mono<IntegerSqlResult> endForNumberMono();
+
 	<T> EntitySqlResult<T> endForObject(RowMapper<T> rowMapper);
+
+	<T> Mono<EntitySqlResult<T>> endForObjectMono(RowMapper<T> rowMapper);
 
 	UpdateSqlResult end();
 
+	Mono<UpdateSqlResult> endMono();
+
 	SqlResult batchEnd(BatchPreparedStatementSetter bpss);
-	
+
+	Mono<SqlResult> batchEndMono(BatchPreparedStatementSetter bpss);
+
 	JdbcTemplate getTemplate();
 }

@@ -19,6 +19,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import reactor.core.publisher.Mono;
 import top.starrysea.kql.DeleteSqlGenerator;
 import top.starrysea.kql.ISqlGenerator;
 import top.starrysea.kql.InsertSqlGenerator;
@@ -463,5 +464,36 @@ public class KumaSqlDaoImpl implements KumaSqlDao {
 	@Override
 	public JdbcTemplate getTemplate() {
 		return template;
+	}
+
+	@Override
+	public <T> Mono<ListSqlResult<T>> endForListMono(RowMapper<T> rowMapper) {
+		return Mono.fromCallable(() -> endForList(rowMapper));
+	}
+
+	@Override
+	public <T> Mono<ListSqlResult<T>> endForListMono(Class<T> clazz) {
+		return Mono.fromCallable(() -> endForList(clazz));
+	}
+
+	@Override
+	public Mono<IntegerSqlResult> endForNumberMono() {
+		return Mono.fromCallable(this::endForNumber);
+	}
+
+	@Override
+	public <T> Mono<EntitySqlResult<T>> endForObjectMono(RowMapper<T> rowMapper) {
+		return Mono.fromCallable(() -> endForObject(rowMapper));
+	}
+
+	@Override
+	public Mono<UpdateSqlResult> endMono() {
+		return Mono.fromCallable(this::end);
+	}
+
+	@Override
+	@Transactional
+	public Mono<SqlResult> batchEndMono(BatchPreparedStatementSetter bpss) {
+		return Mono.fromCallable(() -> batchEnd(bpss));
 	}
 }
