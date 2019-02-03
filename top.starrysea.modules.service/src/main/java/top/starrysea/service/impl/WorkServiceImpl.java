@@ -75,8 +75,7 @@ public class WorkServiceImpl implements IWorkService {
 	public ServiceResult addWorkService(MultipartFile coverFile, MultipartFile[] imageFiles, Work work,
 			List<WorkType> workTypes) {
 		try {
-			String originCoverFileName = fileUtil.saveFile(coverFile,
-					FileCondition.of(FileType.IMG, 1, "work_" + work.getWorkId() + "_"));
+			String originCoverFileName = fileUtil.saveFile(coverFile, FileCondition.of(FileType.IMG, 1, "work_"));
 			work.setWorkUploadTime(Common.getNowDate());
 			work.setWorkCover(originCoverFileName);
 			work.setWorkId(workDao.saveWorkDao(work));
