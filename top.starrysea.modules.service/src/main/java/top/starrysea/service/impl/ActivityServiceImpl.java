@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IActivityDao;
@@ -89,8 +90,7 @@ public class ActivityServiceImpl implements IActivityService {
 	public ServiceResult addActivityService(MultipartFile coverFile, Activity activity,
 			List<ActivityImage> activityImages) {
 		try {
-			String originCoverFileName = fileUtil.saveFile(coverFile,
-					FileCondition.of(FileType.IMG, 1, "activity_" + activity.getActivityId() + "_"));
+			String originCoverFileName = fileUtil.saveFile(coverFile, FileCondition.of(FileType.IMG, 1, "activity_"));
 			activity.setActivityCover(originCoverFileName);
 			activity.setActivityStatus((short) 1);
 			activity.setActivityId(activityDao.saveActivityDao(activity));
@@ -108,6 +108,9 @@ public class ActivityServiceImpl implements IActivityService {
 	@Override
 	// 修改一个众筹活动的状态
 	public ServiceResult modifyActivityService(Activity activity) {
+		if (activity.getActivityStatus() == 3) {
+			activity.setActivityEndtime(Common.getNowDate());
+		}
 		activityDao.updateActivityDao(activity);
 		return SUCCESS_SERVICE_RESULT;
 	}
