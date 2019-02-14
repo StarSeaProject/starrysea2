@@ -1,7 +1,10 @@
 package top.starrysea.mail;
 
 import static top.starrysea.common.Const.CHARSET;
+
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -14,28 +17,23 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MailCommon implements InitializingBean {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private ThreadPoolTaskExecutor threadPool;
+	private ExecutorService threadPool;
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		threadPool = new ThreadPoolTaskExecutor();
-		threadPool.setCorePoolSize(Runtime.getRuntime().availableProcessors());
-		threadPool.setMaxPoolSize(10);
-		threadPool.setQueueCapacity(25);
-		threadPool.initialize();
+		threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 	}
 
 	public void send(Mail mail) {
-		threadPool.execute(new MailTask(mail), 1000);
+		threadPool.execute(new MailTask(mail));
 	}
 
 	private class MailTask implements Runnable {
