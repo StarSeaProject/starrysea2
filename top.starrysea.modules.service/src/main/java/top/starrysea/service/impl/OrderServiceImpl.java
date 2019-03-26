@@ -186,6 +186,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult exportOrderToXlsService(ExportXlsCondition exportXlsCondition) {
+		if (Common.isNotNull(exportXlsCondition.getStartTime())) {
+			exportXlsCondition.setStartTime(Common.string2Date(exportXlsCondition.getStartTime()).getTime()+"");
+		}
 		List<OrderDetail> result = orderDetailDao.getAllOrderDetailForXls(exportXlsCondition);
 		HSSFWorkbook excel = new HSSFWorkbook();
 		HSSFSheet sheet = excel.createSheet("发货名单");
