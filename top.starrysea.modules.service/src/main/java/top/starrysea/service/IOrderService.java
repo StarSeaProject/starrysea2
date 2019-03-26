@@ -6,6 +6,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.in.ExportXlsCondition;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
 
 public interface IOrderService {
@@ -24,7 +25,7 @@ public interface IOrderService {
 
 	ServiceResult queryWorkTypeStock(List<WorkType> workType);
 
-	ServiceResult exportOrderToXlsService();
+	ServiceResult exportOrderToXlsService(ExportXlsCondition exportXlsCondition);
 
 	ServiceResult resendEmailService(Orders order);
 

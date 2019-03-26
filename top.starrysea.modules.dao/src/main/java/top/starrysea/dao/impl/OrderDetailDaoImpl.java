@@ -22,6 +22,7 @@ import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Province;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.in.ExportXlsCondition;
 
 @Repository("orderDetailDao")
 public class OrderDetailDaoImpl implements IOrderDetailDao {
@@ -84,7 +85,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	}
 
 	@Override
-	public List<OrderDetail> getAllOrderDetailForXls() {
+	public List<OrderDetail> getAllOrderDetailForXls(ExportXlsCondition exportXlsCondition) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("order_name").select("province_name", "p")
 				.select("city_name", "c").select("area_name", "a").select("order_address").select("order_remark")
@@ -95,7 +96,9 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.leftjoin(OrderDetail.class, "od", "order_id", Orders.class, "order_id")
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
-				.where("order_status", WhereType.EQUALS, 1).orderBy("order_time",
+				.where("order_status", WhereType.EQUALS, 1)
+				.where("order_time", WhereType.LESS_EQUAL, exportXlsCondition.getStartTime())
+				.orderBy("order_time",
 						OrderByType.DESC)
 				.endForList((rs, row) -> new OrderDetail.Builder()
 						.order(new Orders.Builder().orderName(rs.getString("order_name"))
