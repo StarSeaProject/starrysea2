@@ -97,7 +97,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_status", WhereType.EQUALS, 1)
-				.where("order_time", WhereType.LESS_EQUAL, exportXlsCondition.getStartTime())
+				.where("order_time", WhereType.GREATER_EQUAL, exportXlsCondition.getStartTime())
 				.orderBy("order_time",
 						OrderByType.DESC)
 				.endForList((rs, row) -> new OrderDetail.Builder()
