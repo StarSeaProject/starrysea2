@@ -51,7 +51,7 @@
 					<h3 th:text="'上架时间:'+${work.workUploadTime}"></h3>
 					<h3 th:text="'点击量:'+${work.workClick}"></h3>
 					<h3>
-						<a th:href="@{${work.workPdfpath}}"
+						<a target="_blank" th:href="@{${work.workPdfpath}}"
 							th:attr="download=${work.workName}">下载链接</a>
 					</h3>
 					<h4 th:text="'提取码:'+${work.workPdfPassword}"></h4>
