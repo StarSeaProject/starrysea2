@@ -5,13 +5,16 @@ public class WorkForOne {
 	private String workName;
 	private String workUploadTime;
 	private String workPdfpath;
+	private String workPdfPassword;
 	private Integer workClick;
 	private String workCover;
 
-	public WorkForOne(String workName, String workUploadTime, String workPdfpath, Integer workClick, String workCover) {
+	public WorkForOne(String workName, String workUploadTime, String workPdfpath, Integer workClick, String workCover,
+			String workPdfPassword) {
 		this.workName = workName;
 		this.workUploadTime = workUploadTime;
 		this.workPdfpath = workPdfpath;
+		this.workPdfPassword = workPdfPassword;
 		this.workClick = workClick;
 		this.workCover = workCover;
 	}
@@ -34,6 +37,10 @@ public class WorkForOne {
 
 	public String getWorkCover() {
 		return workCover;
+	}
+
+	public String getWorkPdfPassword() {
+		return workPdfPassword;
 	}
 
 }

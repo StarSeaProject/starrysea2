@@ -55,12 +55,12 @@ public class WorkDaoImpl implements IWorkDao {
 	public Work getWorkDao(Work work) {
 		kumaSqlDao.selectMode();
 		EntitySqlResult<Work> theResult = kumaSqlDao.select("work_name").select("work_uploadtime")
-				.select("work_pdfpath").select("work_click").select("work_cover").from(Work.class)
-				.where("work_id", WhereType.EQUALS, work.getWorkId())
+				.select("work_pdfpath").select("work_pdf_password").select("work_click").select("work_cover")
+				.from(Work.class).where("work_id", WhereType.EQUALS, work.getWorkId())
 				.endForObject((rs, row) -> new Work.Builder().workName(rs.getString("work_name"))
 						.workUploadTime(date2String(rs.getDate("work_uploadtime")))
-						.workPdfpath(rs.getString("work_pdfpath")).workClick(rs.getInt("work_click"))
-						.workCover(rs.getString("work_cover")).build());
+						.workPdfpath(rs.getString("work_pdfpath")).workPdfPassword(rs.getString("work_pdf_password"))
+						.workClick(rs.getInt("work_click")).workCover(rs.getString("work_cover")).build());
 		return theResult.getResult();
 	}
 

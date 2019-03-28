@@ -54,6 +54,7 @@
 						<a th:href="@{${work.workPdfpath}}"
 							th:attr="download=${work.workName}">下载链接</a>
 					</h3>
+					<h4 th:text="'提取码:'+${work.workPdfPassword}"></h4>
 					<hr class="border1"></hr>
 					<span>种类:</span>&nbsp;&nbsp;
 					<div id="workType" class="btn-group" data-toggle="buttons">

@@ -57,6 +57,7 @@
 					<a th:href="@{${work.workPdfpath}}"
 						th:attr="download=${work.workName}">下载链接</a>
 				</div>
+				<div class="h6" th:text="'提取码:'+${work.workPdfPassword}"></div>
 				<select id="workTypes">
 					<option th:each="workType:${workTypes}"
 						th:value="${workType.workTypeId}"

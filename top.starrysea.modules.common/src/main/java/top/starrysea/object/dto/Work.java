@@ -11,6 +11,7 @@ public class Work implements Entity {
 	private String workName;
 	private String workUploadTime;
 	private String workPdfpath;
+	private String workPdfPassword;
 	private String workCover;
 	private String workSummary;
 	private Integer workClick;
@@ -20,6 +21,7 @@ public class Work implements Entity {
 		this.workName = builder.workName;
 		this.workUploadTime = builder.workUploadTime;
 		this.workPdfpath = builder.workPdfpath;
+		this.workPdfPassword = builder.workPdfPassword;
 		this.workCover = builder.workCover;
 		this.workSummary = builder.workSummary;
 		this.workClick = builder.workClick;
@@ -31,6 +33,7 @@ public class Work implements Entity {
 		private String workName;
 		private String workUploadTime;
 		private String workPdfpath;
+		private String workPdfPassword;
 		private String workCover;
 		private String workSummary;
 		private Integer workClick;
@@ -67,6 +70,11 @@ public class Work implements Entity {
 
 		public Builder workClick(Integer workClick) {
 			this.workClick = workClick;
+			return this;
+		}
+
+		public Builder workPdfPassword(String workPdfPassword) {
+			this.workPdfPassword = workPdfPassword;
 			return this;
 		}
 
@@ -133,11 +141,19 @@ public class Work implements Entity {
 		this.workClick = workClick;
 	}
 
+	public String getWorkPdfPassword() {
+		return workPdfPassword;
+	}
+
+	public void setWorkPdfPassword(String workPdfPassword) {
+		this.workPdfPassword = workPdfPassword;
+	}
+
 	public WorkForAll toVoForAll() {
 		return new WorkForAll(workId, workName, workCover, workSummary);
 	}
 
 	public WorkForOne toVoForOne() {
-		return new WorkForOne(workName, workUploadTime, workPdfpath, workClick, workCover);
+		return new WorkForOne(workName, workUploadTime, workPdfpath, workClick, workCover, workPdfPassword);
 	}
 }
