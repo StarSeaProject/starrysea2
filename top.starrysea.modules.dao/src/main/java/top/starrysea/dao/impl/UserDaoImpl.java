@@ -13,7 +13,7 @@ public class UserDaoImpl implements IUserDao {
     private KumaSqlDao kumaSqlDao;
 
     @Override
-    public User registerDao(User user) {
+    public User saveUserDao(User user) {
         kumaSqlDao.insertMode();
         kumaSqlDao.insert("user_id", user.getUserId())
                 .insert("user_email", user.getUserEmail())
