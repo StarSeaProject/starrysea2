@@ -3,6 +3,7 @@ package top.starrysea.dao;
 import java.util.List;
 
 import top.starrysea.object.dto.OrderDetail;
+import top.starrysea.object.view.in.ExportXlsCondition;
 
 public interface IOrderDetailDao {
 
@@ -12,7 +13,7 @@ public interface IOrderDetailDao {
 	
 	boolean isOrderDetailExistDao(OrderDetail orderDetail);
 	
-	List<OrderDetail> getAllOrderDetailForXls();
+	List<OrderDetail> getAllOrderDetailForXls(ExportXlsCondition exportXlsCondition);
 	
 	List<OrderDetail> getAllResendOrderDetailDao(OrderDetail orderDetail);
 }

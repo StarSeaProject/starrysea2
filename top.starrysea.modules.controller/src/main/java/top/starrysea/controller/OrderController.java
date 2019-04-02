@@ -33,6 +33,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.in.ExportXlsCondition;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
 import top.starrysea.object.view.in.OrderDetailForModifyAddr;
 import top.starrysea.object.view.in.OrderForAdd;
@@ -144,9 +145,9 @@ public class OrderController {
 		return ModelAndViewFactory.newSuccessMav("删除成功!", device);
 	}
 
-	@GetMapping("/order/export")
-	public void exportOrderToXlsController(HttpServletResponse response) {
-		orderService.exportOrderToXlsService();
+	@PostMapping("/order/export")
+	public void exportOrderToXlsController(ExportXlsCondition exportXlsCondition, HttpServletResponse response) {
+		orderService.exportOrderToXlsService(exportXlsCondition);
 		response.setHeader("content-type", "application/octet-stream");
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Disposition", "attachment;filename=" + "result.xls");
