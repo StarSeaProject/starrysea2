@@ -45,6 +45,8 @@ public class QuerySqlGenerator implements ISqlGenerator {
 		handlerMap.put(WhereType.BACK_FUZZY, WhereHandlers.backFuzzyHandler);
 		handlerMap.put(WhereType.FUZZY, WhereHandlers.fuzzyHandler);
 		handlerMap.put(WhereType.IN, WhereHandlers.inHandler);
+		handlerMap.put(WhereType.GREATER_EQUAL, WhereHandlers.greaterEqualHandler);
+		handlerMap.put(WhereType.LESS_EQUAL, WhereHandlers.lessEqualHandler);
 	}
 
 	private QuerySqlGenerator(Builder builder) {
