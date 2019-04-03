@@ -11,7 +11,7 @@ import top.starrysea.service.IAdminService;
 
 import static top.starrysea.common.ResultKey.*;
 
-@Service("userService")
+@Service("adminService")
 public class AdminServiceImpl implements IAdminService {
 
 	@Autowired
