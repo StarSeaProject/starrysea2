@@ -3,18 +3,14 @@ package top.starrysea.common;
 import java.util.List;
 import java.util.Map;
 
-import top.starrysea.object.dto.Activity;
-import top.starrysea.object.dto.Work;
-import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Admin;
-import top.starrysea.object.dto.Online;
+import top.starrysea.object.dto.*;
 
 public enum ResultKey {
 
 	LIST_1(List.class), LIST_2(List.class),
 
 	ACTIVITY(Activity.class), ORDER(Orders.class), ADMIN(Admin.class), WORK(Work.class), ONLINE(Online.class), DOUBLE(
-			Double.class),
+			Double.class), USER(User.class),
 
 	MAP(Map.class);
 

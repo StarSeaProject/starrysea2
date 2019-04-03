@@ -11,11 +11,7 @@ import org.springframework.stereotype.Component;
 
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IOrderDao;
-import top.starrysea.object.dto.Activity;
-import top.starrysea.object.dto.Online;
-import top.starrysea.object.dto.OrderDetail;
-import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Work;
+import top.starrysea.object.dto.*;
 import top.starrysea.service.IOnlineService;
 import top.starrysea.service.mail.IMailService;
 
@@ -37,6 +33,8 @@ public class EMailAspect {
 	private IMailService deleteOrderMailService;
 	@Resource(name = "massMailForActivityService")
 	private IMailService massMailForActivityService;
+	@Resource(name = "userRegisterMailService")
+	private IMailService userRegisterMailService;
 	@Resource
 	private IOrderDao orderDao;
 	@Resource
@@ -77,6 +75,13 @@ public class EMailAspect {
 		if (serviceResult.isSuccessed()) {
 			Activity activity = (Activity) jp.getArgs()[1];
 			massMailForActivityService.sendMailService(activity);
+		}
+	}
+
+	@AfterReturning(value = "execution(* top.starrysea.service.impl.UserServiceImpl.registerService(..))", returning = "serviceResult")
+	public void userRegisterEmail(ServiceResult serviceResult){
+		if(serviceResult.isSuccessed()){
+			userRegisterMailService.sendMailService((User) serviceResult.getResult(USER));
 		}
 	}
 }
