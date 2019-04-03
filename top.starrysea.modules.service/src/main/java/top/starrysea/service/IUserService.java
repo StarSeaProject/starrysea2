@@ -5,6 +5,7 @@ import top.starrysea.object.dto.User;
 
 public interface IUserService {
 
-    ServiceResult addUserService(User user);
+    ServiceResult registerService(User user);
 
+    ServiceResult checkUserAvailabilityService(User user);
 }
