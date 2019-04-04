@@ -10,20 +10,20 @@ public class UserForLogin {
     @NotBlank(message = "密码不能为空!")
     private String userPassword;
 
-    public String getAdminUseraccount() {
+    public String getUserEmail() {
         return userEmail;
     }
 
-    public void setAdminUseraccount(String adminUseraccount) {
-        this.userEmail = adminUseraccount;
+    public void setUserEmail(String Useraccount) {
+        this.userEmail = Useraccount;
     }
 
-    public String getAdminPassword() {
+    public String getPassword() {
         return userPassword;
     }
 
-    public void setAdminPassword(String adminPassword) {
-        this.userPassword = adminPassword;
+    public void setPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
     public User toDTO(){
