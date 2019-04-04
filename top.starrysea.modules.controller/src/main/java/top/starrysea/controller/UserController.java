@@ -69,11 +69,13 @@ public class UserController {
             User user1 = serviceResult.getResult(USER);
             httpSession.setAttribute(USER_SESSION_KEY, user1);
             loginResult.put("result", "登录成功");
+            loginResult.put("resultCode", "0");
         }
         else {
             // 登录失败
             loginResult.put("userEmail", user.getUserEmail());
             loginResult.put("result", serviceResult.getErrInfo());
+            loginResult.put("resultCode", "1");
         }
         return loginResult;
     }
