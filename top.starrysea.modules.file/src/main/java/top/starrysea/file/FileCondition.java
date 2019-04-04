@@ -5,18 +5,19 @@ public class FileCondition {
 	private FileType fileType;
 	private Double fileSize;
 	private String fileNamePrefix;
-	
-	private FileCondition() {}
-	
-	public static FileCondition of(FileType fileType,String fileNamePrefix) {
-		FileCondition fileCondition=new FileCondition();
+
+	private FileCondition() {
+	}
+
+	public static FileCondition of(FileType fileType, String fileNamePrefix) {
+		FileCondition fileCondition = new FileCondition();
 		fileCondition.setFileType(fileType);
 		fileCondition.setFileNamePrefix(fileNamePrefix);
 		return fileCondition;
 	}
-	
-	public static FileCondition of(FileType fileType,double fileSize,String fileNamePrefix) {
-		FileCondition fileCondition=new FileCondition();
+
+	public static FileCondition of(FileType fileType, double fileSize, String fileNamePrefix) {
+		FileCondition fileCondition = new FileCondition();
 		fileCondition.setFileType(fileType);
 		fileCondition.setFileSize(fileSize);
 		fileCondition.setFileNamePrefix(fileNamePrefix);
@@ -46,5 +47,5 @@ public class FileCondition {
 	private void setFileNamePrefix(String fileNamePrefix) {
 		this.fileNamePrefix = fileNamePrefix;
 	}
-	
+
 }

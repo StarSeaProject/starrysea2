@@ -5,9 +5,9 @@ import top.starrysea.object.dto.User;
 
 public interface IUserService {
 
-    ServiceResult registerService(User user);
+	ServiceResult registerService(User user);
 
-    ServiceResult checkUserAvailabilityService(User user);
+	ServiceResult checkUserAvailabilityService(User user);
 
-    ServiceResult userLogin(User user);
+	ServiceResult userLogin(User user);
 }

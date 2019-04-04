@@ -5,8 +5,8 @@ import top.starrysea.object.dto.User;
 
 public interface IUserDao {
 
-    User saveUserDao(User user);
+	User saveUserDao(User user);
 
-    DaoResult getUserDao(User user);
+	DaoResult getUserDao(User user);
 
 }
