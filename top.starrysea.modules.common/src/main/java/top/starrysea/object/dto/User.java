@@ -1,9 +1,15 @@
 package top.starrysea.object.dto;
 
+import java.io.Serializable;
+
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
 
-public class User implements Entity {
+public class User implements Entity, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6755911268936269135L;
 	private String userId;
 	private String userEmail;
 	private String userPassword;

@@ -19,6 +19,8 @@ import top.starrysea.object.dto.User;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,60 +31,60 @@ import static top.starrysea.common.ResultKey.USER;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private IUserService userService;
+	@Autowired
+	private IUserService userService;
 
-    @PostMapping("/check")
-    @ResponseBody
-    public Map<String, Object> checkUserAvailabilityController(@Valid UserForCheck user) {
-        ServiceResult serviceResult = userService.checkUserAvailabilityService(user.toDTO());
-        Map<String, Object> result = new HashMap<>();
-        result.put("userEmail", user.getUserEmail());
-        if (serviceResult.isSuccessed()) {
-            result.put("isAvailable", true);
-        } else {
-            result.put("isAvailable", false);
-            result.put("errInfo", serviceResult.getErrInfo());
-        }
-        return result;
-    }
+	@PostMapping("/check")
+	@ResponseBody
+	public Map<String, Object> checkUserAvailabilityController(@Valid UserForCheck user) {
+		ServiceResult serviceResult = userService.checkUserAvailabilityService(user.toDTO());
+		Map<String, Object> result = new HashMap<>();
+		result.put("userEmail", user.getUserEmail());
+		if (serviceResult.isSuccessed()) {
+			result.put("isAvailable", true);
+		} else {
+			result.put("isAvailable", false);
+			result.put("errInfo", serviceResult.getErrInfo());
+		}
+		return result;
+	}
 
-    @PostMapping("/register")
-    public ModelAndView registerController(@Valid UserForAdd user) {
-        ModelAndView modelAndView = new ModelAndView();
-        ServiceResult serviceResult = userService.registerService(user.toDTO());
-        if (serviceResult.isSuccessed()) {
-            //TODO: 注册成功后的动作
-        } else {
-            //TODO: 注册失败后的动作
-        }
-        return modelAndView;
-    }
+	@PostMapping("/register")
+	public ModelAndView registerController(@Valid UserForAdd user) {
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = userService.registerService(user.toDTO());
+		if (serviceResult.isSuccessed()) {
+			// TODO: 注册成功后的动作
+		} else {
+			// TODO: 注册失败后的动作
+		}
+		return modelAndView;
+	}
 
-    @PostMapping("/login")
-    @ResponseBody
-    public Map<String, Object> loginController(@Valid UserForLogin user, BindingResult bindingResult, Device device, HttpSession httpSession){
-        ServiceResult serviceResult = userService.userLogin(user.toDTO());
-        Map<String, Object> loginResult = new HashMap<>();
-        if (serviceResult.isSuccessed()) {
-            //登录成功
-            User user1 = serviceResult.getResult(USER);
-            httpSession.setAttribute(USER_SESSION_KEY, user1);
-            loginResult.put("result", "登录成功");
-            loginResult.put("resultCode", "0");
-        }
-        else {
-            // 登录失败
-            loginResult.put("userEmail", user.getUserEmail());
-            loginResult.put("result", serviceResult.getErrInfo());
-            loginResult.put("resultCode", "1");
-        }
-        return loginResult;
-    }
+	@PostMapping("/login")
+	@ResponseBody
+	public Map<String, Object> loginController(@Valid UserForLogin user, BindingResult bindingResult, Device device,
+			HttpSession httpSession) {
+		ServiceResult serviceResult = userService.userLogin(user.toDTO());
+		Map<String, Object> loginResult = new HashMap<>();
+		if (serviceResult.isSuccessed()) {
+			// 登录成功
+			User user1 = serviceResult.getResult(USER);
+			httpSession.setAttribute(USER_SESSION_KEY, (Serializable) user1);
+			loginResult.put("result", "登录成功");
+			loginResult.put("resultCode", "0");
+		} else {
+			// 登录失败
+			loginResult.put("userEmail", user.getUserEmail());
+			loginResult.put("result", serviceResult.getErrInfo());
+			loginResult.put("resultCode", "1");
+		}
+		return loginResult;
+	}
 
-    @GetMapping("/exit")
-    public ModelAndView exitController(Device device, HttpSession session) {
-        session.removeAttribute(USER_SESSION_KEY);
-        return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
-    }
+	@GetMapping("/exit")
+	public ModelAndView exitController(Device device, HttpSession session) {
+		session.removeAttribute(USER_SESSION_KEY);
+		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
+	}
 }
