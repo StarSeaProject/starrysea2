@@ -17,12 +17,16 @@ public class UserForAdd {
     @NotBlank(message = "昵称不能为空")
     @Size(max = 30, message = "昵称长度不能超过30")
     private String username;
-    @NotNull(message = "主推角色不能为空")
-    private short osu1;
-    @NotNull(message = "第二推的角色不能为空")
-    private short osu2;
-    @NotNull(message = "第三推的角色不能为空")
-    private short osu3;
+    @NotNull(message = "所推角色不能为空")
+    private short osuPerson;
+    @NotNull(message = "所推小队不能为空")
+    private short osuTeam;
+    @NotNull(message = "所推年级不能为空")
+    private short osuGrade;
+    @NotNull(message = "所推团队不能为空")
+    private short osuGroup;
+    @NotNull(message = "不允许薛定谔的DD状态")
+    private short isDD;
 
     public String getUserEmail() {
         return userEmail;
@@ -48,32 +52,50 @@ public class UserForAdd {
         this.userPassword = userPassword;
     }
 
-    public short getOsu1() {
-        return osu1;
+    public short getOsuPerson() {
+        return osuPerson;
     }
 
-    public void setOsu1(short osu1) {
-        this.osu1 = osu1;
+    public void setOsuPerson(short osuPerson) {
+        this.osuPerson = osuPerson;
     }
 
-    public short getOsu2() {
-        return osu2;
+    public short getOsuTeam() {
+        return osuTeam;
     }
 
-    public void setOsu2(short osu2) {
-        this.osu2 = osu2;
+    public void setOsuTeam(short osuTeam) {
+        this.osuTeam = osuTeam;
     }
 
-    public short getOsu3() {
-        return osu3;
+    public short getOsuGrade() {
+        return osuGrade;
     }
 
-    public void setOsu3(short osu3) {
-        this.osu3 = osu3;
+    public void setOsuGrade(short osuGrade) {
+        this.osuGrade = osuGrade;
     }
+
+    public short getOsuGroup() {
+        return osuGroup;
+    }
+
+    public void setOsuGroup(short osuGroup) {
+        this.osuGroup = osuGroup;
+    }
+
+    public short getIsDD() {
+        return isDD;
+    }
+
+    public void setIsDD(short isDD) {
+        this.isDD = isDD;
+    }
+
 
     public User toDTO() {
         return new User.Builder().userEmail(userEmail).username(username)
-                .userPassword(userPassword).osu1(osu1).osu2(osu2).osu3(osu3).build();
+                .userPassword(userPassword).osuPerson(osuPerson).osuTeam(osuTeam)
+                .osuGrade(osuGrade).osuGroup(osuGroup).isDD(isDD).build();
     }
 }

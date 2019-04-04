@@ -8,18 +8,22 @@ public class User implements Entity {
     private String userEmail;
     private String userPassword;
     private String username;
-    private short osu1;
-    private short osu2;
-    private short osu3;
+    private short osuPerson;
+    private short osuTeam;
+    private short osuGrade;
+    private short osuGroup;
+    private short isDD;
 
     private User(Builder builder) {
         this.userId = builder.userId;
         this.userEmail = builder.userEmail;
         this.userPassword = builder.userPassword;
         this.username = builder.username;
-        this.osu1 = builder.osu1;
-        this.osu2 = builder.osu2;
-        this.osu3 = builder.osu3;
+        this.osuPerson = builder.osuPerson;
+        this.osuTeam = builder.osuTeam;
+        this.osuGrade = builder.osuGrade;
+        this.osuGroup = builder.osuGroup;
+        this.isDD = builder.isDD;
     }
 
     public static class Builder implements IBuilder<User> {
@@ -27,9 +31,11 @@ public class User implements Entity {
         private String userEmail;
         private String userPassword;
         private String username;
-        private short osu1;
-        private short osu2;
-        private short osu3;
+        private short osuPerson;
+        private short osuTeam;
+        private short osuGrade;
+        private short osuGroup;
+        private short isDD;
 
         public Builder userId(String userId) {
             this.userId = userId;
@@ -51,18 +57,28 @@ public class User implements Entity {
             return this;
         }
 
-        public Builder osu1(short osu1) {
-            this.osu1 = osu1;
+        public Builder osuPerson(short osuPerson) {
+            this.osuPerson = osuPerson;
             return this;
         }
 
-        public Builder osu2(short osu2) {
-            this.osu2 = osu2;
+        public Builder osuTeam(short osuTeam) {
+            this.osuTeam = osuTeam;
             return this;
         }
 
-        public Builder osu3(short osu3) {
-            this.osu3 = osu3;
+        public Builder osuGrade(short osuGrade) {
+            this.osuGrade = osuGrade;
+            return this;
+        }
+
+        public Builder osuGroup(short osuGroup) {
+            this.osuGroup = osuGroup;
+            return this;
+        }
+
+        public Builder isDD(short isDD) {
+            this.isDD = isDD;
             return this;
         }
 
@@ -104,27 +120,43 @@ public class User implements Entity {
         this.userPassword = userPassword;
     }
 
-    public short getOsu1() {
-        return osu1;
+    public short getOsuPerson() {
+        return osuPerson;
     }
 
-    public void setOsu1(short osu1) {
-        this.osu1 = osu1;
+    public void setOsuPerson(short osuPerson) {
+        this.osuPerson = osuPerson;
     }
 
-    public short getOsu2() {
-        return osu2;
+    public short getOsuTeam() {
+        return osuTeam;
     }
 
-    public void setOsu2(short osu2) {
-        this.osu2 = osu2;
+    public void setOsuTeam(short osuTeam) {
+        this.osuTeam = osuTeam;
     }
 
-    public short getOsu3() {
-        return osu3;
+    public short getOsuGrade() {
+        return osuGrade;
     }
 
-    public void setOsu3(short osu3) {
-        this.osu3 = osu3;
+    public void setOsuGrade(short osuGrade) {
+        this.osuGrade = osuGrade;
+    }
+
+    public short getOsuGroup() {
+        return osuGroup;
+    }
+
+    public void setOsuGroup(short osuGroup) {
+        this.osuGroup = osuGroup;
+    }
+
+    public short getIsDD() {
+        return isDD;
+    }
+
+    public void setIsDD(short isDD) {
+        this.isDD = isDD;
     }
 }
