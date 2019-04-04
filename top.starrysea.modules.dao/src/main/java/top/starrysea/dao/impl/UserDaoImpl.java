@@ -43,7 +43,7 @@ public class UserDaoImpl implements IUserDao {
         }
         ListSqlResult<User> userResult = kumaSqlDao.select("user_id").from(User.class)
                 .where("user_email", WhereType.EQUALS, user.getUserEmail())
-                .where("user_password", WhereType.EQUALS, sha512(user.getUserPassword()+user.getUserEmail()))
+                .where("user_password", WhereType.EQUALS, sha512(user.getUserEmail()+user.getUserPassword()))
                 .endForList((rs, row) -> new User.Builder().userId(rs.getString("user_id")).build());
         if (isNotNull(userResult.getResult())) {
             User result = userResult.getResult().get(0);
