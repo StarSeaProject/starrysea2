@@ -36,10 +36,11 @@ public class UserDaoImpl implements IUserDao {
 		if (userEmail.getResult().isEmpty()) {
 			return new DaoResult(false, "用户账号不存在");
 		}
-		ListSqlResult<User> userResult = kumaSqlDao.select("user_id").from(User.class)
+		ListSqlResult<User> userResult = kumaSqlDao.select("user_id").select("user_name").from(User.class)
 				.where("user_email", WhereType.EQUALS, user.getUserEmail())
 				.where("user_password", WhereType.EQUALS, sha512(user.getUserEmail() + user.getUserPassword()))
-				.endForList((rs, row) -> new User.Builder().userId(rs.getString("user_id")).build());
+				.endForList((rs, row) -> new User.Builder().userId(rs.getString("user_id"))
+						.username(rs.getString("user_name")).build());
 		if (isNotNull(userResult.getResult())) {
 			User result = userResult.getResult().get(0);
 			return new DaoResult(true, result);
