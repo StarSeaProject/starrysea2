@@ -17,6 +17,7 @@ import top.starrysea.service.IUserService;
 
 import top.starrysea.object.dto.User;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,24 +60,27 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ModelAndView loginController(@Valid UserForLogin user, BindingResult bindingResult, Device device){
+    @ResponseBody
+    public Map<String, Object> loginController(@Valid UserForLogin user, BindingResult bindingResult, Device device, HttpSession httpSession){
         ServiceResult serviceResult = userService.userLogin(user.toDTO());
-        ModelAndView modelAndView = new ModelAndView();
+        Map<String, Object> loginResult = new HashMap<>();
         if (serviceResult.isSuccessed()) {
+            //登录成功
             User user1 = serviceResult.getResult(USER);
-            modelAndView.addObject(USER_SESSION_KEY, user1.getUserId())
-                    .setViewName(device.isMobile() ? MOBILE + "index" : "index");
+            httpSession.setAttribute(USER_SESSION_KEY, user1);
+            loginResult.put("result", "登录成功");
         }
         else {
-            // 登陆失败,返回登陆页面
-            modelAndView.addObject(ERRINFO, serviceResult.getErrInfo())
-                    .setViewName(device.isMobile() ? MOBILE + "index" : "index");
+            // 登录失败
+            loginResult.put("userEmail", user.getUserEmail());
+            loginResult.put("result", serviceResult.getErrInfo());
         }
-        return modelAndView;
+        return loginResult;
     }
 
     @GetMapping("/exit")
-    public ModelAndView exitController(Device device) {
+    public ModelAndView exitController(Device device, HttpSession session) {
+        session.removeAttribute(USER_SESSION_KEY);
         return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
     }
 }

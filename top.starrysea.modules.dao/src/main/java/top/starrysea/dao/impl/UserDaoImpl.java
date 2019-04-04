@@ -9,8 +9,7 @@ import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
 import top.starrysea.object.dto.User;
 
-import static top.starrysea.common.Common.isNotNull;
-import static top.starrysea.common.Common.md5;
+import static top.starrysea.common.Common.*;
 
 @Repository("userDao")
 public class UserDaoImpl implements IUserDao {
@@ -44,7 +43,7 @@ public class UserDaoImpl implements IUserDao {
         }
         ListSqlResult<User> userResult = kumaSqlDao.select("user_id").from(User.class)
                 .where("user_email", WhereType.EQUALS, user.getUserEmail())
-                .where("user_password", WhereType.EQUALS, user.getUserPassword())
+                .where("user_password", WhereType.EQUALS, sha512(user.getUserPassword()+user.getUserEmail()))
                 .endForList((rs, row) -> new User.Builder().userId(rs.getString("user_id")).build());
         if (isNotNull(userResult.getResult())) {
             User result = userResult.getResult().get(0);

@@ -163,6 +163,17 @@ public class Common {
 		}
 	}
 
+	public static String sha512(String str) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-512");
+			md.update(str.getBytes());
+			return new BigInteger(1, md.digest()).toString(16);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			return "";
+		}
+	}
+
 	public static String getFieldErrors(BindingResult bindingResult) {
 		List<String> list = new ArrayList<>();
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
