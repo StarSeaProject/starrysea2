@@ -6,6 +6,7 @@ public class Const {
 	}
 
 	public static final String ADMIN_SESSION_KEY = "adminId";
+	public static final String USER_SESSION_KEY = "userId";
 	public static final String ERRINFO = "errInfo";
 	public static final String ERROR_VIEW = "error";
 	public static final String LOGIN_VIEW = "admin_login";
