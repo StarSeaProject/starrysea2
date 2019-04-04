@@ -8,4 +8,6 @@ public interface IUserService {
     ServiceResult registerService(User user);
 
     ServiceResult checkUserAvailabilityService(User user);
+
+    ServiceResult userLogin(User user);
 }

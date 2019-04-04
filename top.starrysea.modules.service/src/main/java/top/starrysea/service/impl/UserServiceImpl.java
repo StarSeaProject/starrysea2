@@ -13,6 +13,8 @@ import top.starrysea.dao.IUserDao;
 import top.starrysea.object.dto.User;
 import top.starrysea.service.IUserService;
 
+import static top.starrysea.common.ResultKey.*;
+
 @Service("userService")
 public class UserServiceImpl implements IUserService {
 
@@ -44,6 +46,19 @@ public class UserServiceImpl implements IUserService {
             serviceResult = ServiceResult.of("用户已存在");
         } else {
             serviceResult = ServiceResult.of("其他错误");
+        }
+        return serviceResult;
+    }
+
+    @Override
+    public ServiceResult userLogin(User user){
+        DaoResult daoResult = userDao.getUserDao(user);
+        ServiceResult serviceResult = ServiceResult.of(daoResult.isSuccessed());
+        if (serviceResult.isSuccessed()) {
+            serviceResult.setResult(USER, daoResult.getResult(User.class));
+        }
+        else{
+            serviceResult.setErrInfo(daoResult.getErrInfo());
         }
         return serviceResult;
     }
