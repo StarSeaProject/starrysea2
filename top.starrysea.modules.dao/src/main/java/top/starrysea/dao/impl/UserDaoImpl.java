@@ -25,15 +25,17 @@ public class UserDaoImpl implements IUserDao {
                 .insert("user_email", user.getUserEmail())
                 .insert("user_password", user.getUserPassword())
                 .insert("user_name", user.getUsername())
-                .insert("user_osu1", user.getOsu1())
-                .insert("user_osu2", user.getOsu2())
-                .insert("user_osu3", user.getOsu3())
+                .insert("user_osu_person", user.getOsuPerson())
+                .insert("user_osu_team", user.getOsuTeam())
+                .insert("user_osu_grade", user.getOsuGrade())
+                .insert("user_osu_group", user.getOsuGroup())
+                .insert("user_dd_flag", user.getIsDD())
                 .table(User.class).end();
         return user;
     }
 
     @Override
-    public DaoResult getUserDao(User user){
+    public DaoResult getUserDao(User user) {
         kumaSqlDao.selectMode();
         ListSqlResult<String> userEmail = kumaSqlDao.select("1").from(User.class)
                 .where("user_email", WhereType.EQUALS, user.getUserEmail()).endForList(String.class);
