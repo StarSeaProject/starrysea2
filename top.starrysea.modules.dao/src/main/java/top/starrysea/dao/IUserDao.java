@@ -5,8 +5,13 @@ import top.starrysea.object.dto.User;
 
 public interface IUserDao {
 
-    User saveUserDao(User user);
+	User saveUserDao(User user);
 
-    DaoResult getUserDao(User user);
+	DaoResult getUserDao(User user);
 
+	boolean checkUserAvailabilityDao(User user);
+
+	User getUserInfoDao(String userId);
+	
+	void updateUserDao(User user);
 }

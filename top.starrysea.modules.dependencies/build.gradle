@@ -20,5 +20,6 @@ dependencies{
 	compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.6.0'
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 	compile group: 'org.springframework.mobile', name: 'spring-mobile-device', version: '1.1.5.RELEASE'
+	compile group: 'com.github.penggle', name: 'kaptcha', version: '2.3.2'
 	runtime('mysql:mysql-connector-java')
 }

@@ -10,7 +10,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
-public class CacheConfigurer {
+public class CacheConfiguration {
 	@Value("${spring.redis.host}")
 	private String host;
 

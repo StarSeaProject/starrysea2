@@ -79,8 +79,8 @@ public class EMailAspect {
 	}
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.UserServiceImpl.registerService(..))", returning = "serviceResult")
-	public void userRegisterEmail(ServiceResult serviceResult){
-		if(serviceResult.isSuccessed()){
+	public void userRegisterEmail(ServiceResult serviceResult) {
+		if (serviceResult.isSuccessed()) {
 			userRegisterMailService.sendMailService((User) serviceResult.getResult(USER));
 		}
 	}

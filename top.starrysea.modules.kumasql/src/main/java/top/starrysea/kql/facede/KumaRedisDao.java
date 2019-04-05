@@ -9,6 +9,8 @@ public interface KumaRedisDao {
 
 	String set(String key, String value);
 
+	String set(String key, String value, long second);
+
 	Long delete(String key);
 
 	void mapSet(String hashKey, String key, String value);
