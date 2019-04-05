@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+
+	<meta charset="utf-8"></meta>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+	<title>星之海志愿者公会</title>
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+		  integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+		  crossorigin="anonymous"></link>
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+		  integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+		  crossorigin="anonymous"></link>
+	<link rel="stylesheet" href="/login.min.css"></link>
+</head>
+<body>
+
+<div id="mainwindow">
+	<form id="loginform" action="/user/login" method="post">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h2>登录</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12" id="messagebox">
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<input type="text" id="AccountInput" name="userEmail" value="电子邮箱">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<input type="text" id="PasswordInput" name="password" value="密码">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<input type="text" name="vcode" value="验证码">
+				</div>
+				<div class="col-xs-6">
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<a class="loginbt" id="login">
+						登录
+					</a>
+				</div>
+				<div class="col-xs-6">
+					<a class="loginbt">
+						注册
+					</a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form id="jumpform" action="/" method="post">
+	</form>
+</div>
+
+
+<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+
+<script src="/login.min.js"></script>
+
+</script>
+
+</body>
+
+</html>
