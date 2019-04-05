@@ -34,7 +34,10 @@ public class UserServiceImpl implements IUserService {
 			user.setUserId(Common.getCharId("U-", 20));
 			List<User> userList = new ArrayList<>();
 			userList.add(user);
-			kumaRedisDao.set(user.getUserId(), Common.toJson(userList));
+			String activateCode = Common.getCharId(30);
+			kumaRedisDao.set(activateCode, Common.toJson(userList));
+			user.setUserId(activateCode);
+			//由于发送邮件服务只能传一个对象所以使用userId来存储激活码了,真正的user还是存在redis中的
 			return ServiceResult.of(true).setResult(USER, user);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -45,16 +48,8 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public ServiceResult checkUserAvailabilityService(User user) {
 		user.setUserPassword("");
-		DaoResult daoResult = userDao.getUserDao(user);
-		ServiceResult serviceResult;
-		if (daoResult.getErrInfo().equals("用户账号不存在")) {
-			serviceResult = ServiceResult.of(true);
-		} else if (daoResult.getErrInfo().equals("密码错误")) {
-			serviceResult = ServiceResult.of("用户已存在");
-		} else {
-			serviceResult = ServiceResult.of("其他错误");
-		}
-		return serviceResult;
+		DaoResult daoResult = userDao.checkUserAvailabilityDao(user);
+		return ServiceResult.of(daoResult.isSuccessed());
 	}
 
 	@Override
@@ -80,7 +75,7 @@ public class UserServiceImpl implements IUserService {
 			} else {
 				UserForSave userForSave = userList.get(0);
 				userDao.saveUserDao(userForSave.toDTO());
-				kumaRedisDao.delete(userForSave.getUserId());
+				kumaRedisDao.delete(redisKey);
 				serviceResult.setSuccessed(true).setResult(USER, userForSave.toDTO());
 				logger.info("用户 {} 的激活成功", userForSave.getUserEmail());
 			}
