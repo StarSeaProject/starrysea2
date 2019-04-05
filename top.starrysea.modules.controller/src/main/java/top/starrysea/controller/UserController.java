@@ -18,6 +18,7 @@ import top.starrysea.object.view.in.UserForActivate;
 import top.starrysea.object.view.in.UserForAdd;
 import top.starrysea.object.view.in.UserForCheck;
 import top.starrysea.object.view.in.UserForLogin;
+import top.starrysea.object.view.in.UserInfoForEdit;
 import top.starrysea.service.IUserService;
 
 import top.starrysea.object.dto.User;
@@ -121,6 +122,15 @@ public class UserController {
 		User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
 		mav.addObject("userInfo", user.toVO());
 		return mav;
+	}
+
+	@PostMapping("/info")
+	public ModelAndView editUserInfoController(@Valid UserInfoForEdit user, HttpSession session, Device device) {
+		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
+		User editUser = user.toDTO();
+		editUser.setUserId(currentUser.getUserId());
+		userService.editUserInfoService(editUser);
+		return ModelAndViewFactory.newSuccessMav("修改个人信息成功", device);
 	}
 
 	@GetMapping("/getVerifyCode")

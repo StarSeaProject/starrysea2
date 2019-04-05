@@ -12,4 +12,6 @@ public interface IUserDao {
 	boolean checkUserAvailabilityDao(User user);
 
 	User getUserInfoDao(String userId);
+	
+	void updateUserDao(User user);
 }

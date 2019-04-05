@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IUserDao;
+import top.starrysea.kql.clause.UpdateSetType;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
@@ -70,5 +71,17 @@ public class UserDaoImpl implements IUserDao {
 						.osuTeam(rs.getShort("user_osu_team")).osuGrade(rs.getShort("user_osu_grade"))
 						.osuGroup(rs.getShort("user_osu_group")).isDD(rs.getShort("user_dd_flag")).build());
 		return result.getResult();
+	}
+
+	@Override
+	public void updateUserDao(User user) {
+		kumaSqlDao.updateMode();
+		kumaSqlDao.update("user_name", UpdateSetType.ASSIGN, user.getUsername())
+				.update("user_osu_person", UpdateSetType.ASSIGN, user.getOsuPerson())
+				.update("user_osu_team", UpdateSetType.ASSIGN, user.getOsuTeam())
+				.update("user_osu_grade", UpdateSetType.ASSIGN, user.getOsuGrade())
+				.update("user_osu_group", UpdateSetType.ASSIGN, user.getOsuGroup())
+				.update("user_dd_flag", UpdateSetType.ASSIGN, user.getIsDD()).table(User.class)
+				.where("user_id", WhereType.EQUALS, user.getUserId());
 	}
 }
