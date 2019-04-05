@@ -16,6 +16,7 @@ import top.starrysea.service.IUserService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static top.starrysea.common.Common.isNotNull;
 import static top.starrysea.common.ResultKey.*;
 
 @Service("userService")
@@ -53,12 +54,17 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public ServiceResult userLogin(User user) {
-		DaoResult daoResult = userDao.getUserDao(user);
-		ServiceResult serviceResult = ServiceResult.of(daoResult.isSuccessed());
-		if (serviceResult.isSuccessed()) {
-			serviceResult.setResult(USER, daoResult.getResult(User.class));
+		User user1 = userDao.getUserDao(user);
+		ServiceResult serviceResult= ServiceResult.of();
+		if (isNotNull(user1)) {
+			if ("WrongPassword".equals(user1.getUserId())){//密码错误，返回用户Id:WrongPassword
+				serviceResult.setSuccessed(false).setErrInfo("密码错误");
+			}
+			else {
+				serviceResult.setSuccessed(true).setResult(USER, user1);
+			}
 		} else {
-			serviceResult.setErrInfo(daoResult.getErrInfo());
+			serviceResult.setSuccessed(false).setErrInfo("用户名错误");
 		}
 		return serviceResult;
 	}

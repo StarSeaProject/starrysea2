@@ -31,23 +31,26 @@ public class UserDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public DaoResult getUserDao(User user) {
+	public User getUserDao(User user) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<String> userEmail = kumaSqlDao.select("1").from(User.class)
 				.where("user_email", WhereType.EQUALS, user.getUserEmail()).endForList(String.class);
 		if (userEmail.getResult().isEmpty()) {
-			return new DaoResult(false, "用户账号不存在");
+			return null;
 		}
-		ListSqlResult<User> userResult = kumaSqlDao.select("user_id").select("user_name").from(User.class)
-				.where("user_email", WhereType.EQUALS, user.getUserEmail())
+        ListSqlResult<User> userResult = kumaSqlDao.select("user_email").select("user_name").select("user_osu_person")
+				.select("user_osu_team").select("user_osu_grade").select("user_dd_flag")
+				.from(User.class).where("user_email", WhereType.EQUALS, user.getUserEmail())
 				.where("user_password", WhereType.EQUALS, sha512(user.getUserEmail() + user.getUserPassword()))
-				.endForList((rs, row) -> new User.Builder().userId(rs.getString("user_id"))
-						.username(rs.getString("user_name")).build());
+				.endForList((rs, row) -> new User.Builder().userEmail(rs.getString("user_email"))
+				.username(rs.getString("user_name")).osuPerson(rs.getShort("user_osu_person"))
+				.osuTeam(rs.getShort("user_osu_team")).osuGrade(rs.getShort("user_osu_grade"))
+				.isDD(rs.getShort("user_dd_flag")).build());
 		if (isNotNull(userResult.getResult())) {
-			User result = userResult.getResult().get(0);
-			return new DaoResult(true, result);
-		} else {
-			return new DaoResult(false, "密码错误");
+			return userResult.getResult().get(0);
+		}
+		else {
+			return new User.Builder().userId("WrongPassword").build();
 		}
 	}
 

@@ -7,7 +7,7 @@ public interface IUserDao {
 
 	User saveUserDao(User user);
 
-	DaoResult getUserDao(User user);
+	User getUserDao(User user);
 
 	boolean checkUserAvailabilityDao(User user);
 
