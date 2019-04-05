@@ -21,6 +21,7 @@ public class Const {
 	public static final String NOT_FOUND_VIEW = "not_found";
 	public static final String CUCUIMG = "cucuImg";
 	public static final String CHARSET = "UTF-8";
+	public static final String VERIFY_CODE = "verifyCode";
 
 	public static class HttpCode {
 		private HttpCode() {

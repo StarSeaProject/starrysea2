@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.code.kaptcha.impl.DefaultKaptcha;
+
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.view.in.UserForActivate;
@@ -20,8 +22,16 @@ import top.starrysea.service.IUserService;
 
 import top.starrysea.object.dto.User;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +45,9 @@ public class UserController {
 
 	@Autowired
 	private IUserService userService;
+
+	@Autowired
+	private DefaultKaptcha defaultKaptcha;
 
 	@PostMapping("/check")
 	@ResponseBody
@@ -64,8 +77,15 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> loginController(@Valid UserForLogin user, BindingResult bindingResult, Device device,
 			HttpSession httpSession) {
-		ServiceResult serviceResult = userService.userLogin(user.toDTO());
+		String verifyCode = (String) httpSession.getAttribute(VERIFY_CODE);
 		Map<String, Object> loginResult = new HashMap<>();
+		if (!verifyCode.equals(user.getVerifyCode())) {
+			loginResult.put("userEmail", user.getUserEmail());
+			loginResult.put("result", "验证码错误!");
+			loginResult.put("resultCode", "1");
+			return loginResult;
+		}
+		ServiceResult serviceResult = userService.userLogin(user.toDTO());
 		if (serviceResult.isSuccessed()) {
 			// 登录成功
 			User user1 = serviceResult.getResult(USER);
@@ -104,6 +124,35 @@ public class UserController {
 		User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
 		mav.addObject("userInfo", user.toVO());
 		return mav;
+	}
+
+	@GetMapping("/getVerifyCode")
+	public void getVerifyCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+			throws IOException {
+		byte[] captchaChallengeAsJpeg = null;
+		ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
+		try {
+			// 生产验证码字符串并保存到session中
+			String createText = defaultKaptcha.createText();
+			httpServletRequest.getSession().setAttribute(VERIFY_CODE, createText);
+			// 使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
+			BufferedImage challenge = defaultKaptcha.createImage(createText);
+			ImageIO.write(challenge, "jpg", jpegOutputStream);
+		} catch (IllegalArgumentException e) {
+			httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+		// 定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
+		captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
+		httpServletResponse.setHeader("Cache-Control", "no-store");
+		httpServletResponse.setHeader("Pragma", "no-cache");
+		httpServletResponse.setDateHeader("Expires", 0);
+		httpServletResponse.setContentType("image/jpeg");
+		ServletOutputStream responseOutputStream = httpServletResponse.getOutputStream();
+		responseOutputStream.write(captchaChallengeAsJpeg);
+		responseOutputStream.flush();
+		responseOutputStream.close();
 	}
 
 }
