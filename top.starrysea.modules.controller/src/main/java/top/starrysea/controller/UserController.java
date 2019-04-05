@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.view.in.UserForActivate;
 import top.starrysea.object.view.in.UserForAdd;
@@ -49,15 +51,13 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ModelAndView registerController(@Valid UserForAdd user) {
-		ModelAndView modelAndView = new ModelAndView();
+	public ModelAndView registerController(@Valid UserForAdd user, Device device) {
 		ServiceResult serviceResult = userService.registerService(user.toDTO());
 		if (serviceResult.isSuccessed()) {
-			// TODO: 注册成功后的动作
+			return ModelAndViewFactory.newSuccessMav("我们已经发送了验证邮件到您的邮箱,请注意查收", device);
 		} else {
-			// TODO: 注册失败后的动作
+			return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
 		}
-		return modelAndView;
 	}
 
 	@PostMapping("/login")
@@ -88,15 +88,13 @@ public class UserController {
 	}
 
 	@GetMapping("/activate/{activateCode}")
-	public ModelAndView activateController(@Valid UserForActivate user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
+	public ModelAndView activateController(@Valid UserForActivate user, BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = userService.activateService(user.getActivateCode());
 		if (serviceResult.isSuccessed()) {
-			// TODO: 激活成功后的动作
+			return ModelAndViewFactory.newSuccessMav("激活成功!请登录!", device);
 		} else {
-			// TODO: 激活失败后的动作
+			return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
 		}
-		return modelAndView;
 	}
 
 }
