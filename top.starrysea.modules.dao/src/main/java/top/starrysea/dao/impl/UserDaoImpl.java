@@ -21,7 +21,7 @@ public class UserDaoImpl implements IUserDao {
 	public User saveUserDao(User user) {
 		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("user_id", user.getUserId()).insert("user_email", user.getUserEmail())
-				.insert("user_password", user.getUserPassword()).insert("user_name", user.getUsername())
+				.insert("user_password", sha512(user.getUserEmail() + user.getUserPassword())).insert("user_name", user.getUsername())
 				.insert("user_osu_person", user.getOsuPerson()).insert("user_osu_team", user.getOsuTeam())
 				.insert("user_osu_grade", user.getOsuGrade()).insert("user_osu_group", user.getOsuGroup())
 				.insert("user_dd_flag", user.getIsDD()).table(User.class).end();

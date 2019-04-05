@@ -5,9 +5,13 @@ import top.starrysea.object.dto.User;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
-public class UserForAdd {
+public class UserForSave implements Serializable {
 
+    @NotBlank(message = "用户id不能为空")
+    @Size(max = 20, message = "用户id长度不能超过20")
+    private String userId;
     @NotBlank(message = "邮箱不能为空")
     @Size(max = 100, message = "邮箱长度不能超过100")
     private String userEmail;
@@ -26,6 +30,14 @@ public class UserForAdd {
     private short osuGroup;
     @NotNull(message = "必须选择是DD或者不是,不允许薛定谔的DD状态")
     private short isDD;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserEmail() {
         return userEmail;
@@ -91,10 +103,11 @@ public class UserForAdd {
         this.isDD = isDD;
     }
 
-
-    public User toDTO() {
-        return new User.Builder().userEmail(userEmail).username(username)
-                .userPassword(userPassword).osuPerson(osuPerson).osuTeam(osuTeam)
-                .osuGrade(osuGrade).osuGroup(osuGroup).isDD(isDD).build();
+    public User toDTO(){
+        return new User.Builder().userId(userId)
+                .username(username).userEmail(userEmail)
+                .userPassword(userPassword).osuPerson(osuPerson)
+                .osuTeam(osuTeam).osuGrade(osuGrade).osuGroup(osuGroup)
+                .isDD(isDD).build();
     }
 }
