@@ -22,7 +22,7 @@ public class UserDaoImpl implements IUserDao {
         kumaSqlDao.insertMode();
         kumaSqlDao.insert("user_id", user.getUserId())
                 .insert("user_email", user.getUserEmail())
-                .insert("user_password", user.getUserPassword())
+                .insert("user_password", sha512(user.getUserEmail() + user.getUserPassword()))
                 .insert("user_name", user.getUsername())
                 .insert("user_osu_person", user.getOsuPerson())
                 .insert("user_osu_team", user.getOsuTeam())
