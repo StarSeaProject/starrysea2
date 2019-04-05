@@ -50,15 +50,11 @@ public class UserDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public DaoResult checkUserAvailabilityDao(User user) {
+	public boolean checkUserAvailabilityDao(User user) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<String> list = kumaSqlDao.select("1").from(User.class)
 				.where("user_email", WhereType.EQUALS, user.getUserEmail())
 				.endForList(String.class);
-		if (list.getResult().isEmpty()) {
-			return new DaoResult(true);
-		} else {
-			return new DaoResult(false, "该邮箱已被注册");
-		}
+		return list.getResult().isEmpty();
 	}
 }

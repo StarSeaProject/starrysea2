@@ -47,9 +47,8 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public ServiceResult checkUserAvailabilityService(User user) {
-		user.setUserPassword("");
-		DaoResult daoResult = userDao.checkUserAvailabilityDao(user);
-		return ServiceResult.of(daoResult.isSuccessed());
+		boolean checkResult = userDao.checkUserAvailabilityDao(user);
+		return ServiceResult.of(checkResult);
 	}
 
 	@Override
