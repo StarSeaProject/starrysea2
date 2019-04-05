@@ -1,8 +1,11 @@
 package top.starrysea.dao.impl;
 
+import static top.starrysea.common.Common.isNotNull;
+import static top.starrysea.common.Common.sha512;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import top.starrysea.common.DaoResult;
+
 import top.starrysea.dao.IUserDao;
 import top.starrysea.kql.clause.UpdateSetType;
 import top.starrysea.kql.clause.WhereType;
@@ -10,8 +13,6 @@ import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
 import top.starrysea.object.dto.User;
-
-import static top.starrysea.common.Common.*;
 
 @Repository("userDao")
 public class UserDaoImpl implements IUserDao {
