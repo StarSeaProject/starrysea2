@@ -100,7 +100,8 @@ public class UserController {
 	@GetMapping("/info")
 	public ModelAndView getUserInfoController(HttpSession session, Device device) {
 		ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "userinfo" : "userinfo");
-		User user = userService.getUserInfoService((String) session.getAttribute(USER_SESSION_KEY)).getResult(USER);
+		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
+		User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
 		mav.addObject("userInfo", user.toVO());
 		return mav;
 	}
