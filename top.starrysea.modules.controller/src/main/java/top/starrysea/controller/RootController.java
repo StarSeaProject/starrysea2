@@ -55,6 +55,11 @@ public class RootController {
 		}
 		return new ModelAndView(device.isMobile() ? MOBILE + "login" : "login");
 	}
+	
+	@RequestMapping("/regist")
+	public ModelAndView regist(Device device) {
+		return new ModelAndView(device.isMobile() ? MOBILE + "register" : "register");
+	}
 
 	@RequestMapping("/uploads")
 	public void upload(HttpServletRequest request, HttpServletResponse response,
