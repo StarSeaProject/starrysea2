@@ -12,7 +12,6 @@ public class UserInfoForEdit {
 	private Short osuPerson = 0;
 	private Short osuTeam = 0;
 	private Short osuGrade = 0;
-	private Short osuGroup = 0;
 	@NotNull(message = "是否DD不能为空")
 	private Short isDD;
 
@@ -48,14 +47,6 @@ public class UserInfoForEdit {
 		this.osuGrade = osuGrade;
 	}
 
-	public Short getOsuGroup() {
-		return osuGroup;
-	}
-
-	public void setOsuGroup(Short osuGroup) {
-		this.osuGroup = osuGroup;
-	}
-
 	public Short getIsDD() {
 		return isDD;
 	}
@@ -65,7 +56,6 @@ public class UserInfoForEdit {
 	}
 
 	public User toDTO() {
-		return new User.Builder().username(username).osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade)
-				.osuGroup(osuGroup).build();
+		return new User.Builder().username(username).osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade).build();
 	}
 }

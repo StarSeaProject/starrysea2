@@ -10,7 +10,6 @@ public class UserInfo {
 	private short osuPerson;
 	private short osuTeam;
 	private short osuGrade;
-	private short osuGroup;
 	private short isDD;
 
 	public UserInfo(User user) {
@@ -20,7 +19,6 @@ public class UserInfo {
 		this.osuPerson = user.getOsuPerson();
 		this.osuTeam = user.getOsuTeam();
 		this.osuGrade = user.getOsuGrade();
-		this.osuGroup = user.getOsuGroup();
 		this.isDD = user.getIsDD();
 	}
 
@@ -46,10 +44,6 @@ public class UserInfo {
 
 	public short getOsuGrade() {
 		return osuGrade;
-	}
-
-	public short getOsuGroup() {
-		return osuGroup;
 	}
 
 	public short getIsDD() {
