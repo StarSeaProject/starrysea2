@@ -57,14 +57,9 @@ public class UserServiceImpl implements IUserService {
 		User user1 = userDao.getUserDao(user);
 		ServiceResult serviceResult= ServiceResult.of();
 		if (isNotNull(user1)) {
-			if ("WrongPassword".equals(user1.getUserId())){//密码错误，返回用户Id:WrongPassword
-				serviceResult.setSuccessed(false).setErrInfo("密码错误");
-			}
-			else {
-				serviceResult.setSuccessed(true).setResult(USER, user1);
-			}
+			serviceResult.setSuccessed(true).setResult(USER, user1);
 		} else {
-			serviceResult.setSuccessed(false).setErrInfo("用户名错误");
+			serviceResult.setSuccessed(false).setErrInfo("用户名或密码错误");
 		}
 		return serviceResult;
 	}
