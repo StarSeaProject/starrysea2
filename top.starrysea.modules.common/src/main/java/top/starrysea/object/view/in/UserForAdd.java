@@ -12,7 +12,6 @@ public class UserForAdd {
     @Size(max = 100, message = "邮箱长度不能超过100")
     private String userEmail;
     @NotBlank(message = "密码不能为空")
-    @Size(max = 30, message = "密码长度不能超过30")
     private String userPassword;
     @NotBlank(message = "昵称不能为空")
     @Size(max = 30, message = "昵称长度不能超过30")
@@ -25,7 +24,7 @@ public class UserForAdd {
     private short osuGrade;
     @NotNull(message = "所推团队不能为空")
     private short osuGroup;
-    @NotNull(message = "不允许薛定谔的DD状态")
+    @NotNull(message = "必须选择是DD或者不是,不允许薛定谔的DD状态")
     private short isDD;
 
     public String getUserEmail() {
