@@ -35,7 +35,7 @@ public class UserServiceImpl implements IUserService {
 			List<User> userList = new ArrayList<>();
 			userList.add(user);
 			String activateCode = Common.getCharId(30);
-			kumaRedisDao.set(activateCode, Common.toJson(userList));
+			kumaRedisDao.set(activateCode, Common.toJson(userList), 600);
 			user.setUserId(activateCode);
 			//由于发送邮件服务只能传一个对象所以使用userId来存储激活码了,真正的user还是存在redis中的
 			return ServiceResult.of(true).setResult(USER, user);
