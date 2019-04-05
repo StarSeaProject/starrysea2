@@ -48,6 +48,14 @@ public class RootController {
 		return new ModelAndView("admin_login");
 	}
 
+	@RequestMapping("/login")
+	public ModelAndView login(HttpSession session, Device device) {
+		if (session.getAttribute(USER_SESSION_KEY) != null) {
+			return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
+		}
+		return new ModelAndView(device.isMobile() ? MOBILE + "login" : "login");
+	}
+
 	@RequestMapping("/uploads")
 	public void upload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("file") MultipartFile file) {
