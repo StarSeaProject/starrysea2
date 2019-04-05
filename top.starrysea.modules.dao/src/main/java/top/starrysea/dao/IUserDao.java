@@ -9,6 +9,6 @@ public interface IUserDao {
 
 	DaoResult getUserDao(User user);
 
-	DaoResult checkUserAvailabilityDao(User user);
+	boolean checkUserAvailabilityDao(User user);
 
 }
