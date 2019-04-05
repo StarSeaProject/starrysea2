@@ -42,11 +42,8 @@ public class UserController {
 		ServiceResult serviceResult = userService.checkUserAvailabilityService(user.toDTO());
 		Map<String, Object> result = new HashMap<>();
 		result.put("userEmail", user.getUserEmail());
-		if (serviceResult.isSuccessed()) {
-			result.put("isAvailable", true);
-		} else {
-			result.put("isAvailable", false);
-		}
+		result.put("isAvailable", serviceResult.isSuccessed());
+		result.put(ERRINFO, serviceResult.getErrInfo());
 		return result;
 	}
 
