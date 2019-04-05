@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
+import top.starrysea.object.view.out.UserInfo;
 
 public class User implements Entity, Serializable {
 	/**
@@ -164,5 +165,9 @@ public class User implements Entity, Serializable {
 
 	public void setIsDD(short isDD) {
 		this.isDD = isDD;
+	}
+
+	public UserInfo toVO() {
+		return new UserInfo(this);
 	}
 }
