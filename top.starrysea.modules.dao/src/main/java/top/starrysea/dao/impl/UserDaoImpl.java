@@ -50,7 +50,7 @@ public class UserDaoImpl implements IUserDao {
 			return userResult.getResult().get(0);
 		}
 		else {
-			return new User.Builder().userId("WrongPassword").build();
+			return null;
 		}
 	}
 
