@@ -81,4 +81,14 @@ public class KumaRedisDaoImpl implements KumaRedisDao {
 		}
 	}
 
+	@Override
+	public String set(String key, String value, long second) {
+		try (Jedis jedis = jedisPool.getResource();) {
+			return jedis.set(key, value, "NX", "EX", second);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return "";
+	}
+
 }
