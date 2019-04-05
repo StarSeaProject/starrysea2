@@ -85,4 +85,9 @@ public class UserServiceImpl implements IUserService {
 		}
 		return serviceResult;
 	}
+
+	@Override
+	public ServiceResult getUserInfoService(String userId) {
+		return ServiceResult.of(true).setResult(USER, userDao.getUserInfoDao(userId));
+	}
 }

@@ -12,4 +12,6 @@ public interface IUserService {
 	ServiceResult userLogin(User user);
 
 	ServiceResult activateService(String redisKey);
+	
+	ServiceResult getUserInfoService(String userId);
 }
