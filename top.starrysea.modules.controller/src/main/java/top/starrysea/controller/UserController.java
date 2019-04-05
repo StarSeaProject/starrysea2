@@ -44,7 +44,6 @@ public class UserController {
 			result.put("isAvailable", true);
 		} else {
 			result.put("isAvailable", false);
-			result.put("errInfo", serviceResult.getErrInfo());
 		}
 		return result;
 	}
@@ -88,10 +87,10 @@ public class UserController {
 		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
 	}
 
-	@GetMapping("/activate/{userId}")
+	@GetMapping("/activate/{activateCode}")
 	public ModelAndView activateController(@Valid UserForActivate user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = userService.activateService(user.getUserId());
+		ServiceResult serviceResult = userService.activateService(user.getActivateCode());
 		if (serviceResult.isSuccessed()) {
 			// TODO: 激活成功后的动作
 		} else {
