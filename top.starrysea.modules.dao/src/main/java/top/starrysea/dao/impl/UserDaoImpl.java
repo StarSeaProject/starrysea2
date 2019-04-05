@@ -26,8 +26,7 @@ public class UserDaoImpl implements IUserDao {
 				.insert("user_password", sha512(user.getUserEmail() + user.getUserPassword()))
 				.insert("user_name", user.getUsername()).insert("user_osu_person", user.getOsuPerson())
 				.insert("user_osu_team", user.getOsuTeam()).insert("user_osu_grade", user.getOsuGrade())
-				.insert("user_osu_group", user.getOsuGroup()).insert("user_dd_flag", user.getIsDD()).table(User.class)
-				.end();
+				.insert("user_dd_flag", user.getIsDD()).table(User.class).end();
 		return user;
 	}
 
@@ -69,7 +68,7 @@ public class UserDaoImpl implements IUserDao {
 				.endForObject((rs, row) -> new User.Builder().userEmail(rs.getString("user_email"))
 						.username(rs.getString("user_name")).osuPerson(rs.getShort("user_osu_person"))
 						.osuTeam(rs.getShort("user_osu_team")).osuGrade(rs.getShort("user_osu_grade"))
-						.osuGroup(rs.getShort("user_osu_group")).isDD(rs.getShort("user_dd_flag")).build());
+						.isDD(rs.getShort("user_dd_flag")).build());
 		return result.getResult();
 	}
 
@@ -80,7 +79,6 @@ public class UserDaoImpl implements IUserDao {
 				.update("user_osu_person", UpdateSetType.ASSIGN, user.getOsuPerson())
 				.update("user_osu_team", UpdateSetType.ASSIGN, user.getOsuTeam())
 				.update("user_osu_grade", UpdateSetType.ASSIGN, user.getOsuGrade())
-				.update("user_osu_group", UpdateSetType.ASSIGN, user.getOsuGroup())
 				.update("user_dd_flag", UpdateSetType.ASSIGN, user.getIsDD()).table(User.class)
 				.where("user_id", WhereType.EQUALS, user.getUserId());
 	}

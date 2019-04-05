@@ -24,8 +24,6 @@ public class UserForAdd {
 	private Short osuTeam;
 	@NotNull(message = "所推年级不能为空")
 	private Short osuGrade;
-	@NotNull(message = "所推团队不能为空")
-	private Short osuGroup;
 	@NotNull(message = "必须选择是DD或者不是,不允许薛定谔的DD状态")
 	private Short isDD;
 
@@ -77,14 +75,6 @@ public class UserForAdd {
 		this.osuGrade = osuGrade;
 	}
 
-	public short getOsuGroup() {
-		return osuGroup;
-	}
-
-	public void setOsuGroup(short osuGroup) {
-		this.osuGroup = osuGroup;
-	}
-
 	public short getIsDD() {
 		return isDD;
 	}
@@ -95,6 +85,6 @@ public class UserForAdd {
 
 	public User toDTO() {
 		return new User.Builder().userEmail(userEmail).username(username).userPassword(userPassword)
-				.osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade).osuGroup(osuGroup).isDD(isDD).build();
+				.osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade).isDD(isDD).build();
 	}
 }

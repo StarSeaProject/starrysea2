@@ -18,7 +18,6 @@ public class User implements Entity, Serializable {
 	private short osuPerson;
 	private short osuTeam;
 	private short osuGrade;
-	private short osuGroup;
 	private short isDD;
 
 	private User(Builder builder) {
@@ -29,7 +28,6 @@ public class User implements Entity, Serializable {
 		this.osuPerson = builder.osuPerson;
 		this.osuTeam = builder.osuTeam;
 		this.osuGrade = builder.osuGrade;
-		this.osuGroup = builder.osuGroup;
 		this.isDD = builder.isDD;
 	}
 
@@ -41,7 +39,6 @@ public class User implements Entity, Serializable {
 		private short osuPerson;
 		private short osuTeam;
 		private short osuGrade;
-		private short osuGroup;
 		private short isDD;
 
 		public Builder userId(String userId) {
@@ -76,11 +73,6 @@ public class User implements Entity, Serializable {
 
 		public Builder osuGrade(short osuGrade) {
 			this.osuGrade = osuGrade;
-			return this;
-		}
-
-		public Builder osuGroup(short osuGroup) {
-			this.osuGroup = osuGroup;
 			return this;
 		}
 
@@ -149,14 +141,6 @@ public class User implements Entity, Serializable {
 
 	public void setOsuGrade(short osuGrade) {
 		this.osuGrade = osuGrade;
-	}
-
-	public short getOsuGroup() {
-		return osuGroup;
-	}
-
-	public void setOsuGroup(short osuGroup) {
-		this.osuGroup = osuGroup;
 	}
 
 	public short getIsDD() {
