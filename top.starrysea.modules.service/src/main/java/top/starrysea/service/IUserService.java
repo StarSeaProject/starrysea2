@@ -10,4 +10,6 @@ public interface IUserService {
 	ServiceResult checkUserAvailabilityService(User user);
 
 	ServiceResult userLogin(User user);
+
+	ServiceResult activateService(String redisKey);
 }

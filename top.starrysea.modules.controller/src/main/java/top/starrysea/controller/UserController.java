@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import top.starrysea.common.ServiceResult;
+import top.starrysea.object.view.in.UserForActivate;
 import top.starrysea.object.view.in.UserForAdd;
 import top.starrysea.object.view.in.UserForCheck;
 import top.starrysea.object.view.in.UserForLogin;
@@ -19,7 +20,6 @@ import top.starrysea.object.dto.User;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,4 +87,17 @@ public class UserController {
 		session.removeAttribute(USER_SESSION_KEY);
 		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
 	}
+
+	@GetMapping("/activate/{userId}")
+	public ModelAndView activateController(@Valid UserForActivate user, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = userService.activateService(user.getUserId());
+		if (serviceResult.isSuccessed()) {
+			// TODO: 激活成功后的动作
+		} else {
+			// TODO: 激活失败后的动作
+		}
+		return modelAndView;
+	}
+
 }

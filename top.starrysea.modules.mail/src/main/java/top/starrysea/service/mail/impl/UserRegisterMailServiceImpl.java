@@ -16,9 +16,9 @@ public class UserRegisterMailServiceImpl extends MailServiceImpl {
 	public void sendMailService(Entity entity) {
 		List<String> mailList = new ArrayList<>();
 		User user = (User) entity;
-		String content = MessageFormat.format(contentTemplate, user.getUsername());
+		String content = MessageFormat.format(contentTemplate, user.getUsername(), user.getUserId());
 		mailList.add(user.getUserEmail());
-		mailCommon.send(new Mail(mailList, "星之海志愿者公会", content));
+		mailCommon.send(new Mail(mailList, "星之海志愿者公会-用户激活", content));
 	}
 
 	@Override
