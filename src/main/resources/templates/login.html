@@ -43,12 +43,12 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
-					<input type="text" id="PasswordInput" name="password" value="密码">
+					<input type="text" id="PasswordInput" name="passwordInput" value="密码">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-6">
-					<input type="text" name="vcode" value="验证码">
+					<input type="text" id="vcodeInput" name="verifyCode" value="验证码">
 				</div>
 				<div class="col-xs-6">
 					<img alt="验证码" onclick = "this.src='/user/getVerifyCode?d='+new Date()*1" src="/user/getVerifyCode" >
@@ -61,7 +61,7 @@
 					</a>
 				</div>
 				<div class="col-xs-6">
-					<a class="loginbt">
+					<a class="loginbt" href="/regist">
 						注册
 					</a>
 				</div>
@@ -86,7 +86,6 @@
 
 <script src="/login.min.js"></script>
 
-</script>
 
 </body>
 
