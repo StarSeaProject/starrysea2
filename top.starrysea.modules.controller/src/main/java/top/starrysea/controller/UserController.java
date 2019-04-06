@@ -12,6 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.view.in.*;
@@ -36,6 +40,7 @@ import java.util.Map;
 import static top.starrysea.common.Const.*;
 import static top.starrysea.common.ResultKey.USER;
 
+@Api("用户相关api")
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -57,8 +62,10 @@ public class UserController {
 		return result;
 	}
 
+	@ApiOperation(value = "注册", notes = "注册")
 	@PostMapping("/register")
-	public ModelAndView registerController(@Valid UserForAdd user, Device device) {
+	public ModelAndView registerController(@Valid @ApiParam(name = "注册用对象", required = true) UserForAdd user,
+			@ApiIgnore Device device) {
 		ServiceResult serviceResult = userService.registerService(user.toDTO());
 		if (serviceResult.isSuccessed()) {
 			return ModelAndViewFactory.newSuccessMav("我们已经发送了验证邮件到您的邮箱,请注意查收", device);
@@ -67,10 +74,11 @@ public class UserController {
 		}
 	}
 
+	@ApiOperation(value = "登录", notes = "使用电子邮箱和密码(经过sha256后)登录")
 	@PostMapping("/login")
 	@ResponseBody
-	public Map<String, Object> loginController(@Valid UserForLogin user, BindingResult bindingResult, Device device,
-			HttpSession httpSession) {
+	public Map<String, Object> loginController(@Valid @ApiParam(name = "登录用对象", required = true) UserForLogin user,
+			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession httpSession) {
 		String verifyCode = (String) httpSession.getAttribute(VERIFY_CODE);
 		Map<String, Object> loginResult = new HashMap<>();
 		if (!verifyCode.equals(user.getVerifyCode())) {
@@ -129,6 +137,7 @@ public class UserController {
 		return ModelAndViewFactory.newSuccessMav("修改个人信息成功", device);
 	}
 
+	@ApiOperation(value = "获取验证码", notes = "获取验证码")
 	@GetMapping("/getVerifyCode")
 	public void getVerifyCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
 			throws IOException {
@@ -159,14 +168,15 @@ public class UserController {
 	}
 
 	@PostMapping("/changePassword")
-	public ModelAndView changePasswordController(@Valid UserForChangePassword user, HttpSession session, Device device) {
+	public ModelAndView changePasswordController(@Valid UserForChangePassword user, HttpSession session,
+			Device device) {
 		User userToChange = (User) session.getAttribute(USER_SESSION_KEY);
 		if (userToChange == null) {
 			return ModelAndViewFactory.newErrorMav("不能在未登录的情况下修改密码", device);
 		} else {
 			userToChange.setUserPassword(user.getCurrentPassword());
 			ServiceResult serviceResult = userService.changeUserPasswordService(userToChange, user.getNewPassword());
-			if (serviceResult.isSuccessed()){
+			if (serviceResult.isSuccessed()) {
 				return ModelAndViewFactory.newSuccessMav("修改密码成功", device);
 			} else {
 				return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
