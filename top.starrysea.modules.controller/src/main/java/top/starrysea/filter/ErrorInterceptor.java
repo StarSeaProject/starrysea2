@@ -25,8 +25,10 @@ public class ErrorInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		int status = response.getStatus();
 		if (status == NOT_FOUND || status == BAD_REQUEST || status == SERVER_ERROR) {
-			modelAndView.setViewName(NOT_FOUND_VIEW);
-			modelAndView.addObject(CUCUIMG, FileUtil.getCucuImg());
+			if(modelAndView!=null) {
+				modelAndView.setViewName(NOT_FOUND_VIEW);
+				modelAndView.addObject(CUCUIMG, FileUtil.getCucuImg());
+			}
 		}
 	}
 
