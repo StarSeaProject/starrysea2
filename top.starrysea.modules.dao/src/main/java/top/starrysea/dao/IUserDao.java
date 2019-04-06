@@ -13,4 +13,6 @@ public interface IUserDao {
 	User getUserInfoDao(String userId);
 	
 	void updateUserDao(User user);
+
+	void updateUserPasswordDao(User user);
 }

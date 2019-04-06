@@ -86,4 +86,11 @@ public class UserDaoImpl implements IUserDao {
 				.update("user_dd_flag", UpdateSetType.ASSIGN, user.getIsDD()).table(User.class)
 				.where("user_id", WhereType.EQUALS, user.getUserId());
 	}
+
+	@Override
+	public void updateUserPasswordDao(User user) {
+		kumaSqlDao.updateMode();
+		kumaSqlDao.update("user_password", UpdateSetType.ASSIGN, sha512(user.getUserEmail() + user.getUserPassword()))
+				.table(User.class).where("user_id", WhereType.EQUALS, user.getUserId());
+	}
 }

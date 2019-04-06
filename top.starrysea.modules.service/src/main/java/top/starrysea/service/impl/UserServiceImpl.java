@@ -97,4 +97,29 @@ public class UserServiceImpl implements IUserService {
 		userDao.updateUserDao(user);
 		return ServiceResult.of(true);
 	}
+
+	@Override
+	public ServiceResult changeUserPasswordService(User user, String newPassword) {
+		User userToValidate = userDao.getUserInfoDao(user.getUserId());
+		//用用户id获取邮箱
+		userToValidate.setUserId(user.getUserId());
+		userToValidate.setUserPassword(user.getUserPassword());
+		//用邮箱和输入的旧密码检验后者是否正确(相当于登录)
+		if (userDao.getUserDao(userToValidate) == null) {
+			return ServiceResult.of(false).setErrInfo("修改密码失败: 旧密码错误");
+		} else {
+			if (userToValidate.getUserPassword().equals(newPassword)) {
+				return ServiceResult.of(false).setErrInfo("修改密码失败: 新密码不可与旧密码相同");
+			} else {
+				try {
+					userToValidate.setUserPassword(newPassword);
+					userDao.updateUserPasswordDao(userToValidate);
+				} catch (Exception e) {
+					logger.error(e.getMessage(), e);
+					return ServiceResult.of(false).setErrInfo(e.getMessage());
+				}
+				return ServiceResult.of(true);
+			}
+		}
+	}
 }
