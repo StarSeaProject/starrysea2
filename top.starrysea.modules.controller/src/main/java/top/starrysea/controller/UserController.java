@@ -14,11 +14,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
-import top.starrysea.object.view.in.UserForActivate;
-import top.starrysea.object.view.in.UserForAdd;
-import top.starrysea.object.view.in.UserForCheck;
-import top.starrysea.object.view.in.UserForLogin;
-import top.starrysea.object.view.in.UserInfoForEdit;
+import top.starrysea.object.view.in.*;
 import top.starrysea.service.IUserService;
 
 import top.starrysea.object.dto.User;
@@ -162,4 +158,19 @@ public class UserController {
 		responseOutputStream.close();
 	}
 
+	@PostMapping("/changePassword")
+	public ModelAndView changePasswordController(@Valid UserForChangePassword user, HttpSession session, Device device) {
+		User userToChange = (User) session.getAttribute(USER_SESSION_KEY);
+		if (userToChange == null) {
+			return ModelAndViewFactory.newErrorMav("不能在未登录的情况下修改密码", device);
+		} else {
+			userToChange.setUserPassword(user.getCurrentPassword());
+			ServiceResult serviceResult = userService.changeUserPasswordService(userToChange, user.getNewPassword());
+			if (serviceResult.isSuccessed()){
+				return ModelAndViewFactory.newSuccessMav("修改密码成功", device);
+			} else {
+				return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
+			}
+		}
+	}
 }

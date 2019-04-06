@@ -16,4 +16,6 @@ public interface IUserService {
 	ServiceResult getUserInfoService(String userId);
 	
 	ServiceResult editUserInfoService(User user);
+
+	ServiceResult changeUserPasswordService(User user, String newPassword);
 }
