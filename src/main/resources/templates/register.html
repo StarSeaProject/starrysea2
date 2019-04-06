@@ -112,7 +112,10 @@
 						<div class="col-xs-2">
 							<a class="teambt" id="teambt3" name="3">Guilty Kiss</a>
 						</div>
-						<div class="col-xs-6">
+						<div class="col-xs-2">
+							<a class="teambt" id="teambt4" name="4">Saint Snow</a>
+						</div>
+						<div class="col-xs-4">
 						</div>
 					</div>
 				</div>
@@ -134,24 +137,6 @@
 							<a class="gradebt" id="gradebt3" name="3">三年生</a>
 						</div>
 						<div class="col-xs-6">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-3">
-					<h3>所推团</h3>
-				</div>
-				<div class="col-xs-9 container-fuild" >
-					<div class="row">
-						<div class="col-xs-2">
-							<a class="groupbt" id="groupbt1" name="1">Aqours</a>
-						</div>
-						<div class="col-xs-2">
-							<a class="groupbt" id="groupbt2" name="2">Saint Snow</a>
-						</div>
-						<div class="col-xs-8">
 						</div>
 					</div>
 				</div>
@@ -190,6 +175,28 @@
 					<input type="password"  id="formpassword" value="">
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-xs-3">
+					<h3>确认密码</h3>
+				</div>
+				<div class="col-xs-9 inputbox">
+					<input type="password"  id="formpassword2" value="">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3">
+					<h3>验证码</h3>
+				</div>
+				<div class="col-xs-3 inputbox">
+					<input type="text" id="formvcode"  name="formvcode" value="">
+				</div>
+				<div class="col-xs-3 inputbox">
+					<img alt="验证码" onclick = "this.src='/user/getVerifyCode?d='+new Date()*1" src="/user/getVerifyCode" >
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-xs-3">
 				</div>
@@ -201,10 +208,10 @@
 			<input id="username" type="hidden"  name="username" >
 			<input id="userEmail" type="hidden"  name="userEmail" >
 			<input id="userPassword" name="userPassword" type="hidden" value="">
+			<input id="verifyCode" type="hidden"  name="verifyCode" >
 			<input id="osuPerson" name="osuPerson" type="hidden" value="0">
 			<input id="osuTeam" name="osuTeam" type="hidden" value="0">
 			<input id="osuGrade" name="osuGrade" type="hidden" value="0">
-			<input id="osuGroup" name="osuGroup" type="hidden" value="0">
 			<input id="isDD" name="isDD" type="hidden" value="2">
 		</form>
 		</div>
