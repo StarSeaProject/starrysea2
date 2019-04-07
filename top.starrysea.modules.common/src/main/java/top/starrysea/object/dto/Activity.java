@@ -15,7 +15,6 @@ public class Activity implements Entity {
 	private String activitySummary;
 	private String activityEndtime;
 	private Double activityMoney;
-	private Work work;
 
 	public Activity(Builder builder) {
 		this.activityId = builder.activityId;
@@ -26,7 +25,6 @@ public class Activity implements Entity {
 		this.activitySummary = builder.activitySummary;
 		this.activityEndtime = builder.activityEndtime;
 		this.activityMoney = builder.activityMoney;
-		this.work = builder.work;
 	}
 
 	public static class Builder implements IBuilder<Activity> {
@@ -38,7 +36,6 @@ public class Activity implements Entity {
 		private String activitySummary;
 		private String activityEndtime;
 		private Double activityMoney;
-		private Work work;
 
 		public Builder activityId(Integer activityId) {
 			this.activityId = activityId;
@@ -77,11 +74,6 @@ public class Activity implements Entity {
 
 		public Builder activityMoney(Double activityMoney) {
 			this.activityMoney = activityMoney;
-			return this;
-		}
-
-		public Builder workId(Integer workId) {
-			this.work = new Work.Builder().workId(workId).build();
 			return this;
 		}
 
@@ -154,14 +146,6 @@ public class Activity implements Entity {
 
 	public void setActivityMoney(Double activityMoney) {
 		this.activityMoney = activityMoney;
-	}
-
-	public Work getWork() {
-		return work;
-	}
-
-	public void setWork(Work work) {
-		this.work = work;
 	}
 
 	public ActivityForAll toVoForAll() {

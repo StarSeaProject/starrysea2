@@ -17,5 +17,7 @@ public interface IWorkDao {
 	void deleteWorkDao(Work work);
 	
 	void addWorkClick(Work work);
+	
+	List<Work> getWorkByActivityDao(List<Integer> activityIds);
 
 }

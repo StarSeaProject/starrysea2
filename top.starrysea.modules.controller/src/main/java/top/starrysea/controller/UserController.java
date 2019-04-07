@@ -16,10 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
-import top.starrysea.object.dto.Activity;
-import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.User;
 import top.starrysea.object.view.in.*;
+import top.starrysea.object.view.out.UserFundingInfo;
+import top.starrysea.object.view.out.UserOrderInfo;
 import top.starrysea.service.IUserService;
 
 import javax.imageio.ImageIO;
@@ -32,15 +32,16 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static top.starrysea.common.Const.*;
 import static top.starrysea.common.ResultKey.USER;
+import static top.starrysea.common.ResultKey.LIST_1;
+import static top.starrysea.common.ResultKey.LIST_2;
 
-@Api("用户相关api")
+@Api(tags = "用户相关api")
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -103,8 +104,9 @@ public class UserController {
 		return loginResult;
 	}
 
+	@ApiOperation(value = "登出", notes = "登出")
 	@GetMapping("/exit")
-	public ModelAndView exitController(Device device, HttpSession session) {
+	public ModelAndView exitController(@ApiIgnore Device device, @ApiIgnore HttpSession session) {
 		session.removeAttribute(USER_SESSION_KEY);
 		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
 	}
@@ -119,21 +121,26 @@ public class UserController {
 		}
 	}
 
+	@ApiOperation(value = "获取个人信息", notes = "获取个人信息")
 	@GetMapping("/info")
-	public ModelAndView getUserInfoController(HttpSession session, Device device) {
+	public ModelAndView getUserInfoController(@ApiIgnore HttpSession session, @ApiIgnore Device device) {
 		ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "userinfo" : "userinfo");
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
-		User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
-		List<OrderDetail> orderDetails = new ArrayList<>();
-		List<Activity> activities = new ArrayList<>();
-		mav.addObject("orders", orderDetails);
-		mav.addObject("activities", activities);
+		ServiceResult serviceResult = userService.getUserInfoService(currentUser.getUserId());
+		User user = serviceResult.getResult(USER);
+		List<UserFundingInfo> userFundingInfos = serviceResult.getResult(LIST_1);
+		List<UserOrderInfo> userOrderInfos = serviceResult.getResult(LIST_2);
+		mav.addObject("orders", userOrderInfos);
 		mav.addObject("userInfo", user.toVO());
+		mav.addObject("fundings", userFundingInfos);
 		return mav;
 	}
 
+	@ApiOperation(value = "修改个人信息", notes = "修改获取个人信息")
 	@PostMapping("/info")
-	public ModelAndView editUserInfoController(@Valid UserInfoForEdit user, HttpSession session, Device device) {
+	public ModelAndView editUserInfoController(
+			@Valid @ApiParam(name = "修改个人信息用对象", required = true) UserInfoForEdit user, @ApiIgnore HttpSession session,
+			@ApiIgnore Device device) {
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		User editUser = user.toDTO();
 		editUser.setUserId(currentUser.getUserId());
