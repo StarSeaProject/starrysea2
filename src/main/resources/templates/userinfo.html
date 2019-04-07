@@ -205,10 +205,10 @@
         <form id="resultform" action="/user/info" method="post">
             <input id="username" type="hidden" name="username">
             <input id="userEmail" type="hidden" name="userEmail">
-            <input id="osuPerson" name="osuPerson" type="hidden" th:value="${userInfo.getOsuPerson()}">
-            <input id="osuTeam" name="osuTeam" type="hidden" th:value="${userInfo.getOsuTeam()}">
-            <input id="osuGrade" name="osuGrade" type="hidden" th:value="${userInfo.getOsuGrade()}">
-            <input id="isDD" name="isDD" type="hidden" th:value="${userInfo.getIsDD()}">
+            <input id="osuPerson" name="osuPerson" type="hidden">
+            <input id="osuTeam" name="osuTeam" type="hidden">
+            <input id="osuGrade" name="osuGrade" type="hidden">
+            <input id="isDD" name="isDD" type="hidden">
         </form>
     </div>
 </div>
