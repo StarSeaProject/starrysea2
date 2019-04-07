@@ -245,7 +245,7 @@
                             备注
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row ordersubcontent">
                         <div class="col-xs-8 container-fluid">
                             <div class="row" th:each="orderwork:${orderitem.getUserOrderDetailInfos()}">
                                 <div class="col-xs-5">
@@ -321,8 +321,10 @@
                 <div class="col-xs-2 activitycontentbox1" th:text="${funding.getFundingTime()}">
                     无活动日期
                 </div>
-                <div class="col-xs-2 activitycontentbox1" th:each="work:${funding.getWorks()}">
-                	<a th:href="${work.getWorkUrl()}" th:text="${work.getWorkName()}"></a>
+                <div class="col-xs-2 activitycontentbox1" >
+                    <div th:each="work:${funding.getWorks()}">
+                        <a th:href="${work.getWorkUrl()}" th:text="${work.getWorkName()}"></a>
+                    </div>
                 </div>
                 <div class="col-xs-2 activitycontentbox1" th:text="${funding.getFundingMessage()}">
                     无备注
