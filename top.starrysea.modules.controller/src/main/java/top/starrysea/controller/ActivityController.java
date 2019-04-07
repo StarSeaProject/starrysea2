@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.Activity;
+import top.starrysea.object.dto.User;
 import top.starrysea.object.view.in.ActivityForAdd;
 import top.starrysea.object.view.in.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
@@ -121,12 +123,15 @@ public class ActivityController {
 
 	@PostMapping("/activity/funding/add")
 	public ModelAndView addFundingController(@Valid FundingForAddList fundings, BindingResult bindingResult,
-			Device device) {
+			Device device, HttpSession session) {
+		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		for (FundingForAdd funding : fundings.getFundings()) {
 			funding.setActivityId(fundings.getActivityId());
 		}
-		activityService.addFundingService(
-				fundings.getFundings().stream().map(FundingForAdd::toDTO).collect(Collectors.toList()));
+		activityService.addFundingService(fundings.getFundings().stream().map(FundingForAdd::toDTO).map(funding -> {
+			funding.setUser(currentUser);
+			return funding;
+		}).collect(Collectors.toList()));
 		return ModelAndViewFactory.newSuccessMav("添加成功!", device);
 	}
 

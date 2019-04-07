@@ -87,7 +87,7 @@ public class OrderDaoImpl implements IOrderDao {
 				.insert("order_address", order.getOrderAddress()).insert("order_status", 1)
 				.insert("order_time", System.currentTimeMillis()).insert("order_email", order.getOrderEMail())
 				.insert("order_remark", order.getOrderRemark()).insert("order_phone", order.getOrderPhone())
-				.table(Orders.class).end();
+				.insert("user_id", order.getUser().getUserId()).table(Orders.class).end();
 		return order;
 	}
 

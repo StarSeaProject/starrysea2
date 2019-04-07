@@ -10,48 +10,56 @@ public class Funding implements Entity {
 	private String fundingName;
 	private Double fundingMoney;
 	private String fundingMessage;
-	
+	private User user;
+
 	private Funding(Builder builder) {
-		this.fundingId=builder.fundingId;
-		this.activity=builder.activity;
-		this.fundingName=builder.fundingName;
-		this.fundingMoney=builder.fundingMoney;
-		this.fundingMessage=builder.fundingMessage;
+		this.fundingId = builder.fundingId;
+		this.activity = builder.activity;
+		this.fundingName = builder.fundingName;
+		this.fundingMoney = builder.fundingMoney;
+		this.fundingMessage = builder.fundingMessage;
+		this.user = builder.user;
 	}
-	
-	public static class Builder implements IBuilder<Funding>{
+
+	public static class Builder implements IBuilder<Funding> {
 
 		private Integer fundingId;
 		private Activity activity;
 		private String fundingName;
 		private Double fundingMoney;
 		private String fundingMessage;
-		
+		private User user;
+
 		public Builder fundingId(Integer fundingId) {
-			this.fundingId=fundingId;
+			this.fundingId = fundingId;
 			return this;
 		}
-		
+
 		public Builder activity(Activity activity) {
-			this.activity=activity;
+			this.activity = activity;
 			return this;
 		}
-		
+
 		public Builder fundingName(String fundingName) {
-			this.fundingName=fundingName;
+			this.fundingName = fundingName;
 			return this;
 		}
-		
+
 		public Builder fundingMoney(Double fundingMoney) {
-			this.fundingMoney=fundingMoney;
+			this.fundingMoney = fundingMoney;
 			return this;
 		}
-		
+
 		public Builder fundingMessage(String fundingMessage) {
-			this.fundingMessage=fundingMessage;
+			this.fundingMessage = fundingMessage;
 			return this;
 		}
-		
+
+		public Builder userId(String userId) {
+			this.user = new User.Builder().userId(userId).build();
+			return this;
+		}
+
 		@Override
 		public Funding build() {
 			return new Funding(this);
@@ -97,5 +105,13 @@ public class Funding implements Entity {
 	public void setFundingMessage(String fundingMessage) {
 		this.fundingMessage = fundingMessage;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

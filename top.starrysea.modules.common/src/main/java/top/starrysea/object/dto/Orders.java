@@ -18,6 +18,7 @@ public class Orders implements Entity {
 	private String orderEMail;
 	private String orderRemark;
 	private String orderPhone;
+	private User user;
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
@@ -28,9 +29,10 @@ public class Orders implements Entity {
 		this.orderStatus = builder.orderStatus;
 		this.orderExpressnum = builder.orderExpressnum;
 		this.orderTime = builder.orderTime;
-		this.orderEMail=builder.orderEMail;
-		this.orderRemark=builder.orderRemark;
-		this.orderPhone=builder.orderPhone;
+		this.orderEMail = builder.orderEMail;
+		this.orderRemark = builder.orderRemark;
+		this.orderPhone = builder.orderPhone;
+		this.user = builder.user;
 	}
 
 	public static class Builder implements IBuilder<Orders> {
@@ -46,6 +48,7 @@ public class Orders implements Entity {
 		private String orderEMail;
 		private String orderRemark;
 		private String orderPhone;
+		private User user;
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;
@@ -86,22 +89,27 @@ public class Orders implements Entity {
 			this.orderTime = orderTime;
 			return this;
 		}
-		
+
 		public Builder orderEMail(String orderMail) {
-			this.orderEMail=orderMail;
+			this.orderEMail = orderMail;
 			return this;
 		}
 
 		public Builder orderRemark(String orderRemark) {
-			this.orderRemark=orderRemark;
+			this.orderRemark = orderRemark;
 			return this;
 		}
-		
+
 		public Builder orderPhone(String orderPhone) {
-			this.orderPhone=orderPhone;
+			this.orderPhone = orderPhone;
 			return this;
 		}
-		
+
+		public Builder userId(String userId) {
+			this.user = new User.Builder().userId(userId).build();
+			return this;
+		}
+
 		@Override
 		public Orders build() {
 			return new Orders(this);
@@ -195,6 +203,14 @@ public class Orders implements Entity {
 
 	public void setOrderPhone(String orderPhone) {
 		this.orderPhone = orderPhone;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public OrderForAll toVoForAll() {

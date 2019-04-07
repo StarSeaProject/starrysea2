@@ -32,6 +32,7 @@ import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.User;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.in.ExportXlsCondition;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
@@ -123,7 +124,10 @@ public class OrderController {
 			return ModelAndViewFactory.newErrorMav("您已经下单,请勿再次提交", device);
 		}
 		session.removeAttribute(TOKEN);
-		ServiceResult serviceResult = orderService.addOrderService(order.toDTO(), order.toDTOOrderDetail());
+		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
+		Orders orderToAdd = order.toDTO();
+		orderToAdd.setUser(currentUser);
+		ServiceResult serviceResult = orderService.addOrderService(orderToAdd, order.toDTOOrderDetail());
 		if (!serviceResult.isSuccessed()) {
 			return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
 		}
