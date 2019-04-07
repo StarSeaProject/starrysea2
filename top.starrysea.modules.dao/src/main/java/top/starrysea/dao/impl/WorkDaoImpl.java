@@ -16,6 +16,7 @@ import top.starrysea.object.dto.Work;
 import static top.starrysea.common.Common.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -87,5 +88,15 @@ public class WorkDaoImpl implements IWorkDao {
 		kumaSqlDao.updateMode();
 		kumaSqlDao.update("work_click", UpdateSetType.ADD, 1).where("work_id", WhereType.EQUALS, work.getWorkId())
 				.table(Work.class).end();
+	}
+
+	@Override
+	public List<Work> getWorkByActivityDao(List<Integer> activityIds) {
+		kumaSqlDao.selectMode();
+		ListSqlResult<Work> theResult = kumaSqlDao.select("work_id").select("work_name").select("activity_id")
+				.from(Work.class).where("activity_id", WhereType.IN, activityIds.stream().collect(Collectors.toList()))
+				.endForList((rs, row) -> new Work.Builder().workId(rs.getInt("work_id"))
+						.workName(rs.getString("work_name")).activityId(rs.getInt("activity_id")).build());
+		return theResult.getResult();
 	}
 }

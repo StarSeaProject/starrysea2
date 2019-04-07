@@ -126,6 +126,7 @@ public class ActivityServiceImpl implements IActivityService {
 	@Transactional
 	public ServiceResult addFundingService(List<Funding> fundings) {
 		try {
+			fundings.forEach(funding -> funding.setFundingTime(Common.getNowDate()));
 			fundingDao.saveFundingDao(fundings);
 			List<Activity> activitys = new ArrayList<>();
 			for (Funding funding : fundings) {

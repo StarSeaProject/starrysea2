@@ -11,6 +11,7 @@ public class Funding implements Entity {
 	private Double fundingMoney;
 	private String fundingMessage;
 	private User user;
+	private String fundingTime;
 
 	private Funding(Builder builder) {
 		this.fundingId = builder.fundingId;
@@ -19,6 +20,7 @@ public class Funding implements Entity {
 		this.fundingMoney = builder.fundingMoney;
 		this.fundingMessage = builder.fundingMessage;
 		this.user = builder.user;
+		this.fundingTime = builder.fundingTime;
 	}
 
 	public static class Builder implements IBuilder<Funding> {
@@ -29,6 +31,7 @@ public class Funding implements Entity {
 		private Double fundingMoney;
 		private String fundingMessage;
 		private User user;
+		private String fundingTime;
 
 		public Builder fundingId(Integer fundingId) {
 			this.fundingId = fundingId;
@@ -57,6 +60,11 @@ public class Funding implements Entity {
 
 		public Builder userId(String userId) {
 			this.user = new User.Builder().userId(userId).build();
+			return this;
+		}
+
+		public Builder fundingTime(String fundingTime) {
+			this.fundingTime = fundingTime;
 			return this;
 		}
 
@@ -112,6 +120,14 @@ public class Funding implements Entity {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getFundingTime() {
+		return fundingTime;
+	}
+
+	public void setFundingTime(String fundingTime) {
+		this.fundingTime = fundingTime;
 	}
 
 }

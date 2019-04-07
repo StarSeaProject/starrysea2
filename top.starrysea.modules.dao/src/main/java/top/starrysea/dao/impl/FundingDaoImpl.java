@@ -12,6 +12,7 @@ import top.starrysea.dao.IFundingDao;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
+import top.starrysea.object.dto.Activity;
 import top.starrysea.object.dto.Funding;
 
 @Repository("fundingDao")
@@ -36,7 +37,8 @@ public class FundingDaoImpl implements IFundingDao {
 	public void saveFundingDao(List<Funding> fundings) {
 		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("activity_id").insert("funding_name").insert("funding_money").insert("funding_message")
-				.insert("user_id").table(Funding.class).batchEnd(new BatchPreparedStatementSetter() {
+				.insert("user_id").insert("funding_time").table(Funding.class)
+				.batchEnd(new BatchPreparedStatementSetter() {
 
 					@Override
 					public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -45,6 +47,7 @@ public class FundingDaoImpl implements IFundingDao {
 						ps.setDouble(3, fundings.get(i).getFundingMoney());
 						ps.setString(4, fundings.get(i).getFundingMessage());
 						ps.setString(5, fundings.get(i).getUser().getUserId());
+						ps.setString(6, fundings.get(i).getFundingTime());
 					}
 
 					@Override
@@ -58,6 +61,21 @@ public class FundingDaoImpl implements IFundingDao {
 	public void deleteFundingDao(Funding funding) {
 		kumaSqlDao.deleteMode();
 		kumaSqlDao.table(Funding.class).where("funding_id", WhereType.EQUALS, funding.getFundingId()).end();
+	}
+
+	@Override
+	public List<Funding> getFundingByUserDao(String userId) {
+		kumaSqlDao.selectMode();
+		ListSqlResult<Funding> theResult = kumaSqlDao.select("activity_id", "a").select("activity_cover", "a")
+				.select("activity_name", "a").select("funding_time", "f").from(Funding.class, "f")
+				.leftjoin(Activity.class, "a", "activity_id", Funding.class, "activity_id")
+				.where("user_id", WhereType.EQUALS, userId)
+				.endForList((rs, row) -> new Funding.Builder().fundingTime(rs.getString("funding_time"))
+						.activity(new Activity.Builder().activityId(rs.getInt("activity_id"))
+								.activityCover(rs.getString("activity_cover"))
+								.activityName(rs.getString("activity_name")).build())
+						.build());
+		return theResult.getResult();
 	}
 
 }

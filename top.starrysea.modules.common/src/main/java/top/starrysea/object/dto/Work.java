@@ -15,6 +15,7 @@ public class Work implements Entity {
 	private String workCover;
 	private String workSummary;
 	private Integer workClick;
+	private Activity activity;
 
 	private Work(Builder builder) {
 		this.workId = builder.workId;
@@ -25,6 +26,7 @@ public class Work implements Entity {
 		this.workCover = builder.workCover;
 		this.workSummary = builder.workSummary;
 		this.workClick = builder.workClick;
+		this.activity = builder.activity;
 	}
 
 	public static class Builder implements IBuilder<Work> {
@@ -37,6 +39,7 @@ public class Work implements Entity {
 		private String workCover;
 		private String workSummary;
 		private Integer workClick;
+		private Activity activity;
 
 		public Builder workId(Integer workId) {
 			this.workId = workId;
@@ -75,6 +78,11 @@ public class Work implements Entity {
 
 		public Builder workPdfPassword(String workPdfPassword) {
 			this.workPdfPassword = workPdfPassword;
+			return this;
+		}
+
+		public Builder activityId(int activityId) {
+			this.activity = new Activity.Builder().activityId(activityId).build();
 			return this;
 		}
 
@@ -147,6 +155,14 @@ public class Work implements Entity {
 
 	public void setWorkPdfPassword(String workPdfPassword) {
 		this.workPdfPassword = workPdfPassword;
+	}
+
+	public Activity getActivity() {
+		return activity;
+	}
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
 	}
 
 	public WorkForAll toVoForAll() {

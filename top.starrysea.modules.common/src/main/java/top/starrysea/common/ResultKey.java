@@ -9,8 +9,8 @@ public enum ResultKey {
 
 	LIST_1(List.class), LIST_2(List.class),
 
-	ACTIVITY(Activity.class), ORDER(Orders.class), ADMIN(Admin.class), WORK(Work.class), ONLINE(Online.class), DOUBLE(
-			Double.class), USER(User.class),
+	ACTIVITY(Activity.class), ORDER(Orders.class), ADMIN(Admin.class), WORK(Work.class), ONLINE(Online.class),
+	DOUBLE(Double.class), USER(User.class),
 
 	MAP(Map.class);
 

@@ -2,9 +2,13 @@ package top.starrysea.service.impl;
 
 import static top.starrysea.common.Common.isNotNull;
 import static top.starrysea.common.ResultKey.USER;
+import static top.starrysea.common.ResultKey.LIST_1;
+import static top.starrysea.common.ResultKey.LIST_2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +17,19 @@ import org.springframework.stereotype.Service;
 
 import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
+import top.starrysea.dao.IFundingDao;
+import top.starrysea.dao.IOrderDetailDao;
 import top.starrysea.dao.IUserDao;
+import top.starrysea.dao.IWorkDao;
 import top.starrysea.kql.facede.KumaRedisDao;
+import top.starrysea.object.dto.Funding;
+import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.User;
+import top.starrysea.object.dto.Work;
 import top.starrysea.object.view.in.UserForSave;
+import top.starrysea.object.view.out.UserFundingInfo;
+import top.starrysea.object.view.out.UserFundingWorkInfo;
+import top.starrysea.object.view.out.UserOrderInfo;
 import top.starrysea.service.IUserService;
 
 @Service("userService")
@@ -28,6 +41,12 @@ public class UserServiceImpl implements IUserService {
 	private IUserDao userDao;
 	@Autowired
 	private KumaRedisDao kumaRedisDao;
+	@Autowired
+	private IFundingDao fundingDao;
+	@Autowired
+	private IWorkDao workDao;
+	@Autowired
+	private IOrderDetailDao orderDetailDao;
 
 	@Override
 	public ServiceResult registerService(User user) {
@@ -55,7 +74,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public ServiceResult userLogin(User user) {
 		User user1 = userDao.getUserDao(user);
-		ServiceResult serviceResult= ServiceResult.of();
+		ServiceResult serviceResult = ServiceResult.of();
 		if (isNotNull(user1)) {
 			serviceResult.setSuccessed(true).setResult(USER, user1);
 		} else {
@@ -89,7 +108,42 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public ServiceResult getUserInfoService(String userId) {
-		return ServiceResult.of(true).setResult(USER, userDao.getUserInfoDao(userId));
+		ServiceResult serviceResult = ServiceResult.of(true);
+		User user = userDao.getUserInfoDao(userId);
+		List<Funding> fundings = fundingDao.getFundingByUserDao(userId);
+		// 一次性查出所有该用户参与众筹关联的作品
+		List<Work> works = workDao.getWorkByActivityDao(fundings.stream()
+				.map(funding -> funding.getActivity().getActivityId()).distinct().collect(Collectors.toList()));
+		// 根据活动id进行分组
+		Map<Integer, List<Work>> workGroupByActivity = works.stream()
+				.collect(Collectors.groupingBy(work -> work.getActivity().getActivityId()));
+		// 将不同活动id的作品加入到众筹记录中并按参与众筹时间排序
+		List<UserFundingInfo> userFundingInfos = fundings.stream()
+				.map(funding -> new UserFundingInfo(funding,
+						workGroupByActivity.get(funding.getActivity().getActivityId()).stream()
+								.map(UserFundingWorkInfo::new).collect(Collectors.toList())))
+				.sorted((userFundingInfo1,
+						userFundingInfo2) -> Common.string2Time(userFundingInfo1.getFundingTime())
+								.before(Common.string2Time(userFundingInfo2.getFundingTime())) ? 1 : -1)
+				.collect(Collectors.toList());
+
+		// 一次性查出所有用户的下单记录
+		List<OrderDetail> orderDetails = orderDetailDao.getOrderDetailByUser(userId);
+		// 根据orderId进行分组(已按照下单时间排序)
+		Map<String, List<OrderDetail>> orderDetailGroupByOrder = orderDetails.stream()
+				.collect(Collectors.groupingBy(orderDetail -> orderDetail.getOrder().getOrderId()));
+		// 将不同的订单详情加到对应的订单记录中
+		List<UserOrderInfo> userOrderInfos = orderDetails.stream().map(orderDetail -> {
+			List<OrderDetail> _orderDetail = orderDetailGroupByOrder.get(orderDetail.getOrder().getOrderId());
+			UserOrderInfo userOrderInfo = new UserOrderInfo(_orderDetail.get(0));
+			userOrderInfo.addUserOrderDetailInfos(_orderDetail);
+			return userOrderInfo;
+		}).collect(Collectors.toList());
+
+		serviceResult.setResult(USER, user);
+		serviceResult.setResult(LIST_1, userFundingInfos);
+		serviceResult.setResult(LIST_2, userOrderInfos);
+		return serviceResult;
 	}
 
 	@Override
@@ -101,10 +155,10 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public ServiceResult changeUserPasswordService(User user, String newPassword) {
 		User userToValidate = userDao.getUserInfoDao(user.getUserId());
-		//用用户id获取邮箱
+		// 用用户id获取邮箱
 		userToValidate.setUserId(user.getUserId());
 		userToValidate.setUserPassword(user.getUserPassword());
-		//用邮箱和输入的旧密码检验后者是否正确(相当于登录)
+		// 用邮箱和输入的旧密码检验后者是否正确(相当于登录)
 		if (userDao.getUserDao(userToValidate) == null) {
 			return ServiceResult.of(false).setErrInfo("修改密码失败: 旧密码错误");
 		} else {
