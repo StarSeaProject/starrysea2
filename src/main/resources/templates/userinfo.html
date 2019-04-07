@@ -225,7 +225,7 @@
     <div id="orderrcd">
         <div class="container-fluid orderitem" th:each="orderitem:${orders}">
             <div class="row">
-                <div class="col-xs-12 ordertitle boldfont" th:text="${orderitem.getOrder().getOrderExpressnum()}">
+                <div class="col-xs-12 ordertitle boldfont" th:text="${orderitem.getOrderExpressnum()}">
                     无日期显示 快递单号：无快递单号
                 </div>
             </div>
@@ -247,7 +247,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-8 container-fluid">
-                            <div class="row" th:each="orderwork:${orderitem.getWorkType().getWork()}">
+                            <div class="row" th:each="orderwork:${orderitem.getUserOrderDetailInfos()}">
                                 <div class="col-xs-5">
                                     <img class="img-responsive"
                                          th:attr="src=${orderwork.getWorkCover()}" src="/starsea.png">
@@ -257,10 +257,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-2 ordercontentbox1" th:text="${orderitem.getOrder().getOrderStatus()}">
+                        <div class="col-xs-2 ordercontentbox1" th:text="${orderitem.getOrderStatus()}">
                             无发货状态
                         </div>
-                        <div class="col-xs-2 ordercontentbox1" th:text="${orderitem.getOrder().getOrderRemark()}">
+                        <div class="col-xs-2 ordercontentbox1" th:text="${orderitem.getOrderRemark()}">
                             无备注
                         </div>
                     </div>
@@ -268,7 +268,7 @@
                         <div class="col-xs-3 boldfont  ordercontentbox2">
                             收货地址
                         </div>
-                        <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrder().getOrderAddress()}">
+                        <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderAddress()}">
                             无收货地址
                         </div>
                         <div class="col-xs-4">
@@ -292,7 +292,7 @@
     </div>
 
     <div id="activityrcd">
-        <div class="container-fluid activityitem" th:each="activityitem:${activities}">
+        <div class="container-fluid activityitem" th:each="funding:${fundings}">
             <hr>
             <div class="row boldfont activityrow">
                 <div class="col-xs-3">
@@ -313,18 +313,18 @@
             </div>
             <div class="row activityrow">
                 <div class="col-xs-3">
-                    <img class="img-responsive" th:attr="src=${activityitem.getActivityCover()}" src="/starsea.png">
+                    <img class="img-responsive" th:attr="src=${funding.getActivityCover()}" src="/starsea.png">
                 </div>
-                <div class="col-xs-3 activitycontentbox1" th:text="${activityitem.getActivityName()}">
+                <div class="col-xs-3 activitycontentbox1" th:text="${funding.getActivityName()}">
                     无活动名称
                 </div>
-                <div class="col-xs-2 activitycontentbox1" th:text="${activityitem.getActivityEndtime()}">
+                <div class="col-xs-2 activitycontentbox1" th:text="${funding.getFundingTime()}">
                     无活动日期
                 </div>
-                <div class="col-xs-2 activitycontentbox1" th:text="">
-                    无活动成果
+                <div class="col-xs-2 activitycontentbox1" th:each="work:${funding.getWorks()}">
+                	<a th:href="${work.getWorkUrl()}" th:text="${work.getWorkName()}"></a>
                 </div>
-                <div class="col-xs-2 activitycontentbox1" th:text="${activityitem.getActivitySummary()}">
+                <div class="col-xs-2 activitycontentbox1" th:text="${funding.getFundingMessage()}">
                     无备注
                 </div>
             </div>

@@ -67,10 +67,11 @@ public class FundingDaoImpl implements IFundingDao {
 	public List<Funding> getFundingByUserDao(String userId) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Funding> theResult = kumaSqlDao.select("activity_id", "a").select("activity_cover", "a")
-				.select("activity_name", "a").select("funding_time", "f").from(Funding.class, "f")
-				.leftjoin(Activity.class, "a", "activity_id", Funding.class, "activity_id")
+				.select("activity_name", "a").select("funding_time", "f").select("funding_message", "f")
+				.from(Funding.class, "f").leftjoin(Activity.class, "a", "activity_id", Funding.class, "activity_id")
 				.where("user_id", WhereType.EQUALS, userId)
-				.endForList((rs, row) -> new Funding.Builder().fundingTime(rs.getString("funding_time"))
+				.endForList((rs, row) -> new Funding.Builder().fundingMessage(rs.getString("funding_message"))
+						.fundingTime(rs.getString("funding_time"))
 						.activity(new Activity.Builder().activityId(rs.getInt("activity_id"))
 								.activityCover(rs.getString("activity_cover"))
 								.activityName(rs.getString("activity_name")).build())

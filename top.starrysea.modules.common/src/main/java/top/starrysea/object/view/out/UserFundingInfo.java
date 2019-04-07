@@ -9,6 +9,7 @@ public class UserFundingInfo {
 	private String activityCover;
 	private String activityName;
 	private String fundingTime;
+	private String fundingMessage;
 	private List<UserFundingWorkInfo> works;
 
 	public UserFundingInfo(Funding funding, List<UserFundingWorkInfo> works) {
@@ -16,6 +17,7 @@ public class UserFundingInfo {
 		this.activityName = funding.getActivity().getActivityName();
 		this.fundingTime = funding.getFundingTime();
 		this.works = works;
+		this.fundingMessage = funding.getFundingMessage();
 	}
 
 	public String getActivityCover() {
@@ -32,6 +34,10 @@ public class UserFundingInfo {
 
 	public List<UserFundingWorkInfo> getWorks() {
 		return works;
+	}
+
+	public String getFundingMessage() {
+		return fundingMessage;
 	}
 
 }
