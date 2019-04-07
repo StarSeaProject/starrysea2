@@ -1,5 +1,9 @@
 package top.starrysea.controller;
 
+import com.google.code.kaptcha.impl.DefaultKaptcha;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
@@ -9,19 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.google.code.kaptcha.impl.DefaultKaptcha;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
+import top.starrysea.object.dto.Activity;
+import top.starrysea.object.dto.OrderDetail;
+import top.starrysea.object.dto.User;
 import top.starrysea.object.view.in.*;
 import top.starrysea.service.IUserService;
-
-import top.starrysea.object.dto.User;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -29,12 +28,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static top.starrysea.common.Const.*;
@@ -123,7 +123,12 @@ public class UserController {
 	public ModelAndView getUserInfoController(HttpSession session, Device device) {
 		ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "userinfo" : "userinfo");
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
-		User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
+		//User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
+		User user = userService.getUserInfoService("U-4UvSNao73Te9vQZYlo").getResult(USER);
+		List<OrderDetail> orderDetails = new ArrayList<>();
+		List<Activity> activities = new ArrayList<>();
+		mav.addObject("orders", orderDetails);
+		mav.addObject("activities", activities);
 		mav.addObject("userInfo", user.toVO());
 		return mav;
 	}
@@ -169,18 +174,20 @@ public class UserController {
 
 	@PostMapping("/changePassword")
 	public ModelAndView changePasswordController(@Valid UserForChangePassword user, HttpSession session,
-			Device device) {
+	                                             Device device) {
 		User userToChange = (User) session.getAttribute(USER_SESSION_KEY);
-		if (userToChange == null) {
-			return ModelAndViewFactory.newErrorMav("不能在未登录的情况下修改密码", device);
+		userToChange.setUserPassword(user.getCurrentPassword());
+		ServiceResult serviceResult = userService.changeUserPasswordService(userToChange, user.getNewPassword());
+		if (serviceResult.isSuccessed()) {
+			return ModelAndViewFactory.newSuccessMav("修改密码成功", device);
 		} else {
-			userToChange.setUserPassword(user.getCurrentPassword());
-			ServiceResult serviceResult = userService.changeUserPasswordService(userToChange, user.getNewPassword());
-			if (serviceResult.isSuccessed()) {
-				return ModelAndViewFactory.newSuccessMav("修改密码成功", device);
-			} else {
-				return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
-			}
+			return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
 		}
+	}
+
+	@GetMapping("/changePassword")
+	public ModelAndView changePassword(Device device){
+		ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "changepassword" : "changepassword");
+		return mav;
 	}
 }
