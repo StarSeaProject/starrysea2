@@ -36,7 +36,7 @@ public class FundingDaoImpl implements IFundingDao {
 	public void saveFundingDao(List<Funding> fundings) {
 		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("activity_id").insert("funding_name").insert("funding_money").insert("funding_message")
-				.table(Funding.class).batchEnd(new BatchPreparedStatementSetter() {
+				.insert("user_id").table(Funding.class).batchEnd(new BatchPreparedStatementSetter() {
 
 					@Override
 					public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -44,6 +44,7 @@ public class FundingDaoImpl implements IFundingDao {
 						ps.setString(2, fundings.get(i).getFundingName());
 						ps.setDouble(3, fundings.get(i).getFundingMoney());
 						ps.setString(4, fundings.get(i).getFundingMessage());
+						ps.setString(5, fundings.get(i).getUser().getUserId());
 					}
 
 					@Override
