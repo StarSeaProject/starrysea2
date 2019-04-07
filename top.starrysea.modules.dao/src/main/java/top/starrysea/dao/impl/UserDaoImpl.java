@@ -1,11 +1,7 @@
 package top.starrysea.dao.impl;
 
-import static top.starrysea.common.Common.isNotNull;
-import static top.starrysea.common.Common.sha512;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import top.starrysea.dao.IUserDao;
 import top.starrysea.kql.clause.UpdateSetType;
 import top.starrysea.kql.clause.WhereType;
@@ -13,6 +9,9 @@ import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
 import top.starrysea.object.dto.User;
+
+import static top.starrysea.common.Common.isNotNull;
+import static top.starrysea.common.Common.sha512;
 
 @Repository("userDao")
 public class UserDaoImpl implements IUserDao {
@@ -67,7 +66,7 @@ public class UserDaoImpl implements IUserDao {
 	public User getUserInfoDao(String userId) {
 		kumaSqlDao.selectMode();
 		EntitySqlResult<User> result = kumaSqlDao.select("user_email").select("user_name").select("user_osu_person")
-				.select("user_osu_team").select("user_osu_grade").select("user_osu_group").select("user_dd_flag")
+				.select("user_osu_team").select("user_osu_grade").select("user_dd_flag")
 				.from(User.class).where("user_id", WhereType.EQUALS, userId)
 				.endForObject((rs, row) -> new User.Builder().userEmail(rs.getString("user_email"))
 						.username(rs.getString("user_name")).osuPerson(rs.getShort("user_osu_person"))
