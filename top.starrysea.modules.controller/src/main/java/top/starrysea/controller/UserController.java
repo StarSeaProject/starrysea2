@@ -123,8 +123,7 @@ public class UserController {
 	public ModelAndView getUserInfoController(HttpSession session, Device device) {
 		ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "userinfo" : "userinfo");
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
-		//User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
-		User user = userService.getUserInfoService("U-4UvSNao73Te9vQZYlo").getResult(USER);
+		User user = userService.getUserInfoService(currentUser.getUserId()).getResult(USER);
 		List<OrderDetail> orderDetails = new ArrayList<>();
 		List<Activity> activities = new ArrayList<>();
 		mav.addObject("orders", orderDetails);
@@ -174,7 +173,7 @@ public class UserController {
 
 	@PostMapping("/changePassword")
 	public ModelAndView changePasswordController(@Valid UserForChangePassword user, HttpSession session,
-	                                             Device device) {
+			Device device) {
 		User userToChange = (User) session.getAttribute(USER_SESSION_KEY);
 		userToChange.setUserPassword(user.getCurrentPassword());
 		ServiceResult serviceResult = userService.changeUserPasswordService(userToChange, user.getNewPassword());
@@ -186,7 +185,7 @@ public class UserController {
 	}
 
 	@GetMapping("/changePassword")
-	public ModelAndView changePassword(Device device){
+	public ModelAndView changePassword(Device device) {
 		ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "changepassword" : "changepassword");
 		return mav;
 	}
