@@ -54,8 +54,7 @@
 					data</div>
 				<div class="h6" th:text="'点击量:'+${work.workClick}">No data</div>
 				<div class="h6">
-					<a target="_blank" th:href="@{${work.workPdfpath}}"
-						th:attr="download=${work.workName}">下载链接</a>
+					<a target="_blank" th:href="@{${work.workPdfpath}}">下载链接</a>
 				</div>
 				<div class="h6" th:text="'提取码:'+${work.workPdfPassword}"></div>
 				<select id="workTypes">
