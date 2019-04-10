@@ -35,7 +35,11 @@ public class WebAppConfigurer extends WebMvcConfigurationSupport {
 		registry.addInterceptor(new AfterLoginInterceptor()).addPathPatterns("/admin/login");
 		registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**");
 		registry.addInterceptor(new AfterExitInterceptor()).addPathPatterns("/admin/exit");
+		registry.addInterceptor(new PreUserLoginInterceptor()).addPathPatterns("/user/changePassword", "/user/info",
+				"/user/changePassword", "/order/add", "/order/toAddOrder", "/car/remove", "/car", "/car/removes");
+		registry.addInterceptor(new PreUserLoginForAjaxInterceptor()).addPathPatterns("/car/add");
 		registry.addInterceptor(deviceResolverHandlerInterceptor());
+		registry.addInterceptor(new AfterUserExitInterceptor()).addPathPatterns("/user/exit");
 		super.addInterceptors(registry);
 	}
 

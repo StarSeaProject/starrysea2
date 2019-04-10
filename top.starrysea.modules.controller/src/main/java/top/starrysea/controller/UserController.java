@@ -55,7 +55,8 @@ public class UserController {
 	@ApiOperation(value = "检查用户可用性", notes = "检查用户可用性")
 	@PostMapping("/check")
 	@ResponseBody
-	public Map<String, Object> checkUserAvailabilityController(@Valid @ApiParam(name = "用户检验用对象", required = true) UserForCheck user) {
+	public Map<String, Object> checkUserAvailabilityController(
+			@Valid @ApiParam(name = "用户检验用对象", required = true) UserForCheck user) {
 		ServiceResult serviceResult = userService.checkUserAvailabilityService(user.toDTO());
 		Map<String, Object> result = new HashMap<>();
 		result.put("userEmail", user.getUserEmail());
@@ -67,7 +68,7 @@ public class UserController {
 	@ApiOperation(value = "注册", notes = "注册")
 	@PostMapping("/register")
 	public ModelAndView registerController(@Valid @ApiParam(name = "注册用对象", required = true) UserForAdd user,
-	                                       @ApiIgnore Device device) {
+			@ApiIgnore Device device) {
 		ServiceResult serviceResult = userService.registerService(user.toDTO());
 		if (serviceResult.isSuccessed()) {
 			return ModelAndViewFactory.newSuccessMav("我们已经发送了验证邮件到您的邮箱,请注意查收", device);
@@ -80,7 +81,7 @@ public class UserController {
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<String, Object> loginController(@Valid @ApiParam(name = "登录用对象", required = true) UserForLogin user,
-	                                           @ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession httpSession) {
+			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession httpSession) {
 		String verifyCode = (String) httpSession.getAttribute(VERIFY_CODE);
 		Map<String, Object> loginResult = new HashMap<>();
 		if (!verifyCode.equals(user.getVerifyCode())) {
@@ -108,13 +109,13 @@ public class UserController {
 	@ApiOperation(value = "登出", notes = "登出")
 	@GetMapping("/exit")
 	public ModelAndView exitController(@ApiIgnore Device device, @ApiIgnore HttpSession session) {
-		session.removeAttribute(USER_SESSION_KEY);
 		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
 	}
 
 	@ApiOperation(value = "用户激活", notes = "用户激活")
 	@GetMapping("/activate/{activateCode}")
-	public ModelAndView activateController(@Valid @ApiParam(name = "用户激活用对象", required = true) UserForActivate user, @ApiIgnore BindingResult bindingResult, @ApiIgnore Device device) {
+	public ModelAndView activateController(@Valid @ApiParam(name = "用户激活用对象", required = true) UserForActivate user,
+			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device) {
 		ServiceResult serviceResult = userService.activateService(user.getActivateCode());
 		if (serviceResult.isSuccessed()) {
 			return ModelAndViewFactory.newSuccessMav("激活成功!请登录!", device);
@@ -182,8 +183,9 @@ public class UserController {
 
 	@ApiOperation(value = "用户修改密码", notes = "用户修改密码")
 	@PostMapping("/changePassword")
-	public ModelAndView changePasswordController(@Valid @ApiParam(name = "修改密码用对象", required = true) UserForChangePassword user, @ApiIgnore HttpSession session,
-	                                             @ApiIgnore Device device) {
+	public ModelAndView changePasswordController(
+			@Valid @ApiParam(name = "修改密码用对象", required = true) UserForChangePassword user,
+			@ApiIgnore HttpSession session, @ApiIgnore Device device) {
 		User userToChange = (User) session.getAttribute(USER_SESSION_KEY);
 		userToChange.setUserPassword(user.getCurrentPassword());
 		ServiceResult serviceResult = userService.changeUserPasswordService(userToChange, user.getNewPassword());
