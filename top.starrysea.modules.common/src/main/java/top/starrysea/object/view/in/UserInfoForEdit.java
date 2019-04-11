@@ -68,6 +68,7 @@ public class UserInfoForEdit {
 	}
 
 	public User toDTO() {
-		return new User.Builder().username(username).osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade).build();
+		return new User.Builder().username(username).osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade).isDD(isDD)
+				.build();
 	}
 }
