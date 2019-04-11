@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+
+	<meta charset="utf-8"></meta>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+	<title>星之海志愿者公会</title>
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+		  integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+		  crossorigin="anonymous"></link>
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+		  integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+		  crossorigin="anonymous"></link>
+	<link rel="stylesheet" href="/mobile/mynavbar_mobilepage.min.css"></link>
+	<link rel="stylesheet" href="/mobile/register.min.css"></link>
+</head>
+<body>
+<div class="navbartop row">
+	<div class="navbar-header col-xs-3">
+		<a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
+	</div>
+	<div class="navbar-right col-xs-9 text-right">
+		<a href="/work" class="ma text-right">作品</a>
+		<a href="/activity"class="ma text-right">活动</a>
+		<a href="/mintro.html"class="ma text-right">关于</a>
+	</div>
+</div>
+
+<div id="mainwindow">
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>注册</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12" id="messagebox">
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>昵称</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 inputbox">
+					<input type="text"  id="formusername" name="formusername" value="">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>所推角色</h3>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-xs-12 container-fuild" >
+					<div class="row btrow">
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt1" name="1">高海千歌</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt2" name="2">樱内梨子</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt3" name="3">松浦果南</a>
+						</div>
+					</div>
+					<div class="row btrow">
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt4" name="4">黑泽黛雅</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt5" name="5">渡边曜</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt6" name="6">津岛善子</a>
+						</div>
+					</div>
+					<div class="row btrow">
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt7" name="7">国木田花丸</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt8" name="8">小原鞠莉</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt9" name="9">黑泽露比</a>
+						</div>
+					</div>
+					<div class="row btrow">
+						<div class="col-xs-2">
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt10" name="10">鹿角圣良</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt charabt" id="charabt11" name="11">鹿角理亚</a>
+						</div>
+						<div class="col-xs-2">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>所推小组</h3>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-xs-12 container-fuild" >
+					<div class="row btrow">
+						<div class="col-xs-2">
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt teambt" id="teambt1" name="1">CYaRon</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt teambt" id="teambt2" name="2">AZALEA</a>
+						</div>
+						<div class="col-xs-2">
+						</div>
+					</div>
+					<div class="row btrow">
+						<div class="col-xs-2">
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt teambt" id="teambt3" name="3">Guilty Kiss</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt teambt" id="teambt4" name="4">Saint Snow</a>
+						</div>
+						<div class="col-xs-2">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>所推年级</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 container-fuild" >
+					<div class="row btrow">
+						<div class="col-xs-4 btbox">
+							<a class="bt gradebt" id="gradebt1" name="1">一年生</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt gradebt" id="gradebt2" name="2">二年生</a>
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="bt gradebt" id="gradebt3" name="3">三年生</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>DD</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 container-fuild" >
+					<div class="row btrow">
+						<div class="col-xs-4">
+						</div>
+						<div class="col-xs-4 btbox">
+							<a class="ddbt" id="ddbt1" name="1">我全都要</a>
+						</div>
+						<div class="col-xs-4">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<p class="ddtext"><small>（若选中则代表全部角色的应援物都可以接受）</small></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>电子邮箱</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 inputbox">
+					<input type="text" id="formuserEmail"  name="formuserEmail" value="">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>密码</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 inputbox">
+					<input type="password"  id="formpassword" value="">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>确认密码</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 inputbox">
+					<input type="password"  id="formpassword2" value="">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>验证码</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6 inputbox">
+					<input type="text" id="formvcode"  name="formvcode" value="">
+				</div>
+				<div class="col-xs-6 inputbox">
+					<img alt="验证码" onclick = "this.src='/user/getVerifyCode?d='+new Date()*1" src="/user/getVerifyCode" >
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-4">
+				</div>
+				<div class="col-xs-4 inputbox">
+					<a class="submitbt" id="submitbt1">提交</a>
+				</div>
+			</div>
+		<form id="resultform" action="/user/register" method="post">
+			<input id="username" type="hidden"  name="username" >
+			<input id="userEmail" type="hidden"  name="userEmail" >
+			<input id="userPassword" name="userPassword" type="hidden" value="">
+			<input id="verifyCode" type="hidden"  name="verifyCode" >
+			<input id="osuPerson" name="osuPerson" type="hidden" value="0">
+			<input id="osuTeam" name="osuTeam" type="hidden" value="0">
+			<input id="osuGrade" name="osuGrade" type="hidden" value="0">
+			<input id="isDD" name="isDD" type="hidden" value="2">
+		</form>
+		</div>
+
+</div>
+
+
+<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+		integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+		crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<script src="/register.min.js"></script>
+
+</body>
+
+</html>
