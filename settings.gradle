@@ -8,4 +8,5 @@ include 'top.starrysea.modules.common',
 		'top.starrysea.modules.exception',
 		'top.starrysea.modules.controller',
 		'top.starrysea.modules.aspect',
-		'top.starrysea.modules.kumasql'
+		'top.starrysea.modules.kumasql',
+		'top.starrysea.modules.trade'

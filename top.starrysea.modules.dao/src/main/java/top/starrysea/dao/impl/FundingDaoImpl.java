@@ -25,7 +25,7 @@ public class FundingDaoImpl implements IFundingDao {
 	public List<Funding> getAllFundingDao(Funding funding) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Funding> theResult = kumaSqlDao.select("funding_id").select("funding_name")
-				.select("funding_money").select("funding_message").from(Funding.class)
+				.select("funding_money").select("funding_message").select("funding_status").from(Funding.class)
 				.where("activity_id", WhereType.EQUALS, funding.getActivity().getActivityId())
 				.endForList((rs, row) -> new Funding.Builder().fundingId(rs.getInt("funding_id"))
 						.fundingName(rs.getString("funding_name")).fundingMoney(rs.getDouble("funding_money"))
@@ -37,7 +37,7 @@ public class FundingDaoImpl implements IFundingDao {
 	public void saveFundingDao(List<Funding> fundings) {
 		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("activity_id").insert("funding_name").insert("funding_money").insert("funding_message")
-				.insert("user_id").insert("funding_time").table(Funding.class)
+				.insert("user_id").insert("funding_time").insert("funding_status").table(Funding.class)
 				.batchEnd(new BatchPreparedStatementSetter() {
 
 					@Override
@@ -48,6 +48,7 @@ public class FundingDaoImpl implements IFundingDao {
 						ps.setString(4, fundings.get(i).getFundingMessage());
 						ps.setString(5, fundings.get(i).getUser().getUserId());
 						ps.setString(6, fundings.get(i).getFundingTime());
+						ps.setShort(7, fundings.get(i).getFundingStatus());
 					}
 
 					@Override
@@ -68,7 +69,8 @@ public class FundingDaoImpl implements IFundingDao {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Funding> theResult = kumaSqlDao.select("activity_id", "a").select("activity_cover", "a")
 				.select("activity_name", "a").select("funding_time", "f").select("funding_message", "f")
-				.from(Funding.class, "f").leftjoin(Activity.class, "a", "activity_id", Funding.class, "activity_id")
+				.select("funding_status", "f").from(Funding.class, "f")
+				.leftjoin(Activity.class, "a", "activity_id", Funding.class, "activity_id")
 				.where("user_id", WhereType.EQUALS, userId)
 				.endForList((rs, row) -> new Funding.Builder().fundingMessage(rs.getString("funding_message"))
 						.fundingTime(rs.getString("funding_time"))
