@@ -1,9 +1,12 @@
 package top.starrysea.dao.impl;
 
+import static top.starrysea.common.Common.isNotNull;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.kql.clause.OrderByType;
@@ -18,10 +21,6 @@ import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.City;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Province;
-
-import static top.starrysea.common.Common.*;
-
-import java.util.List;
 
 @Repository("orderDao")
 public class OrderDaoImpl implements IOrderDao {
@@ -81,10 +80,9 @@ public class OrderDaoImpl implements IOrderDao {
 	// 对一个作品进行下单
 	public Orders saveOrderDao(Orders order) {
 		kumaSqlDao.insertMode();
-		order.setOrderNum(Common.getCharId(30));
 		kumaSqlDao.insert("order_id", order.getOrderId()).insert("order_num", order.getOrderNum())
 				.insert("order_name", order.getOrderName()).insert("order_area", order.getOrderArea().getAreaId())
-				.insert("order_address", order.getOrderAddress()).insert("order_status", 1)
+				.insert("order_address", order.getOrderAddress()).insert("order_status", 0)
 				.insert("order_time", System.currentTimeMillis()).insert("order_email", order.getOrderEMail())
 				.insert("order_remark", order.getOrderRemark()).insert("order_phone", order.getOrderPhone())
 				.insert("user_id", order.getUser().getUserId()).table(Orders.class).end();

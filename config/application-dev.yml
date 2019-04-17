@@ -50,3 +50,10 @@ management:
         include: shutdown
 ss:
   fileroot: D:/develop/nginx-1.12.1/
+payelves:
+  gateway:  https://www.payelves.com/api/v1/pay/web
+  openId: AWLg6Cj3d
+  token:  8216e8aebcd143f590abf996f14e29fe
+  uuid: yeah-Tiger
+  clientVersion:  3.3.0
+  appKey: 8097732829315073

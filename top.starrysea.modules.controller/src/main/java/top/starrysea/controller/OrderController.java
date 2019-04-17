@@ -1,5 +1,13 @@
 package top.starrysea.controller;
 
+import static top.starrysea.common.Const.INFO;
+import static top.starrysea.common.Const.MOBILE;
+import static top.starrysea.common.Const.TOKEN;
+import static top.starrysea.common.Const.USER_SESSION_KEY;
+import static top.starrysea.common.ResultKey.LIST_1;
+import static top.starrysea.common.ResultKey.MAP;
+import static top.starrysea.common.ResultKey.ORDER;
+import static top.starrysea.common.ResultKey.STRING;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -43,14 +51,14 @@ import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
+import top.starrysea.object.view.in.WorkTypeForRemoveCar;
 import top.starrysea.object.view.in.WorkTypeForToAddOrders;
 import top.starrysea.object.view.in.WorkTypesForRemoveCar;
 import top.starrysea.security.SecurityAlgorithm;
-import top.starrysea.object.view.in.WorkTypeForRemoveCar;
 import top.starrysea.service.IOrderService;
-
-import static top.starrysea.common.Const.*;
-import static top.starrysea.common.ResultKey.*;
+import top.starrysea.trade.PayelvesPayBackParam;
+import top.starrysea.trade.PayelvesPayRequest;
+import top.starrysea.trade.service.ITradeService;
 
 @Controller
 public class OrderController {
@@ -60,6 +68,8 @@ public class OrderController {
 	private IOrderService orderService;
 	@Resource(name = "desede")
 	private SecurityAlgorithm desede;
+	@Resource(name = "payelvesTradeService")
+	private ITradeService payelvesTradeService;
 
 	// 查询所有的订单
 	@PostMapping("/order")
@@ -132,7 +142,15 @@ public class OrderController {
 			return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
 		}
 		orderService.removeShoppingCarListService(session.getId());
-		return ModelAndViewFactory.newSuccessMav("您已下单成功，之后将会为您派送！", device);
+		Orders o = serviceResult.getResult(ORDER);
+		PayelvesPayBackParam backParam = new PayelvesPayBackParam();
+		backParam.setType(1);
+		String url = payelvesTradeService
+				.createPaymentRequestRouteService(PayelvesPayRequest.builder().withBackPara(Common.toJson(backParam))
+						.withBody("星之海志愿者公会").withChannel(1).withOrderId(o.getOrderId()).withPayType(1).withPrice(1D)
+						.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build())
+				.getResult(STRING);
+		return new ModelAndView("redirect:" + url);
 	}
 
 	// 修改一个订单的状态

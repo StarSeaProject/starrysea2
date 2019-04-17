@@ -112,9 +112,10 @@ public class OrderServiceImpl implements IOrderService {
 				orderDetail.setId(Common.getCharId("OD-", 10));
 			}
 			order.setOrderId(Common.getCharId("O-", 10));
+			order.setOrderNum(Common.getCharId(30));
 			orderDao.saveOrderDao(order);
 			orderDetailDao.saveOrderDetailsDao(orderDetails);
-			return ServiceResult.of(true).setResult(LIST_1, orderDetails);
+			return ServiceResult.of(true).setResult(LIST_1, orderDetails).setResult(ORDER, order);
 		} catch (EmptyResultException | LogicException e) {
 			logger.error(e.getMessage(), e);
 			return ServiceResult.of(false).setErrInfo(e.getMessage());
@@ -187,7 +188,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public ServiceResult exportOrderToXlsService(ExportXlsCondition exportXlsCondition) {
 		if (Common.isNotNull(exportXlsCondition.getStartTime())) {
-			exportXlsCondition.setStartTime(Common.string2Date(exportXlsCondition.getStartTime()).getTime()+"");
+			exportXlsCondition.setStartTime(Common.string2Date(exportXlsCondition.getStartTime()).getTime() + "");
 		}
 		List<OrderDetail> result = orderDetailDao.getAllOrderDetailForXls(exportXlsCondition);
 		HSSFWorkbook excel = new HSSFWorkbook();

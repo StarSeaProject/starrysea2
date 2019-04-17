@@ -37,6 +37,14 @@ public class OrderForAdd {
 	private String orderPhone;
 	@NotBlank(message = "token序列不能为空!这是二次提交!")
 	private String token;
+	/*
+	 * @NotNull(message = "请选择支付类型")
+	 * 
+	 * @Min(value = 1, message = "请选择正确的支付类型")
+	 * 
+	 * @Max(value = 1, message = "请选择正确的支付类型")
+	 */
+	private Integer payType;
 
 	public String getOrderName() {
 		return orderName;
@@ -100,6 +108,14 @@ public class OrderForAdd {
 
 	public void setOrderDetails(List<OrderDetailForAddOrder> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+
+	public Integer getPayType() {
+		return payType;
+	}
+
+	public void setPayType(Integer payType) {
+		this.payType = payType;
 	}
 
 	public Orders toDTO() {

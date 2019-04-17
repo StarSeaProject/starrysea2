@@ -1,0 +1,4 @@
+dependencies {
+	compile project(':top.starrysea.modules.common')
+}
+
