@@ -22,6 +22,13 @@ public class Const {
 	public static final String CUCUIMG = "cucuImg";
 	public static final String CHARSET = "UTF-8";
 	public static final String VERIFY_CODE = "verifyCode";
+	public static final String ORDERS_EXCHANGE = "orders";
+	public static final String ORIGINAL_ORDER_QUEUE = "originalOrderQueue";
+	public static final String CANCEL_ORDER_QUEUE = "cancelOrderQueue";
+	public static final String FUNDING_EXCHANGE = "funding";
+	public static final String ORIGINAL_FUNDING_QUEUE = "originalFundingQueue";
+	public static final String CANCEL_FUNDING_QUEUE = "cancelFundingQueue";
+	public static final Long QUEUE_TIMEOUT = 2 * 60 * 1000L;
 
 	public static class HttpCode {
 		private HttpCode() {

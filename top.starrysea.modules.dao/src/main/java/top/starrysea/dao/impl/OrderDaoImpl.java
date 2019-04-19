@@ -93,9 +93,14 @@ public class OrderDaoImpl implements IOrderDao {
 	// 修改一个订单的状态
 	public void updateOrderDao(Orders order) {
 		kumaSqlDao.updateMode();
-		kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus())
-				.update("order_expressnum", UpdateSetType.ASSIGN, order.getOrderExpressnum()).table(Orders.class)
-				.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
+		if (isNotNull(order.getOrderExpressnum())) {
+			kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus())
+					.update("order_expressnum", UpdateSetType.ASSIGN, order.getOrderExpressnum()).table(Orders.class)
+					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
+		} else {
+			kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus()).table(Orders.class)
+					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
+		}
 	}
 
 	@Override

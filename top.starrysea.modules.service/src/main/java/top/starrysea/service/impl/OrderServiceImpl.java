@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static top.starrysea.common.Const.QUEUE_TIMEOUT;
+import static top.starrysea.common.Const.ORDERS_EXCHANGE;
+import static top.starrysea.common.Const.ORIGINAL_ORDER_QUEUE;
+import static top.starrysea.common.Const.CANCEL_ORDER_QUEUE;
 import javax.annotation.Resource;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -13,6 +16,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,6 +34,7 @@ import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.kql.facede.KumaRedisDao;
+import top.starrysea.mq.MessageSender;
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
@@ -67,6 +72,8 @@ public class OrderServiceImpl implements IOrderService {
 	private IOrderDetailDao orderDetailDao;
 	@Autowired
 	private KumaRedisDao kumaRedisDao;
+	@Autowired
+	private MessageSender messageSender;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -115,6 +122,7 @@ public class OrderServiceImpl implements IOrderService {
 			order.setOrderNum(Common.getCharId(30));
 			orderDao.saveOrderDao(order);
 			orderDetailDao.saveOrderDetailsDao(orderDetails);
+			messageSender.sendMessage(ORDERS_EXCHANGE, ORIGINAL_ORDER_QUEUE, Common.toJson(order), QUEUE_TIMEOUT);
 			return ServiceResult.of(true).setResult(LIST_1, orderDetails).setResult(ORDER, order);
 		} catch (EmptyResultException | LogicException e) {
 			logger.error(e.getMessage(), e);
@@ -285,5 +293,51 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult removeShoppingCarListService(String redisKey) {
 		kumaRedisDao.delete(redisKey);
 		return SUCCESS_SERVICE_RESULT;
+	}
+
+	@Override
+	/***
+	 * 订单回调处理 目前没有考虑到订单自动取消的同时用户付款
+	 */
+	public ServiceResult notifyOrderService(Orders orders) {
+		try {
+			Orders o = orderDao.getOrderDao(orders);
+			o.setOrderId(orders.getOrderId());
+			List<OrderDetail> ods = new ArrayList<>();
+			if (o.getOrderStatus() == 0) {// 排除已被支付的订单，防止多次回调
+				o.setOrderStatus((short) 1);
+				orderDao.updateOrderDao(o);
+				ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(o).build());
+				ods.forEach(orderDetail -> {
+					orderDetail.setOrder(o);
+				});
+			}
+			return ServiceResult.of(true).setResult(LIST_1, ods);
+		} catch (Exception e) {
+			return ServiceResult.FAIL_SERVICE_RESULT;
+		}
+	}
+
+	@Override
+	@RabbitListener(queues = CANCEL_ORDER_QUEUE)
+	@Transactional
+	public void cancelOrderService(String message) {
+		logger.info("收到取消订单消息：" + message);
+		try {
+			Orders orders = Common.toObject(message, Orders.class);
+			Orders o = orderDao.getOrderDao(orders);
+			if (o.getOrderStatus() == 0) {
+				o.setOrderStatus((short) 4);
+				orderDao.updateOrderDao(o);
+				List<OrderDetail> orderDetails = orderDetailDao
+						.getAllOrderDetailDao(new OrderDetail.Builder().order(o).build());
+				orderDetails.forEach(od -> {
+					od.getWorkType().setStock(1);
+					workTypeDao.increaseWorkTypeStockDao(od.getWorkType());
+				});
+			}
+		} catch (Exception e) {
+			logger.info(message + "发生了错误,原因是" + e.getMessage());
+		}
 	}
 }

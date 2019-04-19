@@ -41,4 +41,8 @@ public interface IOrderService {
 			List<OrderDetailForAddOrder> orderDetailForAddOrders);
 
 	ServiceResult removeShoppingCarListService(String redisKey);
+
+	ServiceResult notifyOrderService(Orders orders);
+
+	void cancelOrderService(String message);
 }

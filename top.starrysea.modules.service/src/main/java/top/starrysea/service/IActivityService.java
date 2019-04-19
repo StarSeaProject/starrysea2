@@ -24,4 +24,10 @@ public interface IActivityService {
 	ServiceResult addFundingService(List<Funding> fundings);
 
 	ServiceResult removeFundingService(Funding funding);
+
+	ServiceResult participateFundingService(Funding funding);
+
+	ServiceResult notifyParticipateFundingService(Funding funding);
+
+	void cancelParticipateFundingService(String message);
 }

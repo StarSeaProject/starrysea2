@@ -13,6 +13,10 @@ public class Province implements Entity {
 		this.provinceName = provinceName;
 	}
 
+	public Province() {
+
+	}
+
 	public Integer getProvinceId() {
 		return provinceId;
 	}

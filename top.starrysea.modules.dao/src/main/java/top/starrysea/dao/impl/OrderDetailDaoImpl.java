@@ -34,16 +34,18 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	public List<OrderDetail> getAllOrderDetailDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
-				.from(OrderDetail.class, "od").innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
-						"order_id")
+				.select("work_id", "w").select("work_type_id", "wt").from(OrderDetail.class, "od")
+				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
 				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
-				.where("order_id", "od", WhereType.EQUALS, orderDetail.getOrder().getOrderId())
-				.where("order_num", "o", WhereType.EQUALS, orderDetail.getOrder().getOrderNum()).endForList(
-						(rs, row) -> new OrderDetail.Builder()
-								.workType(new WorkType.Builder().name(rs.getString("name"))
-										.work(new Work.Builder().workName(rs.getString("work_name")).build()).build())
-								.build());
+				.where("order_id", "od", WhereType.EQUALS,
+						orderDetail.getOrder().getOrderId())
+				.where("order_num", "o", WhereType.EQUALS,
+						orderDetail.getOrder().getOrderNum())
+				.endForList((rs, row) -> new OrderDetail.Builder().workType(new WorkType.Builder()
+						.workTypeId(rs.getInt("work_type_id")).name(rs.getString("name")).work(new Work.Builder()
+								.workId(rs.getInt("work_id")).workName(rs.getString("work_name")).build())
+						.build()).build());
 		return theResult.getResult();
 	}
 
@@ -97,7 +99,9 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_status", WhereType.EQUALS, 1)
-				.where("order_time", WhereType.GREATER_EQUAL, exportXlsCondition.getStartTime())
+				.where("order_time", WhereType.GREATER_EQUAL,
+						exportXlsCondition
+								.getStartTime())
 				.orderBy("order_time",
 						OrderByType.DESC)
 				.endForList((rs, row) -> new OrderDetail.Builder()
@@ -120,10 +124,11 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
 				.select("work_type_id", "wt").select("work_id", "w").select("order_num", "o").select("order_email", "o")
-				.from(OrderDetail.class,
-						"od")
-				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
-				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
+				.from(OrderDetail.class, "od")
+				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
+						"order_id")
+				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class,
+						"work_type_id")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_id", "od", WhereType.EQUALS, orderDetail.getOrder().getOrderId())
 				.endForList((rs, row) -> new OrderDetail.Builder()
@@ -151,10 +156,11 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 						"work_id")
 				.innerjoin(Area.class, "a", "area_id", Orders.class,
 						"order_area")
-				.innerjoin(City.class, "c", "city_id", Area.class,
-						"city_id")
+				.innerjoin(City.class, "c", "city_id", Area.class, "city_id")
 				.innerjoin(Province.class, "p", "province_id", City.class, "province_id")
-				.where("user_id", "o", WhereType.EQUALS, userId).orderBy("order_time", "o",
+				.where("user_id", "o", WhereType.EQUALS,
+						userId)
+				.orderBy("order_time", "o",
 						OrderByType.DESC)
 				.endForList((rs, row) -> new OrderDetail.Builder()
 						.order(new Orders.Builder().orderId(rs.getString("order_id"))

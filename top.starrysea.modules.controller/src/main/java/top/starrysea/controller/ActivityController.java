@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -15,14 +16,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.Activity;
+import top.starrysea.object.dto.Funding;
 import top.starrysea.object.dto.User;
 import top.starrysea.object.view.in.ActivityForAdd;
 import top.starrysea.object.view.in.ActivityForAll;
@@ -30,8 +34,12 @@ import top.starrysea.object.view.in.ActivityForModify;
 import top.starrysea.object.view.in.ActivityForOne;
 import top.starrysea.object.view.in.FundingForAdd;
 import top.starrysea.object.view.in.FundingForAddList;
+import top.starrysea.object.view.in.FundingForParticipate;
 import top.starrysea.object.view.in.FundingForRemove;
 import top.starrysea.service.IActivityService;
+import top.starrysea.trade.PayelvesPayBackParam;
+import top.starrysea.trade.PayelvesPayRequest;
+import top.starrysea.trade.service.ITradeService;
 
 import static top.starrysea.common.Const.*;
 import static top.starrysea.common.ResultKey.*;
@@ -41,6 +49,8 @@ public class ActivityController {
 
 	@Autowired
 	private IActivityService activityService;
+	@Resource(name = "payelvesTradeService")
+	private ITradeService payelvesTradeService;
 
 	// 查询所有众筹活动
 	@GetMapping("/activity")
@@ -142,4 +152,21 @@ public class ActivityController {
 		return ModelAndViewFactory.newSuccessMav("删除成功!", device);
 	}
 
+	@RequestMapping("/activity/funding/participate")
+	public ModelAndView participateFundingController(@Valid FundingForParticipate funding, BindingResult bindingResult,
+			HttpSession session) {
+		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
+		Funding fundingDTO = funding.toDTO();
+		fundingDTO.setUser(currentUser);
+		Funding f = activityService.participateFundingService(fundingDTO).getResult(FUNDING);
+		PayelvesPayBackParam backParam = new PayelvesPayBackParam();
+		backParam.setType(2);
+		String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()
+				.withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会-众筹").withChannel(2)
+				.withOrderId(f.getFundingNum()).withPayType(1).withPrice(funding.getFundingMoney() * 100)
+				.withSubject("星之海志愿者公会-众筹" + funding.getFundingMoney()).withUserId(currentUser.getUserId()).build())
+				.getResult(STRING);
+		return new ModelAndView("redirect:" + url);
+
+	}
 }

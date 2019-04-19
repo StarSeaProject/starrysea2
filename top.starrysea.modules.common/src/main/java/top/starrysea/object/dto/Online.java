@@ -17,6 +17,10 @@ public class Online implements Entity {
 		this.onlineStatus = builder.onlineStatus;
 	}
 
+	public Online() {
+
+	}
+
 	public static class Builder implements IBuilder<Online> {
 
 		private String onlineId;

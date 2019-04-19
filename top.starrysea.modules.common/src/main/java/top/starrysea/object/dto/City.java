@@ -16,6 +16,10 @@ public class City implements Entity {
 		this.cityName = builder.cityName;
 	}
 
+	public City() {
+
+	}
+
 	public static class Builder implements IBuilder<City> {
 
 		private Integer cityId;

@@ -16,6 +16,10 @@ public class OrderDetail implements Entity {
 		this.order = builder.order;
 	}
 
+	public OrderDetail() {
+
+	}
+
 	public static class Builder implements IBuilder<OrderDetail> {
 		private String id;
 		private WorkType workType;

@@ -35,6 +35,10 @@ public class Orders implements Entity {
 		this.user = builder.user;
 	}
 
+	public Orders() {
+
+	}
+
 	public static class Builder implements IBuilder<Orders> {
 
 		private String orderId;

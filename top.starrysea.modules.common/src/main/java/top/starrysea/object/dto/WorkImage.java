@@ -15,6 +15,10 @@ public class WorkImage implements Entity {
 		this.workImagePath = builder.workImagePath;
 	}
 
+	public WorkImage() {
+
+	}
+
 	public static class Builder implements IBuilder<WorkImage> {
 
 		private Integer workImageId;

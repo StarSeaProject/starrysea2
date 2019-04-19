@@ -5,11 +5,14 @@ import static top.starrysea.common.ResultKey.STRING;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
+import top.starrysea.trade.PayelvesPayNotify;
 import top.starrysea.trade.PayelvesPayRequest;
 import top.starrysea.trade.service.ITradeService;
 
@@ -27,6 +30,7 @@ public class PayelvesTradeServiceImpl implements ITradeService {
 	private String gateway;
 	@Value("${payelves.appKey}")
 	private String appKey;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	/***
@@ -108,4 +112,26 @@ public class PayelvesTradeServiceImpl implements ITradeService {
 		paramBuffer.append(token);
 		return Common.md5(paramBuffer.toString());
 	}
+
+	@Override
+	public ServiceResult validateNotifyParamService(PayelvesPayNotify payNotify) {
+		StringBuilder paramBuilder = new StringBuilder();
+		paramBuilder.append("amount=" + payNotify.getAmount() + "&");
+		paramBuilder.append("appKey=" + payNotify.getAppKey() + "&");
+		paramBuilder.append("backPara=" + payNotify.getBackPara() + "&");
+		paramBuilder.append("dateTime=" + payNotify.getDateTime() + "&");
+		paramBuilder.append("openId=" + payNotify.getOpenId() + "&");
+		paramBuilder.append("orderId=" + payNotify.getOrderId() + "&");
+		paramBuilder.append("outTradeNo=" + payNotify.getOutTradeNo() + "&");
+		paramBuilder.append("payType=" + payNotify.getPayType() + "&");
+		paramBuilder.append("payUserId=" + payNotify.getPayUserId() + "&");
+		paramBuilder.append("status=" + payNotify.getStatus() + "&");
+		paramBuilder.append("version=" + payNotify.getVersion() + token);
+		logger.info("正在对回调信息" + Common.toJson(payNotify) + "验证签名");
+		logger.info("签名原文为：" + paramBuilder);
+		logger.info("得到签名为：" + Common.md5(paramBuilder.toString()) + ",与原签名" + payNotify.getSign() + "进行对比");
+		return payNotify.getSign().equals(Common.md5(paramBuilder.toString())) ? ServiceResult.SUCCESS_SERVICE_RESULT
+				: ServiceResult.FAIL_SERVICE_RESULT;
+	}
+
 }

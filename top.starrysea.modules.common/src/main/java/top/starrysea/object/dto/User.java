@@ -20,6 +20,10 @@ public class User implements Entity, Serializable {
 	private short osuGrade;
 	private short isDD;
 
+	public User() {
+
+	}
+
 	private User(Builder builder) {
 		this.userId = builder.userId;
 		this.userEmail = builder.userEmail;

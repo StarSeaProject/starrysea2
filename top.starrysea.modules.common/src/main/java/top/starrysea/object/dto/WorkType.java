@@ -18,6 +18,10 @@ public class WorkType implements Entity {
 		this.stock = builder.stock;
 	}
 
+	public WorkType() {
+
+	}
+
 	public static class Builder implements IBuilder<WorkType> {
 
 		private Integer workTypeId;

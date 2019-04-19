@@ -11,6 +11,10 @@ public interface IFundingDao {
 	void saveFundingDao(List<Funding> fundings);
 
 	void deleteFundingDao(Funding funding);
-	
+
 	List<Funding> getFundingByUserDao(String userId);
+
+	Funding getFundingDao(Funding funding);
+
+	void updateFundingStatusDao(Funding funding);
 }

@@ -17,6 +17,10 @@ public class Work implements Entity {
 	private Integer workClick;
 	private Activity activity;
 
+	public Work() {
+
+	}
+
 	private Work(Builder builder) {
 		this.workId = builder.workId;
 		this.workName = builder.workName;

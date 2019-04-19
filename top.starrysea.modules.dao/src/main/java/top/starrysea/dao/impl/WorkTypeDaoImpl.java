@@ -99,6 +99,13 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 	}
 
 	@Override
+	public void increaseWorkTypeStockDao(WorkType workType) {
+		kumaSqlDao.updateMode();
+		kumaSqlDao.update("stock", UpdateSetType.ADD, workType.getStock()).table(WorkType.class)
+				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId()).end();
+	}
+
+	@Override
 	public void updateWorkTypeStockDao(Orders order) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Integer> theResult = kumaSqlDao.select("work_type_id").from(OrderDetail.class)
@@ -130,9 +137,9 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 				.where("work_type_id", WhereType.IN,
 						workTypes.stream().map(WorkType::getWorkTypeId).collect(Collectors.toList()))
 				.endForList((rs, row) -> new WorkType.Builder().workTypeId(rs.getInt("work_type_id"))
-						.name(rs.getString("name")).stock(rs.getInt("stock"))
-						.work(new Work.Builder().workId(rs.getInt("w.work_id")).workName(rs.getString("w.work_name"))
-								.workCover(rs.getString("w.work_cover")).build())
+						.name(rs.getString("name"))
+						.stock(rs.getInt("stock")).work(new Work.Builder().workId(rs.getInt("w.work_id"))
+								.workName(rs.getString("w.work_name")).workCover(rs.getString("w.work_cover")).build())
 						.build());
 		return theResult.getResult();
 	}

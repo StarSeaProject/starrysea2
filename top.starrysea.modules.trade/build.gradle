@@ -1,4 +1,6 @@
 dependencies {
 	compile project(':top.starrysea.modules.common')
+	
+	compile project(':top.starrysea.modules.dao')
 }
 

@@ -1,5 +1,8 @@
 package top.starrysea.trade;
 
+import top.starrysea.object.dto.Funding;
+import top.starrysea.object.dto.Orders;
+
 public class PayelvesPayNotify {
 	private String openId;
 	private String appKey;
@@ -7,7 +10,7 @@ public class PayelvesPayNotify {
 	private String version;
 	private String outTradeNo;
 	private Integer payType;
-	private Double amount;
+	private Integer amount;
 	private Integer status;
 	private String payUserId;
 	private String orderId;
@@ -62,11 +65,11 @@ public class PayelvesPayNotify {
 		this.payType = payType;
 	}
 
-	public Double getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 
@@ -110,4 +113,12 @@ public class PayelvesPayNotify {
 		this.backPara = backPara;
 	}
 
+	public Orders toOrders() {
+		return new Orders.Builder().orderId(orderId).userId(payUserId).build();
+	}
+
+	public Funding toFunding() {
+		return new Funding.Builder().fundingMoney(amount.doubleValue() / 100).userId(payUserId).fundingNum(orderId)
+				.build();
+	}
 }

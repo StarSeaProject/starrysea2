@@ -7,6 +7,9 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import top.starrysea.object.dto.Activity;
+import top.starrysea.object.dto.Funding;
+
 public class FundingForParticipate {
 	@NotNull(message = "活动id不能为空")
 	private Integer activityId;
@@ -50,5 +53,10 @@ public class FundingForParticipate {
 
 	public void setPayType(Integer payType) {
 		this.payType = payType;
+	}
+
+	public Funding toDTO() {
+		return new Funding.Builder().activity(new Activity.Builder().activityId(activityId).build())
+				.fundingMoney(fundingMoney).fundingMessage(fundingMessage).build();
 	}
 }

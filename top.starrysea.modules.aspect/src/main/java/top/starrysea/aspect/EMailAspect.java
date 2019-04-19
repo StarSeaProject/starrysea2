@@ -1,5 +1,12 @@
 package top.starrysea.aspect;
 
+import static top.starrysea.common.ResultKey.LIST_1;
+import static top.starrysea.common.ResultKey.ORDER;
+import static top.starrysea.common.ResultKey.USER;
+import static top.starrysea.common.ResultKey.WORK;
+
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.aspectj.lang.JoinPoint;
@@ -11,13 +18,14 @@ import org.springframework.stereotype.Component;
 
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IOrderDao;
-import top.starrysea.object.dto.*;
+import top.starrysea.object.dto.Activity;
+import top.starrysea.object.dto.Online;
+import top.starrysea.object.dto.OrderDetail;
+import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.User;
+import top.starrysea.object.dto.Work;
 import top.starrysea.service.IOnlineService;
 import top.starrysea.service.mail.IMailService;
-
-import static top.starrysea.common.ResultKey.*;
-
-import java.util.List;
 
 @Component
 @Aspect
@@ -45,11 +53,13 @@ public class EMailAspect {
 		workMailService.sendMailService((Work) serviceResult.getResult(WORK));
 	}
 
-	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.addOrderService(..))", returning = "serviceResult")
+	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.notifyOrderService(..))", returning = "serviceResult")
 	public void sendOrderEmail(ServiceResult serviceResult) {
 		if (serviceResult.isSuccessed()) {
 			List<OrderDetail> orderDetailList = serviceResult.getResult(LIST_1);
-			orderMailService.sendMailService(orderDetailList);
+			if (!orderDetailList.isEmpty()) {
+				orderMailService.sendMailService(orderDetailList);
+			}
 		}
 	}
 

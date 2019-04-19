@@ -16,6 +16,10 @@ public class Area implements Entity {
 		this.areaName = builder.areaName;
 	}
 
+	public Area() {
+
+	}
+
 	public static class Builder implements IBuilder<Area> {
 		private Integer areaId;
 		private City city;

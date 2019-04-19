@@ -27,6 +27,10 @@ public class Activity implements Entity {
 		this.activityMoney = builder.activityMoney;
 	}
 
+	public Activity() {
+
+	}
+
 	public static class Builder implements IBuilder<Activity> {
 		private Integer activityId;
 		private String activityName;

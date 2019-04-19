@@ -3,7 +3,7 @@ package top.starrysea.object.dto;
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
 
-public class ActivityImage implements Entity{
+public class ActivityImage implements Entity {
 
 	private Integer activityImageId;
 	private Activity activity;
@@ -13,6 +13,10 @@ public class ActivityImage implements Entity{
 		this.activityImageId = builder.activityImageId;
 		this.activity = builder.activity;
 		this.activityImagePath = builder.activityImagePath;
+	}
+
+	public ActivityImage() {
+
 	}
 
 	public static class Builder implements IBuilder<ActivityImage> {

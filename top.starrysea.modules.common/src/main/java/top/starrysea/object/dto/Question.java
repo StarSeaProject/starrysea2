@@ -13,6 +13,10 @@ public class Question implements Entity {
 	private String answer;
 	private short questionStatus;
 
+	public Question() {
+
+	}
+
 	private Question(Builder builder) {
 		this.questionId = builder.questionId;
 		this.question = builder.question;

@@ -15,6 +15,10 @@ public class Admin implements Entity {
 		this.adminPassword = builder.adminPassword;
 	}
 
+	public Admin() {
+
+	}
+
 	public static class Builder implements IBuilder<Admin> {
 		private Integer adminId;
 		private String adminUseraccount;

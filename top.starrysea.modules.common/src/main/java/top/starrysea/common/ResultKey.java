@@ -12,7 +12,7 @@ public enum ResultKey {
 	ACTIVITY(Activity.class), ORDER(Orders.class), ADMIN(Admin.class), WORK(Work.class), ONLINE(Online.class), DOUBLE(
 			Double.class), USER(User.class),
 
-	MAP(Map.class), STRING(String.class);
+	MAP(Map.class), STRING(String.class), FUNDING(Funding.class);
 
 	private Class<?> clazz;
 
