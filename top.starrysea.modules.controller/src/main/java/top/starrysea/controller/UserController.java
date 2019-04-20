@@ -109,6 +109,9 @@ public class UserController {
 	@ApiOperation(value = "登出", notes = "登出")
 	@GetMapping("/exit")
 	public ModelAndView exitController(@ApiIgnore Device device, @ApiIgnore HttpSession session) {
+		if(session.getAttribute(USER_SESSION_KEY)!=null) {
+			session.removeAttribute(USER_SESSION_KEY);
+		}
 		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
 	}
 
@@ -203,9 +206,4 @@ public class UserController {
 		return mav;
 	}
 
-	@GetMapping("/logout")
-	public ModelAndView logout(@ApiIgnore HttpSession session, @ApiIgnore Device device) {
-		session.removeAttribute(USER_SESSION_KEY);
-		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
-	}
 }
