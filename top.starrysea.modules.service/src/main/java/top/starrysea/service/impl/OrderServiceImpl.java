@@ -327,7 +327,7 @@ public class OrderServiceImpl implements IOrderService {
 			Orders orders = Common.toObject(message, Orders.class);
 			Orders o = orderDao.getOrderDao(orders);
 			if (o.getOrderStatus() == 0) {
-				o.setOrderStatus((short) 4);
+				o.setOrderStatus((short) 3);
 				orderDao.updateOrderDao(o);
 				List<OrderDetail> orderDetails = orderDetailDao
 						.getAllOrderDetailDao(new OrderDetail.Builder().order(o).build());
