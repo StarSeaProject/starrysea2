@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,6 +60,16 @@ public class RootController {
 	@RequestMapping("/regist")
 	public ModelAndView regist(Device device) {
 		return new ModelAndView(device.isMobile() ? MOBILE + "register" : "register");
+	}
+	
+	@GetMapping("/intro")
+	public ModelAndView intro(Device device) {
+		return new ModelAndView(device.isMobile() ? MOBILE + "intro" : "intro");
+	}
+	
+	@GetMapping("/hire")
+	public ModelAndView hire(Device device) {
+		return new ModelAndView(device.isMobile() ? MOBILE + "hire" : "hire");
 	}
 
 	@RequestMapping("/uploads")
