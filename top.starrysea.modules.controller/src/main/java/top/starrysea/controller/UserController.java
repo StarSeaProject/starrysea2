@@ -202,4 +202,10 @@ public class UserController {
 		ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "changepassword" : "changepassword");
 		return mav;
 	}
+
+	@GetMapping("/logout")
+	public ModelAndView logout(@ApiIgnore HttpSession session, @ApiIgnore Device device) {
+		session.removeAttribute(USER_SESSION_KEY);
+		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
+	}
 }

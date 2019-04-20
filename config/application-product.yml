@@ -48,6 +48,12 @@ spring:
     add-properties: false
   banner:
     charset: UTF-8
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirms: true
 management:
   endpoint:
     shutdown:
@@ -58,3 +64,10 @@ management:
         include: shutdown
 ss:
   fileroot: /usr/share/nginx/
+payelves:
+  gateway:  https://www.payelves.com/api/v1/pay/web
+  openId: AWLg6Cj3d
+  token:  8216e8aebcd143f590abf996f14e29fe
+  uuid: yeah-Tiger
+  clientVersion:  3.3.0
+  appKey: 8097732829315073
