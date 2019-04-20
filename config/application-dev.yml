@@ -41,7 +41,7 @@ spring:
   banner:
     charset: UTF-8
   rabbitmq:
-    host: localhost
+    host: 111.230.9.229
     port: 5672
     username: guest
     password: guest
