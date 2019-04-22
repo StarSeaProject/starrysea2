@@ -45,4 +45,6 @@ public interface IOrderService {
 	ServiceResult notifyOrderService(Orders orders);
 
 	void cancelOrderService(String message);
+	
+	ServiceResult getPostageMoney(int provinceId);
 }
