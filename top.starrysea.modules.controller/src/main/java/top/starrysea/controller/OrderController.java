@@ -145,11 +145,10 @@ public class OrderController {
 		Orders o = serviceResult.getResult(ORDER);
 		PayelvesPayBackParam backParam = new PayelvesPayBackParam();
 		backParam.setType(1);
-		String url = payelvesTradeService
-				.createPaymentRequestRouteService(PayelvesPayRequest.builder().withBackPara(Common.toJson(backParam))
-						.withBody("星之海志愿者公会").withChannel(1).withOrderId(o.getOrderId()).withPayType(1).withPrice(1D)
-						.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build())
-				.getResult(STRING);
+		String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()
+				.withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会").withChannel(1).withOrderId(o.getOrderId())
+				.withPayType(1).withPrice(Double.parseDouble(o.getOrderMoney() + "")).withSubject("星之海志愿者公会-作品邮费")
+				.withUserId(currentUser.getUserId()).build()).getResult(STRING);
 		return new ModelAndView("redirect:" + url);
 	}
 
