@@ -94,7 +94,8 @@ public class ActivityController {
 		Activity a = serviceResult.getResult(ACTIVITY);
 		return new ModelAndView(device.isMobile() ? MOBILE + "activity_detail" : "activity_detail")
 				.addObject("activity", a.toVoForOne()).addObject("fundings", serviceResult.getResult(LIST_1))
-				.addObject("fundingFactor", serviceResult.getResult(DOUBLE));
+				.addObject("fundingFactor", serviceResult.getResult(DOUBLE))
+				.addObject("activityId", activity.getActivityId());
 	}
 
 	// 查询一个众筹活动的详情页
@@ -108,6 +109,7 @@ public class ActivityController {
 		theResult.put("activityId", activity.getActivityId());
 		theResult.put("activity", a.toVoForOne());
 		theResult.put("fundings", serviceResult.getResult(LIST_1));
+		theResult.put("activityId", activity.getActivityId());
 		return theResult;
 	}
 
@@ -158,8 +160,9 @@ public class ActivityController {
 
 	@PostMapping("/activity/funding/participate")
 	@ApiOperation(value = "用户众筹", notes = "用户众筹")
-	public ModelAndView participateFundingController(@Valid @ApiParam(name = "众筹记录对象", required = true) FundingForParticipate funding,@ApiIgnore BindingResult bindingResult,
-			@ApiIgnore HttpSession session) {
+	public ModelAndView participateFundingController(
+			@Valid @ApiParam(name = "众筹记录对象", required = true) FundingForParticipate funding,
+			@ApiIgnore BindingResult bindingResult, @ApiIgnore HttpSession session) {
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Funding fundingDTO = funding.toDTO();
 		fundingDTO.setUser(currentUser);
