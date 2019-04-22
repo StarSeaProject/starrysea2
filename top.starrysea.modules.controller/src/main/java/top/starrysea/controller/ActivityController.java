@@ -16,12 +16,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.Common;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
@@ -44,6 +47,7 @@ import top.starrysea.trade.service.ITradeService;
 import static top.starrysea.common.Const.*;
 import static top.starrysea.common.ResultKey.*;
 
+@Api(tags = "活动相关api")
 @Controller
 public class ActivityController {
 
@@ -152,9 +156,10 @@ public class ActivityController {
 		return ModelAndViewFactory.newSuccessMav("删除成功!", device);
 	}
 
-	@RequestMapping("/activity/funding/participate")
-	public ModelAndView participateFundingController(@Valid FundingForParticipate funding, BindingResult bindingResult,
-			HttpSession session) {
+	@PostMapping("/activity/funding/participate")
+	@ApiOperation(value = "用户众筹", notes = "用户众筹")
+	public ModelAndView participateFundingController(@Valid @ApiParam(name = "众筹记录对象", required = true) FundingForParticipate funding,@ApiIgnore BindingResult bindingResult,
+			@ApiIgnore HttpSession session) {
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Funding fundingDTO = funding.toDTO();
 		fundingDTO.setUser(currentUser);
