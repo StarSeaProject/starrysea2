@@ -28,18 +28,6 @@
 <div id="nav1">
 	<div id="navup">
 		<img id="navbg" src="/indexnav.jpg">
-		<!--
-			<div id="titlecover"></div>
-			<div id="title">
-				<p id="title1">星之海</p>
-				<p id="title1clone">星之海</p>
-				<img id="titlefigure" src="/starsea.png">
-				<p id="title2">志愿者公会</p>
-				<p class="titlepara" id="paran1">致力于传递LoveLive Sunshine的魅力</p>
-				<p class="titlepara" id="paran2">Aqours events应援</p>
-			</div>
-			<div id="rtn1"></div>
-			-->
 	</div>
 	<div id="navdown">
 		<div id="rtn4"></div>
@@ -154,6 +142,9 @@
 "
 	integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
 	crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    let user=[[${session.userId}]];
+</script>
 <script src="/index.min.js"></script>
 
 </body>
