@@ -12,6 +12,10 @@ public class Province implements Entity {
 		this.provinceId = provinceId;
 		this.provinceName = provinceName;
 	}
+	
+	public Province(Integer provinceId) {
+		this.provinceId = provinceId;
+	}
 
 	public Province() {
 

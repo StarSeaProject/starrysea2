@@ -29,6 +29,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IProvinceDao;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.dao.IOrderDetailDao;
+import top.starrysea.dao.IPostageDao;
 import top.starrysea.dao.IWorkTypeDao;
 import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.LogicException;
@@ -38,6 +39,7 @@ import top.starrysea.mq.MessageSender;
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Postage;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.in.ExportXlsCondition;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
@@ -74,6 +76,8 @@ public class OrderServiceImpl implements IOrderService {
 	private KumaRedisDao kumaRedisDao;
 	@Autowired
 	private MessageSender messageSender;
+	@Autowired
+	private IPostageDao postageDao;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -120,6 +124,16 @@ public class OrderServiceImpl implements IOrderService {
 			}
 			order.setOrderId(Common.getCharId("O-", 10));
 			order.setOrderNum(Common.getCharId(30));
+			//通过邮费表查询出应付金额
+			order.setOrderMoney(postageDao.getPostage(new Postage.Builder()
+					.province(provinceDao.getProvinceByArea(order.getOrderArea().getAreaId()).getProvinceId()).build())
+					.getPostageMoney() * 100);
+			// 如果应付金额为0,说明是邮费表中没有记录,那么就走到付
+			if (order.getOrderMoney() == 0) {
+				order.setOrderStatus((short) 1);
+			} else {
+				order.setOrderStatus((short) 0);
+			}
 			orderDao.saveOrderDao(order);
 			orderDetailDao.saveOrderDetailsDao(orderDetails);
 			messageSender.sendMessage(ORDERS_EXCHANGE, ORIGINAL_ORDER_QUEUE, Common.toJson(order), QUEUE_TIMEOUT);

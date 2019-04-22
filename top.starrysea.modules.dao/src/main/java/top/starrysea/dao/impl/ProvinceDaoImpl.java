@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import top.starrysea.dao.IProvinceDao;
+import top.starrysea.kql.clause.WhereType;
+import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
 import top.starrysea.object.dto.Area;
@@ -33,5 +35,16 @@ public class ProvinceDaoImpl implements IProvinceDao {
 								.build())
 						.build());
 		return theResult.getResult();
+	}
+
+	@Override
+	public Province getProvinceByArea(int areaId) {
+		kumaSqlDao.selectMode();
+		EntitySqlResult<Province> result = kumaSqlDao.select("province_id", "p").from(Province.class, "p")
+				.leftjoin(City.class, "c", "province_id", Province.class, "province_id")
+				.leftjoin(Area.class, "a", "city_id", City.class, "city_id")
+				.where("area_id", "a", WhereType.EQUALS, areaId)
+				.endForObject((rs, row) -> new Province(rs.getInt("province_id")));
+		return result.getResult();
 	}
 }

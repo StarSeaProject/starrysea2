@@ -19,6 +19,7 @@ public class Orders implements Entity {
 	private String orderRemark;
 	private String orderPhone;
 	private User user;
+	private int orderMoney;
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
@@ -33,6 +34,7 @@ public class Orders implements Entity {
 		this.orderRemark = builder.orderRemark;
 		this.orderPhone = builder.orderPhone;
 		this.user = builder.user;
+		this.orderMoney=builder.orderMoney;
 	}
 
 	public Orders() {
@@ -53,6 +55,7 @@ public class Orders implements Entity {
 		private String orderRemark;
 		private String orderPhone;
 		private User user;
+		private int orderMoney;
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;
@@ -114,6 +117,11 @@ public class Orders implements Entity {
 			return this;
 		}
 
+		public Builder orderMoney(int orderMoney) {
+			this.orderMoney=orderMoney;
+			return this;
+		}
+		
 		@Override
 		public Orders build() {
 			return new Orders(this);
@@ -215,6 +223,14 @@ public class Orders implements Entity {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public int getOrderMoney() {
+		return orderMoney;
+	}
+
+	public void setOrderMoney(int orderMoney) {
+		this.orderMoney = orderMoney;
 	}
 
 	public OrderForAll toVoForAll() {

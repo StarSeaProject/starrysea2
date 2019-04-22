@@ -1,27 +1,30 @@
 package top.starrysea.object.view.in;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import top.starrysea.object.dto.Activity;
 import top.starrysea.object.dto.Funding;
 
+@ApiModel(value = "参与众筹对象", description = "参与众筹对象")
 public class FundingForParticipate {
+	
+	@ApiModelProperty(value="活动id",name="activityId")
 	@NotNull(message = "活动id不能为空")
 	private Integer activityId;
+	
+	@ApiModelProperty(value="众筹金额",name="fundingMoney")
 	@NotNull(message = "众筹金额不能为空")
 	private Double fundingMoney;
+	
+	@ApiModelProperty(value="众筹人留言",name="fundingMessage")
 	@NotEmpty(message = "众筹人留言不能为空!")
 	@Length(max = 50, message = "众筹人留言长度不能超过50")
 	private String fundingMessage;
-	@NotNull(message = "请选择支付类型")
-	@Min(value = 1, message = "请选择正确的支付类型")
-	@Max(value = 1, message = "请选择正确的支付类型")
-	private Integer payType;
 
 	public Integer getActivityId() {
 		return activityId;
@@ -45,14 +48,6 @@ public class FundingForParticipate {
 
 	public void setFundingMessage(String fundingMessage) {
 		this.fundingMessage = fundingMessage;
-	}
-
-	public Integer getPayType() {
-		return payType;
-	}
-
-	public void setPayType(Integer payType) {
-		this.payType = payType;
 	}
 
 	public Funding toDTO() {
