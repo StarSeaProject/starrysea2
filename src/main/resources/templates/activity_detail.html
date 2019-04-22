@@ -50,6 +50,18 @@
 			</div>
 			<div class="col-md-5">
 				<div class="rightcont">
+					<form id="form1" method="post" action="/callback">
+						<div id="messagebox">
+						</div>
+						<h2>众筹金额</h2>
+						<p><small>(点击确定后将跳转至第四方支付页面)</small></p>
+						<input type="text"/>
+						<div class="checkbox">
+							<a class="checkbutton">确认</a>
+						</div>
+					</form>
+				</div>
+				<div class="rightcont">
 					<div class="rightbox">
 						<h4 th:text="'众筹总金额为:'+${activity.activityMoney}">No data</h4>
 						<ul class="newbox" th:each="funding:${fundings}">

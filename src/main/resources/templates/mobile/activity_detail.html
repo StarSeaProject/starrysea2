@@ -30,7 +30,7 @@
 		<h1 th:text="${activity.activityName}" class="headh1"></h1>
 	</div>
 	<div class="row container">
-		<div class="col-xs-12 leftbox" id="he2">
+		<div class="col-xs-12 leftbox" id="he1">
 			<div id="contentpara">
 				<p th:utext="${activity.activityContent}"></p>
 			</div>
@@ -40,6 +40,21 @@
 				<img class="mainimg" src="/zfb.jpg" /> <img class="mainimg"
 					src="/wechat.jpg" />
 			</div>
+		</div>
+		<div class="col-xs-12 medium"></div>
+		<div class="col-xs-12 leftbox">
+			<form id="form1" method="post" action="/callback">
+				<div id="messagebox">
+				</div>
+				<h4>众筹金额</h4>
+				<p><small>(点击确定后将跳转至第四方支付页面)</small></p>
+				<input type="text"/>
+				<div class="checkbox">
+					<a class="checkbutton">确认</a>
+				</div>
+			</form>
+
+
 		</div>
 		<div class="col-xs-12 medium"></div>
 		<div class="col-xs-12 rightbox" id="he2">

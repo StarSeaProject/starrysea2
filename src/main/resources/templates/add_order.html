@@ -72,19 +72,19 @@
 					<div class="container addressmap">
 						<div class="row" id="addressnav">
 							<div class="col-xs-4">
-								<a class="navbutton" id="provincenav"> 省/直辖市 </a>
+								<a class="navbutton navnormal" id="provincenav" name="0"> 省/直辖市 </a>
 							</div>
 							<div class="col-xs-4">
-								<a class="navbutton" id="citynav"> 城市 </a>
+								<a class="navbutton navnormal" id="citynav" name="1"> 城市 </a>
 							</div>
 							<div class="col-xs-4">
-								<a class="navbutton" id="areanav"> 县区 </a>
+								<a class="navbutton navnormal" id="areanav" name="2"> 县区 </a>
 							</div>
 						</div>
-						<div class="container-fluid addresspanel row" id="province">
+						<div class="container-fluid addresspanel row" id="province" data-id="0">
 						</div>
-						<div class="container-fluid addresspanel row" id="city"></div>
-						<div class="container-fluid addresspanel row" id="area"></div>
+						<div class="container-fluid addresspanel row" id="city" data-id="1"></div>
+						<div class="container-fluid addresspanel row" id="area" data-id="2"></div>
 					</div>
 
 					<input type="hidden" id="areasub" name="orderArea" />
