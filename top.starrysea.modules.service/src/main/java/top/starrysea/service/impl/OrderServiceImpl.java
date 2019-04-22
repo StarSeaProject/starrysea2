@@ -124,9 +124,16 @@ public class OrderServiceImpl implements IOrderService {
 			}
 			order.setOrderId(Common.getCharId("O-", 10));
 			order.setOrderNum(Common.getCharId(30));
+			//通过邮费表查询出应付金额
 			order.setOrderMoney(postageDao.getPostage(new Postage.Builder()
 					.province(provinceDao.getProvinceByArea(order.getOrderArea().getAreaId()).getProvinceId()).build())
 					.getPostageMoney() * 100);
+			// 如果应付金额为0,说明是邮费表中没有记录,那么就走到付
+			if (order.getOrderMoney() == 0) {
+				order.setOrderStatus((short) 1);
+			} else {
+				order.setOrderStatus((short) 0);
+			}
 			orderDao.saveOrderDao(order);
 			orderDetailDao.saveOrderDetailsDao(orderDetails);
 			messageSender.sendMessage(ORDERS_EXCHANGE, ORIGINAL_ORDER_QUEUE, Common.toJson(order), QUEUE_TIMEOUT);

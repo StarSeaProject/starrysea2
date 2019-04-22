@@ -35,6 +35,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.Common;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
@@ -60,6 +64,7 @@ import top.starrysea.trade.PayelvesPayBackParam;
 import top.starrysea.trade.PayelvesPayRequest;
 import top.starrysea.trade.service.ITradeService;
 
+@Api(tags = "订单相关api")
 @Controller
 public class OrderController {
 
@@ -128,8 +133,9 @@ public class OrderController {
 
 	// 对一个作品进行下单
 	@PostMapping("/order/add")
-	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device,
-			HttpSession session) {
+	@ApiOperation(value = "下单", notes = "下单")
+	public ModelAndView addOrderController(@Valid @ApiParam(name = "订单对象", required = true) OrderForAdd order,
+			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession session) {
 		if (!order.getToken().equals(session.getAttribute(TOKEN))) {
 			return ModelAndViewFactory.newErrorMav("您已经下单,请勿再次提交", device);
 		}
@@ -143,13 +149,18 @@ public class OrderController {
 		}
 		orderService.removeShoppingCarListService(session.getId());
 		Orders o = serviceResult.getResult(ORDER);
-		PayelvesPayBackParam backParam = new PayelvesPayBackParam();
-		backParam.setType(1);
-		String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()
-				.withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会").withChannel(1).withOrderId(o.getOrderId())
-				.withPayType(1).withPrice(Double.parseDouble(o.getOrderMoney() + "")).withSubject("星之海志愿者公会-作品邮费")
-				.withUserId(currentUser.getUserId()).build()).getResult(STRING);
-		return new ModelAndView("redirect:" + url);
+		if (o.getOrderMoney() != 0) {
+			PayelvesPayBackParam backParam = new PayelvesPayBackParam();
+			backParam.setType(1);
+			String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()
+					.withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会").withChannel(1)
+					.withOrderId(o.getOrderId()).withPayType(1).withPrice(Double.parseDouble(o.getOrderMoney() + ""))
+					.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build()).getResult(STRING);
+			return new ModelAndView("redirect:" + url);
+		} else {
+			return ModelAndViewFactory.newSuccessMav("下单成功", device);
+		}
+
 	}
 
 	// 修改一个订单的状态
