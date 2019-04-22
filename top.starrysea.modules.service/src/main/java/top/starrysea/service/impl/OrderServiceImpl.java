@@ -124,7 +124,7 @@ public class OrderServiceImpl implements IOrderService {
 			}
 			order.setOrderId(Common.getCharId("O-", 10));
 			order.setOrderNum(Common.getCharId(30));
-			//通过邮费表查询出应付金额
+			// 通过邮费表查询出应付金额
 			order.setOrderMoney(postageDao.getPostage(new Postage.Builder()
 					.province(provinceDao.getProvinceByArea(order.getOrderArea().getAreaId()).getProvinceId()).build())
 					.getPostageMoney() * 100);
@@ -353,5 +353,11 @@ public class OrderServiceImpl implements IOrderService {
 		} catch (Exception e) {
 			logger.info(message + "发生了错误,原因是" + e.getMessage());
 		}
+	}
+
+	@Override
+	public ServiceResult getPostageMoney(int provinceId) {
+		return ServiceResult.of(true).setResult(INTEGER,
+				postageDao.getPostage(new Postage.Builder().province(provinceId).build()).getPostageMoney());
 	}
 }

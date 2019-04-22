@@ -10,9 +10,9 @@ public enum ResultKey {
 	LIST_1(List.class), LIST_2(List.class),
 
 	ACTIVITY(Activity.class), ORDER(Orders.class), ADMIN(Admin.class), WORK(Work.class), ONLINE(Online.class), DOUBLE(
-			Double.class), USER(User.class),
+			Double.class), USER(User.class),FUNDING(Funding.class),
 
-	MAP(Map.class), STRING(String.class), FUNDING(Funding.class);
+	MAP(Map.class), STRING(String.class), INTEGER(Integer.class);
 
 	private Class<?> clazz;
 

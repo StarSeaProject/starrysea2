@@ -8,6 +8,8 @@ import static top.starrysea.common.ResultKey.LIST_1;
 import static top.starrysea.common.ResultKey.MAP;
 import static top.starrysea.common.ResultKey.ORDER;
 import static top.starrysea.common.ResultKey.STRING;
+import static top.starrysea.common.ResultKey.INTEGER;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -55,6 +57,7 @@ import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
+import top.starrysea.object.view.in.ProvinceForOne;
 import top.starrysea.object.view.in.WorkTypeForRemoveCar;
 import top.starrysea.object.view.in.WorkTypeForToAddOrders;
 import top.starrysea.object.view.in.WorkTypesForRemoveCar;
@@ -318,5 +321,16 @@ public class OrderController {
 			return ModelAndViewFactory.newErrorMav("您的订单已发货,不能再修改收货地址!", device);
 		}
 		return ModelAndViewFactory.newSuccessMav("修改链接已发送至您的邮箱，请注意查收", device);
+	}
+
+	@ApiOperation(value = "获取邮费", notes = "获取邮费")
+	@GetMapping("/order/postage/money")
+	@ResponseBody
+	public Map<String, Object> getPostage(@Valid @ApiParam(name = "省份对象", required = true) ProvinceForOne province,
+			BindingResult bindingResult) {
+		ServiceResult result = orderService.getPostageMoney(province.getProvinceId());
+		Map<String, Object> theResult = new HashMap<>();
+		theResult.put("postageMoney", result.getResult(INTEGER));
+		return theResult;
 	}
 }
