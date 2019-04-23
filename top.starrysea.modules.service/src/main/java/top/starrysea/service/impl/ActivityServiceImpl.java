@@ -177,7 +177,7 @@ public class ActivityServiceImpl implements IActivityService {
 	@Transactional
 	public ServiceResult participateFundingService(Funding funding) {
 		try {
-			funding.setFundingTime(Common.getNowDate());
+			funding.setFundingTime(Common.getNowTime());
 			funding.setFundingNum(Common.getCharId(20));
 			funding.setFundingStatus((short) 1);
 			funding.setFundingName(funding.getUser().getUsername());
