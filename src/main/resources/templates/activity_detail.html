@@ -53,9 +53,15 @@
 					<form id="form1" method="post" action="/callback">
 						<div id="messagebox">
 						</div>
-						<h2>众筹金额</h2>
+						<h4>众筹金额</h4>
 						<p><small>(点击确定后将跳转至第四方支付页面)</small></p>
-						<input type="text"/>
+						<input id="MoneyInput" type="text"/>
+						<h4>众筹留言</h4>
+						<form id="form1" method="post" action="/activity/funding/participate">
+							<input id="MessageInput" type="text" name="fundingMessage"/>
+							<input id="fundingMoney" type="hidden" name="fundingMoney" />
+							<input type="hidden" name="activityId" th:value="${activityId}" />
+						</form>
 						<div class="checkbox">
 							<a class="checkbutton">确认</a>
 						</div>
