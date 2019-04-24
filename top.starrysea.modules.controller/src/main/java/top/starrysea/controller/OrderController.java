@@ -56,6 +56,7 @@ import top.starrysea.object.view.in.OrderForAddress;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
+import top.starrysea.object.view.in.OrderForPay;
 import top.starrysea.object.view.in.OrderForRemove;
 import top.starrysea.object.view.in.ProvinceForOne;
 import top.starrysea.object.view.in.WorkTypeForRemoveCar;
@@ -166,7 +167,6 @@ public class OrderController {
 		} else {
 			return ModelAndViewFactory.newSuccessMav("下单成功", device);
 		}
-
 	}
 
 	// 修改一个订单的状态
@@ -335,5 +335,27 @@ public class OrderController {
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("postageMoney", result.getResult(INTEGER));
 		return theResult;
+	}
+
+	@ApiOperation(value = "订单付款", notes = "订单付款")
+	@PostMapping("/order/pay")
+	public ModelAndView payOrder(@ApiIgnore HttpSession session,
+			@Valid @ApiParam(value = "付款用对象", required = true) OrderForPay order, @ApiIgnore Device device) {
+		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
+		Orders o = orderService.queryOrderService(order.toDTO()).getResult(ORDER);
+		if (o.getOrderStatus() == 0) {
+			PayelvesPayBackParam backParam = new PayelvesPayBackParam();
+			backParam.setType(1);
+			String url = payelvesTradeService
+					.createPaymentRequestRouteService(
+							PayelvesPayRequest.builder().withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会")
+									.withChannel(1).withOrderId(o.getOrderId()).withPayType(1)
+									.withPrice(Double.parseDouble(o.getOrderMoney() + "") * 100)
+									.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build())
+					.getResult(STRING);
+			return new ModelAndView("redirect:" + url);
+		} else {
+			return ModelAndViewFactory.newErrorMav("该订单无法付款", device);
+		}
 	}
 }

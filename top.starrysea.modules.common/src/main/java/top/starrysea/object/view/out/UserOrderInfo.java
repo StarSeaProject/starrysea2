@@ -11,6 +11,7 @@ import top.starrysea.object.dto.Orders;
 
 public class UserOrderInfo {
 
+	private String orderId;
 	private String orderTime;
 	private String orderExpressnum;
 	private List<UserOrderDetailInfo> userOrderDetailInfos;
@@ -24,6 +25,7 @@ public class UserOrderInfo {
 
 	public UserOrderInfo(OrderDetail orderDetail) {
 		Orders order = orderDetail.getOrder();
+		this.orderId = order.getOrderId();
 		this.orderTime = Common.time2String(new Date(order.getOrderTime()));
 		this.orderExpressnum = order.getOrderExpressnum();
 		this.orderStatus = order.getOrderStatus();
@@ -34,6 +36,10 @@ public class UserOrderInfo {
 		this.areaName = order.getOrderArea().getAreaName();
 		this.orderAddress = order.getOrderAddress();
 		this.userOrderDetailInfos = new ArrayList<>();
+	}
+
+	public String getOrderId() {
+		return orderId;
 	}
 
 	public String getOrderTime() {

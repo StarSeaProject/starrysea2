@@ -67,8 +67,15 @@ public class UserController {
 
 	@ApiOperation(value = "注册", notes = "注册")
 	@PostMapping("/register")
-	public ModelAndView registerController(@Valid @ApiParam(name = "注册用对象", required = true) UserForAdd user,
-			@ApiIgnore Device device) {
+	public ModelAndView registerController(@ApiIgnore HttpSession session,
+			@Valid @ApiParam(name = "注册用对象", required = true) UserForAdd user, @ApiIgnore Device device) {
+		String verifyCode = (String) session.getAttribute(VERIFY_CODE);
+		if (!verifyCode.equals(user.getVerifyCode())) {
+			ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "register" : "register");
+			mav.addObject("user", user);
+			mav.addObject("errorInfo", "验证码错误!");
+			return mav;
+		}
 		ServiceResult serviceResult = userService.registerService(user.toDTO());
 		if (serviceResult.isSuccessed()) {
 			return ModelAndViewFactory.newSuccessMav("我们已经发送了验证邮件到您的邮箱,请注意查收", device);
@@ -109,7 +116,7 @@ public class UserController {
 	@ApiOperation(value = "登出", notes = "登出")
 	@GetMapping("/exit")
 	public ModelAndView exitController(@ApiIgnore Device device, @ApiIgnore HttpSession session) {
-		if(session.getAttribute(USER_SESSION_KEY)!=null) {
+		if (session.getAttribute(USER_SESSION_KEY) != null) {
 			session.removeAttribute(USER_SESSION_KEY);
 		}
 		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
