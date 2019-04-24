@@ -13,36 +13,40 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "注册用对象", description = "注册用对象")
 public class UserForAdd {
 
-	@ApiModelProperty(value="注册邮箱",name="userEmail")
+	@ApiModelProperty(value = "注册邮箱", name = "userEmail")
 	@NotBlank(message = "邮箱不能为空")
 	@Size(max = 100, message = "邮箱长度不能超过100")
 	@Email(message = "不是合法的电子邮箱")
 	private String userEmail;
-	
-	@ApiModelProperty(value="密码",name="userPassword")
+
+	@ApiModelProperty(value = "密码", name = "userPassword")
 	@NotBlank(message = "密码不能为空")
 	private String userPassword;
-	
-	@ApiModelProperty(value="昵称",name="username")
+
+	@ApiModelProperty(value = "昵称", name = "username")
 	@NotBlank(message = "昵称不能为空")
 	@Size(max = 30, message = "昵称长度不能超过30")
 	private String username;
-	
-	@ApiModelProperty(value="所推角色",name="osuPerson")
+
+	@ApiModelProperty(value = "所推角色", name = "osuPerson")
 	@NotNull(message = "所推角色不能为空")
 	private Short osuPerson;
-	
-	@ApiModelProperty(value="所推小队",name="osuTeam")
+
+	@ApiModelProperty(value = "所推小队", name = "osuTeam")
 	@NotNull(message = "所推小队不能为空")
 	private Short osuTeam;
-	
-	@ApiModelProperty(value="所推年级",name="osuGrade")
+
+	@ApiModelProperty(value = "所推年级", name = "osuGrade")
 	@NotNull(message = "所推年级不能为空")
 	private Short osuGrade;
-	
-	@ApiModelProperty(value="是否DD",name="isDD")
+
+	@ApiModelProperty(value = "是否DD", name = "isDD")
 	@NotNull(message = "必须选择是DD或者不是,不允许薛定谔的DD状态")
 	private Short isDD;
+
+	@ApiModelProperty(value = "验证码", name = "verifyCode")
+	@NotBlank(message = "验证码不能为空!")
+	private String verifyCode;
 
 	public String getUserEmail() {
 		return userEmail;
@@ -98,6 +102,14 @@ public class UserForAdd {
 
 	public void setIsDD(short isDD) {
 		this.isDD = isDD;
+	}
+
+	public String getVerifyCode() {
+		return verifyCode;
+	}
+
+	public void setVerifyCode(String verifyCode) {
+		this.verifyCode = verifyCode;
 	}
 
 	public User toDTO() {
