@@ -21,6 +21,7 @@
 		  crossorigin="anonymous"></link>
 	<link rel="stylesheet" href="/mobile/mynavbar_mobilepage.min.css"></link>
 	<link rel="stylesheet" href="/mobile/login.min.css"></link>
+	<link rel="stylesheet" href="/loading.min.css"></link>
 </head>
 <body>
 <div class="container-fluid">
@@ -37,7 +38,7 @@
 </div>
 
 <div id="mainwindow">
-	<form id="loginform" action="/user/login" method="post">
+	<div id="loginform">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
@@ -80,9 +81,25 @@
 				</div>
 			</div>
 		</div>
-	</form>
+	</div>
 	<form id="jumpform" action="/" method="post">
 	</form>
+
+	<div id="loading">
+		<div id="floatingCirclesG">
+			<div class="f_circleG" id="frotateG_01"></div>
+			<div class="f_circleG" id="frotateG_02"></div>
+			<div class="f_circleG" id="frotateG_03"></div>
+			<div class="f_circleG" id="frotateG_04"></div>
+			<div class="f_circleG" id="frotateG_05"></div>
+			<div class="f_circleG" id="frotateG_06"></div>
+			<div class="f_circleG" id="frotateG_07"></div>
+			<div class="f_circleG" id="frotateG_08"></div>
+		</div>
+		<p class="loadingtext">
+			正在登录
+		</p>
+	</div>
 </div>
 
 
