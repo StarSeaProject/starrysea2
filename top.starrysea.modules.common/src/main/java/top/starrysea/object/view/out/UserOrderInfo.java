@@ -22,6 +22,7 @@ public class UserOrderInfo {
 	private String cityName;
 	private String areaName;
 	private String orderAddress;
+	private String orderPhone;
 
 	public UserOrderInfo(OrderDetail orderDetail) {
 		Orders order = orderDetail.getOrder();
@@ -35,6 +36,7 @@ public class UserOrderInfo {
 		this.cityName = order.getOrderArea().getCity().getCityName();
 		this.areaName = order.getOrderArea().getAreaName();
 		this.orderAddress = order.getOrderAddress();
+		this.orderPhone = order.getOrderPhone();
 		this.userOrderDetailInfos = new ArrayList<>();
 	}
 
@@ -76,6 +78,10 @@ public class UserOrderInfo {
 
 	public String getOrderAddress() {
 		return orderAddress;
+	}
+
+	public String getOrderPhone() {
+		return orderPhone;
 	}
 
 	public void addUserOrderDetailInfos(List<OrderDetail> orderDetails) {

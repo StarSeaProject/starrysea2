@@ -35,7 +35,8 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
 				.select("work_id", "w").select("work_type_id", "wt").from(OrderDetail.class, "od")
-				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
+				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
+						"order_id")
 				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_id", "od", WhereType.EQUALS,
@@ -99,9 +100,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_status", WhereType.EQUALS, 1)
-				.where("order_time", WhereType.GREATER_EQUAL,
-						exportXlsCondition
-								.getStartTime())
+				.where("order_time", WhereType.GREATER_EQUAL, exportXlsCondition.getStartTime())
 				.orderBy("order_time",
 						OrderByType.DESC)
 				.endForList((rs, row) -> new OrderDetail.Builder()
@@ -124,11 +123,10 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
 				.select("work_type_id", "wt").select("work_id", "w").select("order_num", "o").select("order_email", "o")
-				.from(OrderDetail.class, "od")
-				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
-						"order_id")
-				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class,
-						"work_type_id")
+				.from(OrderDetail.class,
+						"od")
+				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
+				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_id", "od", WhereType.EQUALS, orderDetail.getOrder().getOrderId())
 				.endForList((rs, row) -> new OrderDetail.Builder()
@@ -149,25 +147,24 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.select("work_cover", "w").select("work_name", "w").select("order_status", "o")
 				.select("order_name", "o").select("order_remark", "o").select("order_phone", "o")
 				.select("province_name", "p").select("city_name", "c").select("area_name", "a")
-				.select("order_address", "o").select("order_id", "o").from(OrderDetail.class, "od")
-				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
+				.select("order_address", "o").select("order_id", "o").select("order_phone", "o")
+				.from(OrderDetail.class, "od").innerjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
 				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class,
 						"work_id")
 				.innerjoin(Area.class, "a", "area_id", Orders.class,
 						"order_area")
-				.innerjoin(City.class, "c", "city_id", Area.class, "city_id")
+				.innerjoin(City.class, "c", "city_id", Area.class,
+						"city_id")
 				.innerjoin(Province.class, "p", "province_id", City.class, "province_id")
-				.where("user_id", "o", WhereType.EQUALS,
-						userId)
-				.orderBy("order_time", "o",
+				.where("user_id", "o", WhereType.EQUALS, userId).orderBy("order_time", "o",
 						OrderByType.DESC)
 				.endForList((rs, row) -> new OrderDetail.Builder()
 						.order(new Orders.Builder().orderId(rs.getString("order_id"))
 								.orderTime(rs.getLong("order_time")).orderExpressnum(rs.getString("order_expressnum"))
 								.orderStatus(rs.getShort("order_status")).orderName(rs.getString("order_name"))
 								.orderRemark(rs.getString("order_remark")).orderPhone(rs.getString("order_phone"))
-								.orderAddress(rs.getString("order_address"))
+								.orderAddress(rs.getString("order_address")).orderPhone(rs.getString("order_phone"))
 								.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
 										.city(new City.Builder().cityName(rs.getString("city_name"))
 												.province(new Province(null, rs.getString("province_name"))).build())
