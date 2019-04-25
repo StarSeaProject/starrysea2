@@ -316,7 +316,9 @@
                         <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderStatus()}">
                             无发货状态
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-3" th:if="${orderitem.getOrderStatus()}==0">
+                            <p style="color:red" >您还未完成支付</p>
+                            <a class="paylink" th:attr="name=${orderitem.getOrderId()}"> 支付链接</a>
                         </div>
                     </div>
                 </div>

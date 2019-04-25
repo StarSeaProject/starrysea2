@@ -229,7 +229,7 @@
             </div>
             <div class="row ordercontent">
                 <div class="col-xs-12 container-fluid">
-                    <div class="row boldfont">
+                    <div class="row boldfont  ordersubcontent">
                         <div class="col-xs-3">
 
                         </div>
@@ -262,14 +262,16 @@
                             无备注
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-3 boldfont  ordercontentbox2">
+                    <div class="row  ordersubcontent">
+                        <div class="col-xs-3 boldfont  ordercontentbox2" >
                             收货地址
                         </div>
                         <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderAddress()}">
                             无收货地址
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-4" th:if="${orderitem.getOrderStatus()}==0">
+                            <p style="color:red" >您还未完成支付</p>
+                            <a class="paylink" th:attr="name=${orderitem.getOrderId()}"> 支付链接</a>
                         </div>
                     </div>
                 </div>
