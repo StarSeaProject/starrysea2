@@ -101,7 +101,7 @@ public class OrderDaoImpl implements IOrderDao {
 					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
 		} else {
 			kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus()).table(Orders.class)
-					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
+					.where("order_num", WhereType.EQUALS, order.getOrderId()).end();
 		}
 	}
 
