@@ -223,7 +223,7 @@
     <div id="orderrcd">
         <div class="container-fluid orderitem" th:each="orderitem:${orders}">
             <div class="row">
-                <div class="col-xs-12 ordertitle boldfont" th:text="${orderitem.getOrderExpressnum()}">
+                <div class="col-xs-12 ordertitle boldfont" th:text="${orderitem.getOrderTime()}+' 快递单号:'+(${orderitem.getOrderExpressnum() eq null}?'无快递单号':${orderitem.getOrderExpressnum()})">
                     无日期显示 快递单号：无快递单号
                 </div>
             </div>
@@ -266,7 +266,7 @@
                         <div class="col-xs-3 boldfont  ordercontentbox2" >
                             收货地址
                         </div>
-                        <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderAddress()}">
+                        <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderName()}+', '+${orderitem.getOrderPhone()}+', '+${orderitem.getProvinceName()}+' '+${orderitem.getCityName()}+' '+${orderitem.getAreaName()}+' '+${orderitem.getOrderAddress()}">
                             无收货地址
                         </div>
                         <div class="col-xs-4" th:if="${orderitem.getOrderStatus()}==0">
