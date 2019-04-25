@@ -255,8 +255,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-2 ordercontentbox1" th:text="${orderitem.getOrderStatus()}">
-                            无发货状态
+                        <div class="col-xs-2">
+                            <div class=" ordercontentbox1" th:text="${orderitem.getOrderStatus()}">
+                                无发货状态
+                            </div>
+                            <div th:if="${orderitem.getOrderStatus()}==0">
+                                <p style="color:red" >您还未完成支付</p>
+                                <button class="paylink" th:attr="value=${orderitem.getOrderId()}">去支付</button>
+                            </div>
                         </div>
                         <div class="col-xs-2 ordercontentbox1" th:text="${orderitem.getOrderRemark()}">
                             无备注
@@ -269,10 +275,7 @@
                         <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderName()}+', '+${orderitem.getOrderPhone()}+', '+${orderitem.getProvinceName()}+' '+${orderitem.getCityName()}+' '+${orderitem.getAreaName()}+' '+${orderitem.getOrderAddress()}">
                             无收货地址
                         </div>
-                        <div class="col-xs-4" th:if="${orderitem.getOrderStatus()}==0">
-                            <p style="color:red" >您还未完成支付</p>
-                            <button class="paylink" th:attr="value=${orderitem.getOrderId()}">去支付</button>
-                        </div>
+
                     </div>
                 </div>
             </div>

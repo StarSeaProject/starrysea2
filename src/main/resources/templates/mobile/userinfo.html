@@ -313,12 +313,14 @@
                         <div class="col-xs-4 boldfont  ordercontentbox2">
                             发货状态
                         </div>
-                        <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderStatus()}">
-                            无发货状态
-                        </div>
-                        <div class="col-xs-3" th:if="${orderitem.getOrderStatus()}==0">
-                            <p style="color:red" >您还未完成支付</p>
-                            <button class="paylink" th:attr="value=${orderitem.getOrderId()}">去支付</button>
+                        <div class="col-xs-5 ">
+                            <div class="ordercontentbox2" th:text="${orderitem.getOrderStatus()}">
+                                无发货状态
+                            </div>
+                            <div th:if="${orderitem.getOrderStatus()}==0">
+                                <p style="color:red" >您还未完成支付</p>
+                                <button class="paylink" th:attr="value=${orderitem.getOrderId()}">去支付</button>
+                            </div>
                         </div>
                     </div>
                 </div>
