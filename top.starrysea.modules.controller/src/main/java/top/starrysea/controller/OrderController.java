@@ -343,16 +343,14 @@ public class OrderController {
 			@Valid @ApiParam(value = "付款用对象", required = true) OrderForPay order, @ApiIgnore Device device) {
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Orders o = orderService.queryOrderService(order.toDTO()).getResult(ORDER);
+		o.setOrderId(order.getOrderId());
 		if (o.getOrderStatus() == 0) {
 			PayelvesPayBackParam backParam = new PayelvesPayBackParam();
 			backParam.setType(1);
-			String url = payelvesTradeService
-					.createPaymentRequestRouteService(
-							PayelvesPayRequest.builder().withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会")
-									.withChannel(1).withOrderId(o.getOrderId()).withPayType(1)
-									.withPrice(Double.parseDouble(o.getOrderMoney() + "") * 100)
-									.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build())
-					.getResult(STRING);
+			String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()
+					.withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会").withChannel(1)
+					.withOrderId(o.getOrderId()).withPayType(1).withPrice(Double.parseDouble(o.getOrderMoney() + ""))
+					.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build()).getResult(STRING);
 			return new ModelAndView("redirect:" + url);
 		} else {
 			return ModelAndViewFactory.newErrorMav("该订单无法付款", device);
