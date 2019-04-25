@@ -50,13 +50,8 @@ public class UserOrderInfo {
 		return orderExpressnum;
 	}
 
-	public String getOrderStatus() {
-		if (orderStatus == 1) {
-			return "未发货";
-		} else if (orderStatus == 2) {
-			return "已发货";
-		}
-		return "未知状态";
+	public short getOrderStatus() {
+		return orderStatus;
 	}
 
 	public String getOrderRemark() {
