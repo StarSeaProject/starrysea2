@@ -318,7 +318,7 @@
                         </div>
                         <div class="col-xs-3" th:if="${orderitem.getOrderStatus()}==0">
                             <p style="color:red" >您还未完成支付</p>
-                            <a class="paylink" th:attr="name=${orderitem.getOrderId()}"> 支付链接</a>
+                            <button class="paylink" th:attr="value=${orderitem.getOrderId()}">去支付</button>
                         </div>
                     </div>
                 </div>
@@ -326,6 +326,10 @@
         </div>
 
     </div>
+
+    <form id="orderpayform" action="/order/pay" method="post">
+        <input id="orderId" name="orderId" type="hidden" >
+    </form>
 
     <div class="container-fluid">
         <div class="row">
