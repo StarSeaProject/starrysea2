@@ -11,6 +11,7 @@ public class PayelvesPayRequest {
 	private String orderId;
 	private String userId;
 	private String backPara;
+	private String dateTime;
 
 	@Generated("SparkTools")
 	private PayelvesPayRequest(Builder builder) {
@@ -22,6 +23,7 @@ public class PayelvesPayRequest {
 		this.orderId = builder.orderId;
 		this.userId = builder.userId;
 		this.backPara = builder.backPara;
+		this.dateTime = builder.dateTime;
 	}
 
 	public Integer getChannel() {
@@ -88,6 +90,14 @@ public class PayelvesPayRequest {
 		this.backPara = backPara;
 	}
 
+	public String getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
+	}
+
 	/**
 	 * Creates builder to build {@link PayelvesPayRequest}.
 	 * 
@@ -111,6 +121,7 @@ public class PayelvesPayRequest {
 		private String orderId;
 		private String userId;
 		private String backPara;
+		private String dateTime;
 
 		private Builder() {
 		}
@@ -152,6 +163,11 @@ public class PayelvesPayRequest {
 
 		public Builder withBackPara(String backPara) {
 			this.backPara = backPara;
+			return this;
+		}
+
+		public Builder withDateTime(String dateTime) {
+			this.dateTime = dateTime;
 			return this;
 		}
 

@@ -156,7 +156,11 @@ public class Common {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(str.getBytes());
-			return new BigInteger(1, md.digest()).toString(16);
+			StringBuilder md5 = new StringBuilder(new BigInteger(1, md.digest()).toString(16));
+			while (md5.length() < 32) {
+				md5.insert(0, "0");
+			}
+			return md5.toString();
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			return "";
