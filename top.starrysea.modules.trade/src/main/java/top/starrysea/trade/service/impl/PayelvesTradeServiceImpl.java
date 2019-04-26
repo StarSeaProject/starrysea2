@@ -15,6 +15,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.trade.PayelvesPayNotify;
 import top.starrysea.trade.PayelvesPayRequest;
 import top.starrysea.trade.service.ITradeService;
+import static top.starrysea.common.Const.CHARSET;
 
 @Service("payelvesTradeService")
 public class PayelvesTradeServiceImpl implements ITradeService {
@@ -40,35 +41,38 @@ public class PayelvesTradeServiceImpl implements ITradeService {
 		StringBuffer paramBuffer = new StringBuffer();
 		try {
 			// appKey
-			paramBuffer.append("appKey=" + appKey + "&");
+			paramBuffer.append("appKey=" + URLEncoder.encode(appKey, CHARSET) + "&");
 			// backParam
-			String backParam = URLEncoder.encode(payRequestBo.getBackPara(), "UTF-8");
+			String backParam = URLEncoder.encode(payRequestBo.getBackPara(), CHARSET);
 			paramBuffer.append("backPara=" + backParam + "&");
 			// 商品名称
-			paramBuffer.append("body=" + URLEncoder.encode(payRequestBo.getBody(), "UTF-8") + "&");
+			paramBuffer.append("body=" + URLEncoder.encode(payRequestBo.getBody(), CHARSET) + "&");
 			// 通道
-			paramBuffer.append("channel=" + payRequestBo.getChannel() + "&");
+			paramBuffer.append("channel=" + URLEncoder.encode(payRequestBo.getChannel().toString(), CHARSET) + "&");
 			// 版本号
-			paramBuffer.append("clientVersion=" + clientVersion + "&");
+			paramBuffer.append("clientVersion=" + URLEncoder.encode(clientVersion, CHARSET) + "&");
 			// 订单时间
-			paramBuffer.append("dateTime=" + Common.getNowTime() + "&");
+			payRequestBo.setDateTime(Common.getNowTime());
+			paramBuffer.append("dateTime=" + URLEncoder.encode(payRequestBo.getDateTime(), CHARSET) + "&");
 			// 开发者ID
-			paramBuffer.append("openId=" + openId + "&");
+			paramBuffer.append("openId=" + URLEncoder.encode(openId, CHARSET) + "&");
 			// 订单ID
 			paramBuffer.append("orderId=" + payRequestBo.getOrderId() + "&");
 			// 支付类型1：支付宝 2：微信
 			paramBuffer.append("payType=" + payRequestBo.getPayType() + "&");
 			// 价格
-			paramBuffer.append("price=" + payRequestBo.getPrice().intValue() + "&");
+			paramBuffer.append(
+					"price=" + URLEncoder.encode(String.valueOf(payRequestBo.getPrice().intValue()), CHARSET) + "&");
 			// 商品名称
-			paramBuffer.append("subject=" + URLEncoder.encode(payRequestBo.getSubject(), "UTF-8") + "&");
+			paramBuffer.append("subject=" + URLEncoder.encode(payRequestBo.getSubject(), CHARSET) + "&");
 			// 用户ID
-			paramBuffer.append("userId=" + payRequestBo.getUserId() + "&");
+			paramBuffer.append("userId=" + URLEncoder.encode(payRequestBo.getUserId(), CHARSET) + "&");
 			// uuid
-			paramBuffer.append("uuid=" + uuid + "&");
-			paramBuffer.append("sign=" + createSignForRequest(payRequestBo));
+			paramBuffer.append("uuid=" + URLEncoder.encode(uuid, CHARSET) + "&");
+			paramBuffer.append("sign=" + URLEncoder.encode(createSignForRequest(payRequestBo), CHARSET));
 			// 网关
 			paramBuffer.insert(0, gateway + "?");
+			logger.info("生成的链接为:" + paramBuffer.toString());
 		} catch (UnsupportedEncodingException e) {
 			return ServiceResult.of(false);
 		}
@@ -94,7 +98,7 @@ public class PayelvesTradeServiceImpl implements ITradeService {
 		// 版本号
 		paramBuffer.append("clientVersion=" + clientVersion + "&");
 		// 订单时间
-		paramBuffer.append("dateTime=" + Common.getNowTime() + "&");
+		paramBuffer.append("dateTime=" + payRequestBo.getDateTime() + "&");
 		// 开发者ID
 		paramBuffer.append("openId=" + openId + "&");
 		// 订单ID
@@ -110,7 +114,10 @@ public class PayelvesTradeServiceImpl implements ITradeService {
 		// uuid
 		paramBuffer.append("uuid=" + uuid);
 		paramBuffer.append(token);
-		return Common.md5(paramBuffer.toString());
+		logger.info("需要签名的参数为：" + paramBuffer.toString());
+		String sign = Common.md5(paramBuffer.toString());
+		logger.info("签名为：" + sign);
+		return sign;
 	}
 
 	@Override
