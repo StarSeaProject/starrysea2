@@ -316,8 +316,10 @@
                             发货状态
                         </div>
                         <div class="col-xs-5 ">
-                            <div class="ordercontentbox2" th:text="${orderitem.getOrderStatus()}">
-                                无发货状态
+                            <div class="ordercontentbox2">
+                                <span th:if="${orderitem.getOrderStatus()}==0">未支付</span>
+		                        <span th:if="${orderitem.getOrderStatus()}==1">未发货</span>
+		                        <span th:if="${orderitem.getOrderStatus()}==2">已发货</span>
                             </div>
                             <div th:if="${orderitem.getOrderStatus()}==0">
                                 <p style="color:red" >您还未完成支付</p>
