@@ -37,30 +37,27 @@
 		</div>
 		<div class="nowactdetail col-xs-7">
 			<h3 th:text="${newResult.activityName}" class="h3 nowacttitle">当前活动名</h3>
-			<br></br> <br></br> <br></br>
+			<br>
 			<p th:text="${newResult.activitySummary}" class="p nowactdetail">几句话来介绍当前的活动</p>
-			<br></br> <br></br> <br></br> <a
+			<br>
+			<a
 				th:href="@{'/activity/'+${newResult.activityId}}"
 				class="a nowactbutton" href="javascript:void(0)">点击打开详情页面</a>
 		</div>
-		<br /> <br /> <br />
 	</div>
-	<br />
-	<br />
-	<br />
 
 	<div class="previousact container row">
 		<div class="activityclass" id="activitys">
 
 			<div class="actlist container" th:each="activity:${result}">
 				<div class="actbox row">
-					<div class="col-xs-4 actname">
+					<div class="col-xs-5 actname">
 						<p th:text="${activity.activityName}" class="lead">活动名称</p>
 					</div>
-					<div class="col-xs-4 endtime">
+					<div class="col-xs-5 endtime">
 						<p th:text="${activity.activityEndtime}">活动结束日期</p>
 					</div>
-					<div class="col-xs-4 actdetail">
+					<div class="col-xs-2 actdetail">
 						<a class="detailbutton btn-lg"
 							th:href="@{'/activity/'+${activity.activityId}}"> <span
 							class="glyphicon glyphicon-circle-arrow-right"></span>
@@ -95,11 +92,6 @@
 		</div>
 
 	</div>
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
 	<form id="activityDetail" class="row" action="/activity/detail"
 		method="get">
 		<input id="activityId" type="hidden" name="activityId" />
