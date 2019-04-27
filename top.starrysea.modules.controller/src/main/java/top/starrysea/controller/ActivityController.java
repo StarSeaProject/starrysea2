@@ -162,11 +162,15 @@ public class ActivityController {
 	@ApiOperation(value = "用户众筹", notes = "用户众筹")
 	public ModelAndView participateFundingController(
 			@Valid @ApiParam(name = "众筹记录对象", required = true) FundingForParticipate funding,
-			@ApiIgnore BindingResult bindingResult, @ApiIgnore HttpSession session) {
+			@ApiIgnore BindingResult bindingResult, @ApiIgnore HttpSession session, @ApiIgnore Device device) {
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Funding fundingDTO = funding.toDTO();
 		fundingDTO.setUser(currentUser);
-		Funding f = activityService.participateFundingService(fundingDTO).getResult(FUNDING);
+		ServiceResult sr = activityService.participateFundingService(fundingDTO);
+		if (!sr.isSuccessed()) {
+			return ModelAndViewFactory.newErrorMav(sr.getErrInfo(), device);
+		}
+		Funding f = sr.getResult(FUNDING);
 		PayelvesPayBackParam backParam = new PayelvesPayBackParam();
 		backParam.setType(2);
 		String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()

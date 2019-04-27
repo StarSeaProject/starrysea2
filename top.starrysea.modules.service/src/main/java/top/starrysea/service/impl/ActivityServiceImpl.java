@@ -29,6 +29,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IActivityDao;
 import top.starrysea.dao.IActivityImageDao;
 import top.starrysea.dao.IFundingDao;
+import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
@@ -177,6 +178,10 @@ public class ActivityServiceImpl implements IActivityService {
 	@Transactional
 	public ServiceResult participateFundingService(Funding funding) {
 		try {
+			Activity activity = activityDao.getActivityDao(funding.getActivity());
+			if (activity.getActivityStatus() != 2) {
+				return ServiceResult.of(false).setErrInfo("该活动不可以参与众筹");
+			}
 			funding.setFundingTime(Common.getNowTime());
 			funding.setFundingNum(Common.getCharId(20));
 			funding.setFundingStatus((short) 1);
