@@ -65,8 +65,8 @@
 						<a class="checkbutton">确认</a>
 					</div>
 				</div>
-				<div class="rightcont">
-					<div class="rightbox">
+				<div class="rightcont" id="namebox">
+					<div class="rightbox" id="rightbox">
 						<h4 th:text="'众筹总金额为:'+${activity.activityMoney}">No data</h4>
 						<ul class="newbox" th:each="funding:${fundings}">
 							<li class="everybox"><span
