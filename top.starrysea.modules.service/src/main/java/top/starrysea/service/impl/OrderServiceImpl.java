@@ -133,10 +133,10 @@ public class OrderServiceImpl implements IOrderService {
 				order.setOrderStatus((short) 1);
 			} else {
 				order.setOrderStatus((short) 0);
+				messageSender.sendMessage(ORDERS_EXCHANGE, ORIGINAL_ORDER_QUEUE, Common.toJson(order), QUEUE_TIMEOUT);
 			}
 			orderDao.saveOrderDao(order);
 			orderDetailDao.saveOrderDetailsDao(orderDetails);
-			messageSender.sendMessage(ORDERS_EXCHANGE, ORIGINAL_ORDER_QUEUE, Common.toJson(order), QUEUE_TIMEOUT);
 			return ServiceResult.of(true).setResult(LIST_1, orderDetails).setResult(ORDER, order);
 		} catch (EmptyResultException | LogicException e) {
 			logger.error(e.getMessage(), e);
