@@ -82,8 +82,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_phone", "o", WhereType.EQUALS, orderDetail.getOrder().getOrderPhone())
 				.where("work_id", "w", WhereType.EQUALS, orderDetail.getWorkType().getWork().getWorkId())
-				.where("order_status", "o", WhereType.IN, orderStatusList.stream().collect(Collectors.toList()))
-				.endForNumber();
+				.where("order_status", "o", WhereType.NOT_EQUALS, 3).endForNumber();
 		int count = theResult.getResult();
 		if (count == 0)
 			return false;
