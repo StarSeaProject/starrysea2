@@ -37,7 +37,7 @@
 		<form id="addOrderForm" class="container" action="/order/add"
 			method="post">
 
-			<div class="row">
+			<div class="row normalline">
 				<div class="col-xs-6">
 					<p>收货人姓名:</p>
 				</div>
@@ -47,7 +47,7 @@
 
 			</div>
 
-			<div class="row">
+			<div class="row normalline">
 				<div class="col-xs-6">
 					<p>手机号:</p>
 				</div>
@@ -56,17 +56,18 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row normalline">
 				<div class="col-xs-6">
 					<p>收货地址</p>
 				</div>
 				<div class="col-xs-6">
 					<a id="addressbutton"> 请点击选择地址 </a> <input type="hidden"
 						id="areasub" name="orderArea" />
+					<p>香港、澳门、台湾只能选择接收到付快递</p>
 				</div>
 			</div>
 
-			<div class="row" id="expensebar">
+			<div class="row normalline" id="expensebar">
 				<div class="col-xs-6">
 				</div>
 				<div class="col-xs-6">
@@ -74,7 +75,7 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row normalline">
 				<div class="col-xs-6">
 					<p>收货详细地址</p>
 				</div>
@@ -83,7 +84,18 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row normalline" id="isPayOnlineRow">
+				<div class="col-xs-6">
+				</div>
+
+				<div class="col-xs-6">
+					<a id="PayOnlineBt" class="PayOnlineUv">不方便接收到付快递</a>
+					<p id="PayOnlineText">选中该选项时将使用在线支付的方式支付邮费</p>
+					<input type="hidden" name="isPayOnline" id="isPayOnline"/>
+				</div>
+			</div>
+
+			<div class="row normalline">
 				<div class="col-xs-6">
 					<p>
 						收货人电子邮箱：<span class="note">(*接收运单号使用)</span>
@@ -94,7 +106,7 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row normalline">
 				<div class="col-xs-6">
 					<p>备注:</p>
 				</div>
@@ -103,7 +115,7 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row normalline">
 				<div class="col-xs-6">
 					<p class="note" id="advice">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
 				</div>
@@ -120,7 +132,7 @@
 				<input type="hidden" name="token" th:value="${token}" />
 			</div>
 
-			<div class="row">
+			<div class="row normalline">
 				<div class="col-xs-12 butct">
 					<button id="addOrderBtn" class="btn btn-danger">提交</button>
 				</div>
