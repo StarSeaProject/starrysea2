@@ -28,7 +28,7 @@ public class Const {
 	public static final String FUNDING_EXCHANGE = "funding";
 	public static final String ORIGINAL_FUNDING_QUEUE = "originalFundingQueue";
 	public static final String CANCEL_FUNDING_QUEUE = "cancelFundingQueue";
-	public static final Long QUEUE_TIMEOUT = 2 * 60 * 1000L;
+	public static final Long QUEUE_TIMEOUT = 10 * 60 * 1000L;
 
 	public static class HttpCode {
 		private HttpCode() {
