@@ -129,6 +129,12 @@ public class QuerySqlGenerator implements ISqlGenerator {
 			this.whereClauses.add(whereClause);
 			return this;
 		}
+		
+		public Builder where(String colunmName, String alias, WhereType whereType, List<Object> valueList) {
+			WhereClause whereClause = WhereClause.of(colunmName, alias, whereType, valueList);
+			this.whereClauses.add(whereClause);
+			return this;
+		}
 
 		public Builder orderBy(String columnName) {
 			OrderClause orderClause = OrderClause.of(columnName);

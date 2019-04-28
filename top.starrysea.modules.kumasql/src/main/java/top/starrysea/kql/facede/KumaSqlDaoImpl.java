@@ -175,6 +175,17 @@ public class KumaSqlDaoImpl implements KumaSqlDao {
 		} else
 			throw new IllegalStateException(NOT_SELECT_MODE_INFO);
 	}
+	
+	@Override
+	public KumaSqlDao where(String columnName, String alias, WhereType whereType, List<Object> value) {
+		if (operationType.get() == OperationType.SELECT) {
+			top.starrysea.kql.QuerySqlGenerator.Builder queryBuilder = (top.starrysea.kql.QuerySqlGenerator.Builder) builder
+					.get();
+			queryBuilder.where(columnName, alias, whereType, value);
+			return this;
+		} else
+			throw new IllegalStateException(NOT_SELECT_MODE_INFO);
+	}
 
 	@Override
 	public KumaSqlDao orderBy(String columnName) {
@@ -496,4 +507,5 @@ public class KumaSqlDaoImpl implements KumaSqlDao {
 	public Mono<SqlResult> batchEndMono(BatchPreparedStatementSetter bpss) {
 		return Mono.fromCallable(() -> batchEnd(bpss));
 	}
+
 }

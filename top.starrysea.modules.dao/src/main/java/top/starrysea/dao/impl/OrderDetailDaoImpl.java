@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -74,13 +75,15 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	@Override
 	public boolean isOrderDetailExistDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
+		List<Integer> orderStatusList = Arrays.asList(0, 1, 2);
 		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(OrderDetail.class)
 				.leftjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_phone", "o", WhereType.EQUALS, orderDetail.getOrder().getOrderPhone())
 				.where("work_id", "w", WhereType.EQUALS, orderDetail.getWorkType().getWork().getWorkId())
-				.where("order_status", "o", WhereType.IN, Arrays.asList(0, 1, 2)).endForNumber();
+				.where("order_status", "o", WhereType.IN, orderStatusList.stream().collect(Collectors.toList()))
+				.endForNumber();
 		int count = theResult.getResult();
 		if (count == 0)
 			return false;
