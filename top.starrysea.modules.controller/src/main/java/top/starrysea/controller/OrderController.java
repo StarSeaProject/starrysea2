@@ -160,7 +160,7 @@ public class OrderController {
 					.createPaymentRequestRouteService(
 							PayelvesPayRequest.builder().withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会")
 									.withChannel(1).withOrderId(o.getOrderId()).withPayType(1)
-									.withPrice(Double.parseDouble(o.getOrderMoney() + "") * 100)
+									.withPrice(Double.parseDouble(o.getOrderMoney() + ""))
 									.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build())
 					.getResult(STRING);
 			return new ModelAndView("redirect:" + url);
