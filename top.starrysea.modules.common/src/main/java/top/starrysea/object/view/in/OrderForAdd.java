@@ -55,6 +55,10 @@ public class OrderForAdd {
 	@NotBlank(message = "token序列不能为空!这是二次提交!")
 	private String token;
 
+	@ApiModelProperty(value = "否在线支付", name = "isPayOnline")
+	@NotNull(message = "是否在线支付不能为空")
+	private Boolean isPayOnline;
+
 	public String getOrderName() {
 		return orderName;
 	}
@@ -119,8 +123,16 @@ public class OrderForAdd {
 		this.orderDetails = orderDetails;
 	}
 
+	public Boolean getIsPayOnline() {
+		return isPayOnline;
+	}
+
+	public void setIsPayOnline(Boolean isPayOnline) {
+		this.isPayOnline = isPayOnline;
+	}
+
 	public Orders toDTO() {
-		Orders order=new Orders.Builder().orderName(orderName).orderArea(new Area.Builder().areaId(orderArea).build())
+		Orders order = new Orders.Builder().orderName(orderName).orderArea(new Area.Builder().areaId(orderArea).build())
 				.orderAddress(orderAddress).orderEMail(orderEmail).orderRemark(orderRemark).orderPhone(orderPhone)
 				.build();
 		return order;

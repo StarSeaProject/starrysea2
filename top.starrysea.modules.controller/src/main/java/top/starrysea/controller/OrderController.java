@@ -153,7 +153,8 @@ public class OrderController {
 		}
 		orderService.removeShoppingCarListService(session.getId());
 		Orders o = serviceResult.getResult(ORDER);
-		if (o.getOrderMoney() != 0) {
+		// 如果用户选择了在线支付且这个收货地址是可以顺丰到付的,则走线上支付
+		if (order.getIsPayOnline() == true && o.getOrderMoney() != 0) {
 			PayelvesPayBackParam backParam = new PayelvesPayBackParam();
 			backParam.setType(1);
 			String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()
