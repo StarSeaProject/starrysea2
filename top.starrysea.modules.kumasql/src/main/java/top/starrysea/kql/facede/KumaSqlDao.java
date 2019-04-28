@@ -38,6 +38,8 @@ public interface KumaSqlDao {
 	KumaSqlDao where(String columnName, WhereType whereType, List<Object> value);
 
 	KumaSqlDao where(String columnName, String alias, WhereType whereType, Object value);
+	
+	KumaSqlDao where(String columnName, String alias, WhereType whereType, List<Object> value);
 
 	KumaSqlDao orderBy(String columnName);
 

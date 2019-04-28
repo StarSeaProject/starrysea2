@@ -23,6 +23,7 @@ public class DeleteSqlGenerator extends NonQuerySqlGenerator {
 
 	static {
 		handlerMap.put(WhereType.EQUALS, WhereHandlers.equalsHandler);
+		handlerMap.put(WhereType.NOT_EQUALS, WhereHandlers.notEqualsHandler);
 		handlerMap.put(WhereType.FRONT_FUZZY, WhereHandlers.frontFuzzyHandler);
 		handlerMap.put(WhereType.BACK_FUZZY, WhereHandlers.backFuzzyHandler);
 		handlerMap.put(WhereType.FUZZY, WhereHandlers.fuzzyHandler);

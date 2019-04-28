@@ -37,6 +37,14 @@ public class WhereClause {
 		whereClause.setValue(value);
 		return whereClause;
 	}
+	
+	public static WhereClause of(String columnName, String alias, WhereType whereType, List<Object> valueList) {
+		WhereClause whereClause = new WhereClause();
+		whereClause.setColumnName(alias + "." + columnName);
+		whereClause.setWhereType(whereType);
+		whereClause.setValueList(valueList);
+		return whereClause;
+	}
 
 	public String getColumnName() {
 		return columnName;

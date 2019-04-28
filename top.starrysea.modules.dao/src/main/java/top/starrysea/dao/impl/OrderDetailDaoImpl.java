@@ -2,7 +2,9 @@ package top.starrysea.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -79,7 +81,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("order_phone", "o", WhereType.EQUALS, orderDetail.getOrder().getOrderPhone())
 				.where("work_id", "w", WhereType.EQUALS, orderDetail.getWorkType().getWork().getWorkId())
-				.endForNumber();
+				.where("order_status", "o", WhereType.NOT_EQUALS, 3).endForNumber();
 		int count = theResult.getResult();
 		if (count == 0)
 			return false;

@@ -13,6 +13,12 @@ public class WhereHandlers {
 		params.add(where.getValue());
 		return new HandleResult(whereClause, params);
 	};
+	
+	public static final IWhereHandler notEqualsHandler = (where, params) -> {
+		String whereClause = where.getColumnName() + " != ?";
+		params.add(where.getValue());
+		return new HandleResult(whereClause, params);
+	};
 
 	public static final IWhereHandler frontFuzzyHandler = (where, params) -> {
 		String whereClause = where.getColumnName() + " LIKE ?";

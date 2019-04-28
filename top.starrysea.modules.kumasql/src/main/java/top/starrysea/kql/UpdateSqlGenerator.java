@@ -26,6 +26,7 @@ public class UpdateSqlGenerator extends NonQuerySqlGenerator {
 
 	static {
 		whereHandlerMap.put(WhereType.EQUALS, WhereHandlers.equalsHandler);
+		whereHandlerMap.put(WhereType.NOT_EQUALS, WhereHandlers.notEqualsHandler);
 		whereHandlerMap.put(WhereType.FRONT_FUZZY, WhereHandlers.frontFuzzyHandler);
 		whereHandlerMap.put(WhereType.BACK_FUZZY, WhereHandlers.backFuzzyHandler);
 		whereHandlerMap.put(WhereType.FUZZY, WhereHandlers.fuzzyHandler);
