@@ -75,7 +75,6 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	@Override
 	public boolean isOrderDetailExistDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
-		List<Integer> orderStatusList = Arrays.asList(0, 1, 2);
 		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(OrderDetail.class)
 				.leftjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
