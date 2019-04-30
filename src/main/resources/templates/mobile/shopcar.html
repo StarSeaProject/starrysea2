@@ -47,7 +47,7 @@
 					<p th:text="${workType.workTypeName}" class="worktypep">No data</p>
 				</div>
 				<div class="col-xs-3 workdel text-center">
-					<a href="*" class="workdela">删除</a>
+					<a th:href="@{'/car/remove/'+${status.index}}+'?token='+${token}" class="workdela">删除</a>
 				</div>
 			</div>
 
