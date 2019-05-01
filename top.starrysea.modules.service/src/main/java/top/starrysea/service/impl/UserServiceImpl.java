@@ -90,7 +90,7 @@ public class UserServiceImpl implements IUserService {
 		try {
 			List<UserForSave> userList = kumaRedisDao.getList(redisKey, UserForSave.class);
 			if (userList.isEmpty()) {
-				serviceResult.setSuccessed(false).setErrInfo("无效的激活码");
+				serviceResult.setSuccessed(false).setErrInfo("激活链接已过期或者用户已经激活");
 				logger.info("激活失败:激活码 {} 无效", redisKey);
 			} else {
 				UserForSave userForSave = userList.get(0);
