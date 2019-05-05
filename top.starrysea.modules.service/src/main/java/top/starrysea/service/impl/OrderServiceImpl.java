@@ -349,10 +349,4 @@ public class OrderServiceImpl implements IOrderService {
 				postageDao.getPostage(new Postage.Builder().province(provinceId).build()).getPostageMoney());
 	}
 
-	@Override
-	//用户删除订单
-	public ServiceResult userDeleteOrderService(Orders order) {
-		orderDao.deleteOrderDao(order);
-		return SUCCESS_SERVICE_RESULT;
-	}
 }

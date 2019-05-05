@@ -329,10 +329,9 @@ public class OrderController {
 		}
 	}
 
-	//用户删除订单
-	@PostMapping("/order/delete/{orderId}")
-	public ModelAndView userDeleteOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
-		orderService.userDeleteOrderService(order.toDTO());
-		return ModelAndViewFactory.newSuccessMav("订单删除成功!", device);
+	@PostMapping("/order/cancel/{orderId}")
+	public ModelAndView cancelOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device){
+		orderService.cancelOrderService(Common.toJson(order));
+		return ModelAndViewFactory.newSuccessMav("订单取消成功!", device);
 	}
 }

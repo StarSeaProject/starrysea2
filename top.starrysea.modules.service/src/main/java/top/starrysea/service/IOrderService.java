@@ -48,6 +48,4 @@ public interface IOrderService {
 	void cancelOrderService(String message);
 
 	ServiceResult getPostageMoney(int provinceId);
-
-	ServiceResult userDeleteOrderService(Orders order);
 }
