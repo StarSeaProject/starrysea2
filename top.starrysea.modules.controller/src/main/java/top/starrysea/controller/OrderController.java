@@ -1,30 +1,8 @@
 package top.starrysea.controller;
 
-import static top.starrysea.common.Const.INFO;
-import static top.starrysea.common.Const.MOBILE;
-import static top.starrysea.common.Const.TOKEN;
-import static top.starrysea.common.Const.USER_SESSION_KEY;
-import static top.starrysea.common.ResultKey.LIST_1;
-import static top.starrysea.common.ResultKey.MAP;
-import static top.starrysea.common.ResultKey.ORDER;
-import static top.starrysea.common.ResultKey.STRING;
-import static top.starrysea.common.ResultKey.INTEGER;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.Common;
 import top.starrysea.common.ModelAndViewFactory;
@@ -48,25 +22,25 @@ import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.User;
 import top.starrysea.object.dto.WorkType;
-import top.starrysea.object.view.in.ExportXlsCondition;
-import top.starrysea.object.view.in.OrderDetailForAddOrder;
-import top.starrysea.object.view.in.OrderDetailForModifyAddr;
-import top.starrysea.object.view.in.OrderForAdd;
-import top.starrysea.object.view.in.OrderForAddress;
-import top.starrysea.object.view.in.OrderForAll;
-import top.starrysea.object.view.in.OrderForModify;
-import top.starrysea.object.view.in.OrderForOne;
-import top.starrysea.object.view.in.OrderForPay;
-import top.starrysea.object.view.in.OrderForRemove;
-import top.starrysea.object.view.in.ProvinceForOne;
-import top.starrysea.object.view.in.WorkTypeForRemoveCar;
-import top.starrysea.object.view.in.WorkTypeForToAddOrders;
-import top.starrysea.object.view.in.WorkTypesForRemoveCar;
+import top.starrysea.object.view.in.*;
 import top.starrysea.security.SecurityAlgorithm;
 import top.starrysea.service.IOrderService;
 import top.starrysea.trade.PayelvesPayBackParam;
 import top.starrysea.trade.PayelvesPayRequest;
 import top.starrysea.trade.service.ITradeService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static top.starrysea.common.Const.*;
+import static top.starrysea.common.ResultKey.*;
 
 @Api(tags = "订单相关api")
 @Controller
@@ -111,7 +85,7 @@ public class OrderController {
 	@PostMapping("/order/detail/ajax")
 	@ResponseBody
 	public Map<String, Object> queryOrderControllerAjax(@RequestBody @Valid OrderForRemove order,
-			BindingResult bindingResult) {
+	                                                    BindingResult bindingResult) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER);
 		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
@@ -139,7 +113,7 @@ public class OrderController {
 	@PostMapping("/order/add")
 	@ApiOperation(value = "下单", notes = "下单")
 	public ModelAndView addOrderController(@Valid @ApiParam(name = "订单对象", required = true) OrderForAdd order,
-			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession session) {
+	                                       @ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession session) {
 		if (!order.getToken().equals(session.getAttribute(TOKEN))) {
 			return ModelAndViewFactory.newErrorMav("您已经下单,请勿再次提交", device);
 		}
@@ -198,7 +172,7 @@ public class OrderController {
 	@PostMapping("/order/resend")
 	@ResponseBody
 	public Map<String, Object> resendEmailController(@RequestBody @Valid OrderForRemove order,
-			BindingResult bindingResult) {
+	                                                 BindingResult bindingResult) {
 		orderService.resendEmailService(order.toDTO());
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("result", "success");
@@ -208,7 +182,7 @@ public class OrderController {
 	@PostMapping("/car/add")
 	@ResponseBody
 	public Map<String, Object> addWorkToShoppingCarController(HttpSession session,
-			@RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
+	                                                          @RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
 		List<OrderDetailForAddOrder> orderDetailList = orderService.queryShoppingCarListService(session.getId())
 				.getResult(LIST_1);
 		if (orderDetailList == null) {
@@ -231,7 +205,7 @@ public class OrderController {
 	@GetMapping("/car/remove/{index}")
 	@ResponseBody
 	public ModelAndView removeWorkFromShoppingCarController(HttpSession session, @Valid WorkTypeForRemoveCar workType,
-			BindingResult bindingResult, Device device) {
+	                                                        BindingResult bindingResult, Device device) {
 		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workType.getToken())) {
 			return ModelAndViewFactory.newErrorMav("您已经删除该作品,请勿再次提交", device);
 		}
@@ -262,7 +236,7 @@ public class OrderController {
 
 	@PostMapping("/car/removes")
 	public ModelAndView removeWorksFromShoppingCarController(HttpSession session,
-			@Valid WorkTypesForRemoveCar workTypes, BindingResult bindingResult, Device device) {
+	                                                         @Valid WorkTypesForRemoveCar workTypes, BindingResult bindingResult, Device device) {
 		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workTypes.getToken())) {
 			return ModelAndViewFactory.newErrorMav("您已经删除过这些作品,请勿再次提交", device);
 		}
@@ -278,7 +252,7 @@ public class OrderController {
 
 	@PostMapping("/order/address/modify")
 	public ModelAndView modifyAddressController(HttpSession session, @Valid OrderForAddress order,
-			BindingResult bindingResult, Device device) {
+	                                            BindingResult bindingResult, Device device) {
 		Orders result = orderService.queryOrderService(order.toDTO()).getResult(ORDER);
 		String key = (String) session.getAttribute(TOKEN);
 		@SuppressWarnings("unchecked")
@@ -295,7 +269,7 @@ public class OrderController {
 
 	@GetMapping("/order/address/toModifyAddr/{orderNum}")
 	public ModelAndView gotoModifyAddressController(HttpSession session, @Valid OrderDetailForModifyAddr order,
-			BindingResult bindingResult, Device device) {
+	                                                BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER);
 		@SuppressWarnings("unchecked")
@@ -316,7 +290,7 @@ public class OrderController {
 
 	@PostMapping("/order/address/send")
 	public ModelAndView modifyAddressEmailController(@Valid OrderForOne order, BindingResult bindingResult,
-			Device device) {
+	                                                 Device device) {
 		ServiceResult result = orderService.modifyAddressEmailService(order.toDTO());
 		if (!result.isSuccessed()) {
 			return ModelAndViewFactory.newErrorMav("您的订单已发货,不能再修改收货地址!", device);
@@ -328,7 +302,7 @@ public class OrderController {
 	@GetMapping("/order/postage/money")
 	@ResponseBody
 	public Map<String, Object> getPostage(@Valid @ApiParam(name = "省份对象", required = true) ProvinceForOne province,
-			BindingResult bindingResult) {
+	                                      BindingResult bindingResult) {
 		ServiceResult result = orderService.getPostageMoney(province.getProvinceId());
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("postageMoney", result.getResult(INTEGER));
@@ -338,7 +312,7 @@ public class OrderController {
 	@ApiOperation(value = "订单付款", notes = "订单付款")
 	@PostMapping("/order/pay")
 	public ModelAndView payOrder(@ApiIgnore HttpSession session,
-			@Valid @ApiParam(value = "付款用对象", required = true) OrderForPay order, @ApiIgnore Device device) {
+	                             @Valid @ApiParam(value = "付款用对象", required = true) OrderForPay order, @ApiIgnore Device device) {
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Orders o = orderService.queryOrderService(order.toDTO()).getResult(ORDER);
 		o.setOrderId(order.getOrderId());
@@ -353,5 +327,12 @@ public class OrderController {
 		} else {
 			return ModelAndViewFactory.newErrorMav("该订单无法付款", device);
 		}
+	}
+
+	//用户删除订单
+	@PostMapping("/order/delete/{orderId}")
+	public ModelAndView userDeleteOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
+		orderService.userDeleteOrderService(order.toDTO());
+		return ModelAndViewFactory.newSuccessMav("订单删除成功!", device);
 	}
 }

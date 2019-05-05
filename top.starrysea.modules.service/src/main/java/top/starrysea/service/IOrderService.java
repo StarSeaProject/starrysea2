@@ -1,6 +1,5 @@
 package top.starrysea.service;
 
-import java.util.List;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.OrderDetail;
@@ -8,6 +7,8 @@ import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.in.ExportXlsCondition;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
+
+import java.util.List;
 
 public interface IOrderService {
 
@@ -38,13 +39,15 @@ public interface IOrderService {
 	ServiceResult queryShoppingCarListService(String redisKey);
 
 	ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
-			List<OrderDetailForAddOrder> orderDetailForAddOrders);
+	                                                  List<OrderDetailForAddOrder> orderDetailForAddOrders);
 
 	ServiceResult removeShoppingCarListService(String redisKey);
 
 	ServiceResult notifyOrderService(Orders orders);
 
 	void cancelOrderService(String message);
-	
+
 	ServiceResult getPostageMoney(int provinceId);
+
+	ServiceResult userDeleteOrderService(Orders order);
 }
