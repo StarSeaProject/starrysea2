@@ -1,16 +1,5 @@
 package top.starrysea.service.impl;
 
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import static top.starrysea.common.Const.QUEUE_TIMEOUT;
-import static top.starrysea.common.Const.ORDERS_EXCHANGE;
-import static top.starrysea.common.Const.ORIGINAL_ORDER_QUEUE;
-import static top.starrysea.common.Const.CANCEL_ORDER_QUEUE;
-import javax.annotation.Resource;
-
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -22,37 +11,36 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
-import top.starrysea.dao.IProvinceDao;
-import top.starrysea.dao.IOrderDao;
-import top.starrysea.dao.IOrderDetailDao;
-import top.starrysea.dao.IPostageDao;
-import top.starrysea.dao.IWorkTypeDao;
+import top.starrysea.dao.*;
 import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.kql.facede.KumaRedisDao;
 import top.starrysea.mq.MessageSender;
-import top.starrysea.object.dto.Area;
-import top.starrysea.object.dto.OrderDetail;
-import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Postage;
-import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.dto.*;
 import top.starrysea.object.view.in.ExportXlsCondition;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
 import top.starrysea.object.view.out.AreaForAddOrder;
 import top.starrysea.object.view.out.CityForAddOrder;
 import top.starrysea.object.view.out.ProvinceForAddOrder;
-import top.starrysea.service.mail.IMailService;
 import top.starrysea.service.IOrderService;
+import top.starrysea.service.mail.IMailService;
 
-import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;
+import javax.annotation.Resource;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static top.starrysea.common.Const.*;
 import static top.starrysea.common.ResultKey.*;
-import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
 import static top.starrysea.common.ServiceResult.FAIL_SERVICE_RESULT;
+import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
+import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;
 
 @Service("orderService")
 public class OrderServiceImpl implements IOrderService {
@@ -298,7 +286,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
-			List<OrderDetailForAddOrder> orderDetailForAddOrders) {
+	                                                         List<OrderDetailForAddOrder> orderDetailForAddOrders) {
 		kumaRedisDao.set(redisKey, Common.toJson(orderDetailForAddOrders));
 		return SUCCESS_SERVICE_RESULT;
 	}
@@ -360,4 +348,5 @@ public class OrderServiceImpl implements IOrderService {
 		return ServiceResult.of(true).setResult(INTEGER,
 				postageDao.getPostage(new Postage.Builder().province(provinceId).build()).getPostageMoney());
 	}
+
 }
