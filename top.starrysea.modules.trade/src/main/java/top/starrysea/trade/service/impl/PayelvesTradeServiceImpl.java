@@ -38,45 +38,45 @@ public class PayelvesTradeServiceImpl implements ITradeService {
 	 * 组装支付url
 	 */
 	public ServiceResult createPaymentRequestRouteService(PayelvesPayRequest payRequestBo) {
-		StringBuffer paramBuffer = new StringBuffer();
+		StringBuilder paramBuilder = new StringBuilder();
 		try {
 			// appKey
-			paramBuffer.append("appKey=" + URLEncoder.encode(appKey, CHARSET) + "&");
+			paramBuilder.append("appKey=" + URLEncoder.encode(appKey, CHARSET) + "&");
 			// backParam
 			String backParam = URLEncoder.encode(payRequestBo.getBackPara(), CHARSET);
-			paramBuffer.append("backPara=" + backParam + "&");
+			paramBuilder.append("backPara=" + backParam + "&");
 			// 商品名称
-			paramBuffer.append("body=" + URLEncoder.encode(payRequestBo.getBody(), CHARSET) + "&");
+			paramBuilder.append("body=" + URLEncoder.encode(payRequestBo.getBody(), CHARSET) + "&");
 			// 通道
-			paramBuffer.append("channel=" + URLEncoder.encode(payRequestBo.getChannel().toString(), CHARSET) + "&");
+			paramBuilder.append("channel=" + URLEncoder.encode(payRequestBo.getChannel().toString(), CHARSET) + "&");
 			// 版本号
-			paramBuffer.append("clientVersion=" + URLEncoder.encode(clientVersion, CHARSET) + "&");
+			paramBuilder.append("clientVersion=" + URLEncoder.encode(clientVersion, CHARSET) + "&");
 			// 订单时间
 			payRequestBo.setDateTime(Common.getNowTime());
-			paramBuffer.append("dateTime=" + URLEncoder.encode(payRequestBo.getDateTime(), CHARSET) + "&");
+			paramBuilder.append("dateTime=" + URLEncoder.encode(payRequestBo.getDateTime(), CHARSET) + "&");
 			// 开发者ID
-			paramBuffer.append("openId=" + URLEncoder.encode(openId, CHARSET) + "&");
+			paramBuilder.append("openId=" + URLEncoder.encode(openId, CHARSET) + "&");
 			// 订单ID
-			paramBuffer.append("orderId=" + payRequestBo.getOrderId() + "&");
+			paramBuilder.append("orderId=" + payRequestBo.getOrderId() + "&");
 			// 支付类型1：支付宝 2：微信
-			paramBuffer.append("payType=" + payRequestBo.getPayType() + "&");
+			paramBuilder.append("payType=" + payRequestBo.getPayType() + "&");
 			// 价格
-			paramBuffer.append(
+			paramBuilder.append(
 					"price=" + URLEncoder.encode(String.valueOf(payRequestBo.getPrice().intValue()), CHARSET) + "&");
 			// 商品名称
-			paramBuffer.append("subject=" + URLEncoder.encode(payRequestBo.getSubject(), CHARSET) + "&");
+			paramBuilder.append("subject=" + URLEncoder.encode(payRequestBo.getSubject(), CHARSET) + "&");
 			// 用户ID
-			paramBuffer.append("userId=" + URLEncoder.encode(payRequestBo.getUserId(), CHARSET) + "&");
+			paramBuilder.append("userId=" + URLEncoder.encode(payRequestBo.getUserId(), CHARSET) + "&");
 			// uuid
-			paramBuffer.append("uuid=" + URLEncoder.encode(uuid, CHARSET) + "&");
-			paramBuffer.append("sign=" + URLEncoder.encode(createSignForRequest(payRequestBo), CHARSET));
+			paramBuilder.append("uuid=" + URLEncoder.encode(uuid, CHARSET) + "&");
+			paramBuilder.append("sign=" + URLEncoder.encode(createSignForRequest(payRequestBo), CHARSET));
 			// 网关
-			paramBuffer.insert(0, gateway + "?");
-			logger.info("生成的链接为:" + paramBuffer.toString());
+			paramBuilder.insert(0, gateway + "?");
+			logger.info("生成的链接为:" + paramBuilder.toString());
 		} catch (UnsupportedEncodingException e) {
 			return ServiceResult.of(false);
 		}
-		return ServiceResult.of(true).setResult(STRING, paramBuffer.toString());
+		return ServiceResult.of(true).setResult(STRING, paramBuilder.toString());
 	}
 
 	/***
@@ -86,36 +86,36 @@ public class PayelvesTradeServiceImpl implements ITradeService {
 	 * @return
 	 */
 	private String createSignForRequest(PayelvesPayRequest payRequestBo) {
-		StringBuffer paramBuffer = new StringBuffer();
+		StringBuilder paramBuilder = new StringBuilder();
 		// appKey
-		paramBuffer.append("appKey=" + appKey + "&");
+		paramBuilder.append("appKey=" + appKey + "&");
 		// backParam
-		paramBuffer.append("backPara=" + payRequestBo.getBackPara() + "&");
+		paramBuilder.append("backPara=" + payRequestBo.getBackPara() + "&");
 		// 商品名称
-		paramBuffer.append("body=" + payRequestBo.getBody() + "&");
+		paramBuilder.append("body=" + payRequestBo.getBody() + "&");
 		// 通道
-		paramBuffer.append("channel=" + payRequestBo.getChannel() + "&");
+		paramBuilder.append("channel=" + payRequestBo.getChannel() + "&");
 		// 版本号
-		paramBuffer.append("clientVersion=" + clientVersion + "&");
+		paramBuilder.append("clientVersion=" + clientVersion + "&");
 		// 订单时间
-		paramBuffer.append("dateTime=" + payRequestBo.getDateTime() + "&");
+		paramBuilder.append("dateTime=" + payRequestBo.getDateTime() + "&");
 		// 开发者ID
-		paramBuffer.append("openId=" + openId + "&");
+		paramBuilder.append("openId=" + openId + "&");
 		// 订单ID
-		paramBuffer.append("orderId=" + payRequestBo.getOrderId() + "&");
+		paramBuilder.append("orderId=" + payRequestBo.getOrderId() + "&");
 		// 支付类型1：支付宝 2：微信
-		paramBuffer.append("payType=" + payRequestBo.getPayType() + "&");
+		paramBuilder.append("payType=" + payRequestBo.getPayType() + "&");
 		// 价格
-		paramBuffer.append("price=" + payRequestBo.getPrice().intValue() + "&");
+		paramBuilder.append("price=" + payRequestBo.getPrice().intValue() + "&");
 		// 商品名称
-		paramBuffer.append("subject=" + payRequestBo.getSubject() + "&");
+		paramBuilder.append("subject=" + payRequestBo.getSubject() + "&");
 		// 用户ID
-		paramBuffer.append("userId=" + payRequestBo.getUserId() + "&");
+		paramBuilder.append("userId=" + payRequestBo.getUserId() + "&");
 		// uuid
-		paramBuffer.append("uuid=" + uuid);
-		paramBuffer.append(token);
-		logger.info("需要签名的参数为：" + paramBuffer.toString());
-		String sign = Common.md5(paramBuffer.toString());
+		paramBuilder.append("uuid=" + uuid);
+		paramBuilder.append(token);
+		logger.info("需要签名的参数为：" + paramBuilder.toString());
+		String sign = Common.md5(paramBuilder.toString());
 		logger.info("签名为：" + sign);
 		return sign;
 	}
