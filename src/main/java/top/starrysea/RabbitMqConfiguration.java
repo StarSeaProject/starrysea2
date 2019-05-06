@@ -39,7 +39,7 @@ public class RabbitMqConfiguration {
 	@Bean
 	public Queue originalFundingQueue() {
 		return QueueBuilder.durable(ORIGINAL_FUNDING_QUEUE).withArgument("x-dead-letter-exchange", FUNDING_EXCHANGE)
-				.withArgument("x-dead-letter-routing-key", CANCEL_ORDER_QUEUE).build();
+				.withArgument("x-dead-letter-routing-key", CANCEL_FUNDING_QUEUE).build();
 	}
 
 	@Bean
