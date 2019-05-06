@@ -1,16 +1,17 @@
 package top.starrysea.service.impl;
 
+import static top.starrysea.common.Const.CANCEL_FUNDING_QUEUE;
+import static top.starrysea.common.Const.FUNDING_EXCHANGE;
 import static top.starrysea.common.Const.FUNDING_FACTOR;
+import static top.starrysea.common.Const.ORIGINAL_FUNDING_QUEUE;
+import static top.starrysea.common.Const.QUEUE_TIMEOUT;
 import static top.starrysea.common.ResultKey.ACTIVITY;
 import static top.starrysea.common.ResultKey.DOUBLE;
 import static top.starrysea.common.ResultKey.FUNDING;
 import static top.starrysea.common.ResultKey.LIST_1;
 import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
 import static top.starrysea.dao.impl.ActivityDaoImpl.PAGE_LIMIT;
-import static top.starrysea.common.Const.ORIGINAL_FUNDING_QUEUE;
-import static top.starrysea.common.Const.CANCEL_FUNDING_QUEUE;
-import static top.starrysea.common.Const.FUNDING_EXCHANGE;
-import static top.starrysea.common.Const.QUEUE_TIMEOUT;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,6 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IActivityDao;
 import top.starrysea.dao.IActivityImageDao;
 import top.starrysea.dao.IFundingDao;
-import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
