@@ -301,16 +301,15 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-4 boldfont  ordercontentbox2">
-                        	<span th:if="${orderitem.getOrderStatus()}==0">未支付</span>
-	                        <span th:if="${orderitem.getOrderStatus()}==1">未发货</span>
-	                        <span th:if="${orderitem.getOrderStatus()}==2">已发货</span>
-	                        <span th:if="${orderitem.getOrderStatus()}==3">已取消订单</span>
+                            收货地址
                         </div>
                         <div class="col-xs-5  ordercontentbox2" th:text="${orderitem.getOrderName()}+', '+${orderitem.getOrderPhone()}+', '+${orderitem.getProvinceName()}+' '+${orderitem.getCityName()}+' '+${orderitem.getAreaName()}+' '+${orderitem.getOrderAddress()}">
                             无收货地址
                         </div>
-                        <div class="col-xs-3">
-                        </div>
+                        <form th:if="${orderitem.getOrderStatus()}!=3" class="col-xs-2" th:action="@{'/order/cancel/'+${orderitem.getOrderId()}}" method="post">
+                            <input type="hidden" name="orderId" th:attr="value=${orderitem.getOrderId()}"/>
+                            <a class="cancelbt">取消订单</a>
+                        </form>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 boldfont  ordercontentbox2">
@@ -321,6 +320,7 @@
                                 <span th:if="${orderitem.getOrderStatus()}==0">未支付</span>
 		                        <span th:if="${orderitem.getOrderStatus()}==1">未发货</span>
 		                        <span th:if="${orderitem.getOrderStatus()}==2">已发货</span>
+                                <span th:if="${orderitem.getOrderStatus()}==3">已取消订单</span>
                             </div>
                             <div th:if="${orderitem.getOrderStatus()}==0">
                                 <p style="color:red" >您还未完成支付</p>
