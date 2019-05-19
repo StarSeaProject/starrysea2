@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.ModelAndViewFactory;
@@ -68,7 +69,7 @@ public class UserController {
 	@ApiOperation(value = "注册", notes = "注册")
 	@PostMapping("/register")
 	public ModelAndView registerController(@ApiIgnore HttpSession session,
-			@Valid @ApiParam(name = "注册用对象", required = true) UserForAdd user, @ApiIgnore Device device) {
+	                                       @Valid @ApiParam(name = "注册用对象", required = true) UserForAdd user, @ApiIgnore Device device) {
 		String verifyCode = (String) session.getAttribute(VERIFY_CODE);
 		if (!verifyCode.equals(user.getVerifyCode())) {
 			ModelAndView mav = new ModelAndView(device.isMobile() ? MOBILE + "register" : "register");
@@ -88,7 +89,7 @@ public class UserController {
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<String, Object> loginController(@Valid @ApiParam(name = "登录用对象", required = true) UserForLogin user,
-			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession httpSession) {
+	                                           @ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession httpSession) {
 		String verifyCode = (String) httpSession.getAttribute(VERIFY_CODE);
 		Map<String, Object> loginResult = new HashMap<>();
 		if (!verifyCode.equals(user.getVerifyCode())) {
@@ -125,7 +126,7 @@ public class UserController {
 	@ApiOperation(value = "用户激活", notes = "用户激活")
 	@GetMapping("/activate/{activateCode}")
 	public ModelAndView activateController(@Valid @ApiParam(name = "用户激活用对象", required = true) UserForActivate user,
-			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device) {
+	                                       @ApiIgnore BindingResult bindingResult, @ApiIgnore Device device) {
 		ServiceResult serviceResult = userService.activateService(user.getActivateCode());
 		if (serviceResult.isSuccessed()) {
 			return ModelAndViewFactory.newSuccessMav("激活成功!请登录!", device);
@@ -213,4 +214,15 @@ public class UserController {
 		return mav;
 	}
 
+	@GetMapping("/changeAvatar")
+	public ModelAndView changeAvatar(Device device) {
+		return ModelAndViewFactory.newSuccessMav("修改头像页面", device);
+	}
+
+	@PostMapping("/changeAvatar")
+	public ModelAndView changeAvatarController(MultipartFile avatarImage, HttpSession httpSession, Device device) {
+		User currentUser = (User) httpSession.getAttribute(USER_SESSION_KEY);
+		userService.changeAvatarService(avatarImage,currentUser);
+		return ModelAndViewFactory.newSuccessMav("保存头像成功", device);
+	}
 }

@@ -1,14 +1,14 @@
 package top.starrysea.object.dto;
 
-import java.io.Serializable;
-
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
 import top.starrysea.object.view.out.UserInfo;
 
+import java.io.Serializable;
+
 public class User implements Entity, Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6755911268936269135L;
 	private String userId;
@@ -19,6 +19,7 @@ public class User implements Entity, Serializable {
 	private short osuTeam;
 	private short osuGrade;
 	private short isDD;
+	private String avatar;
 
 	public User() {
 
@@ -33,6 +34,7 @@ public class User implements Entity, Serializable {
 		this.osuTeam = builder.osuTeam;
 		this.osuGrade = builder.osuGrade;
 		this.isDD = builder.isDD;
+		this.avatar = builder.avatar;
 	}
 
 	public static class Builder implements IBuilder<User> {
@@ -44,6 +46,7 @@ public class User implements Entity, Serializable {
 		private short osuTeam;
 		private short osuGrade;
 		private short isDD;
+		private String avatar;
 
 		public Builder userId(String userId) {
 			this.userId = userId;
@@ -82,6 +85,11 @@ public class User implements Entity, Serializable {
 
 		public Builder isDD(short isDD) {
 			this.isDD = isDD;
+			return this;
+		}
+
+		public Builder avatar(String avatar) {
+			this.avatar = avatar;
 			return this;
 		}
 
@@ -153,6 +161,14 @@ public class User implements Entity, Serializable {
 
 	public void setIsDD(short isDD) {
 		this.isDD = isDD;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 	public UserInfo toVO() {

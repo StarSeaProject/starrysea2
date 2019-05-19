@@ -1,5 +1,6 @@
 package top.starrysea.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.User;
 
@@ -18,4 +19,6 @@ public interface IUserService {
 	ServiceResult editUserInfoService(User user);
 
 	ServiceResult changeUserPasswordService(User user, String newPassword);
+
+	ServiceResult changeAvatarService(MultipartFile multipartFile, User user);
 }

@@ -26,7 +26,7 @@ public class UserDaoImpl implements IUserDao {
 				.insert("user_password", sha512(user.getUserEmail() + user.getUserPassword()))
 				.insert("user_name", user.getUsername()).insert("user_osu_person", user.getOsuPerson())
 				.insert("user_osu_team", user.getOsuTeam()).insert("user_osu_grade", user.getOsuGrade())
-				.insert("user_dd_flag", user.getIsDD()).table(User.class).end();
+				.insert("user_dd_flag", user.getIsDD()).insert("user_avatar", user.getAvatar()).table(User.class).end();
 		return user;
 	}
 
@@ -39,13 +39,14 @@ public class UserDaoImpl implements IUserDao {
 			return null;
 		}
 		ListSqlResult<User> userResult = kumaSqlDao.select("user_id").select("user_email").select("user_name")
-				.select("user_osu_person").select("user_osu_team").select("user_osu_grade").select("user_dd_flag")
+				.select("user_osu_person").select("user_osu_team").select("user_osu_grade").select("user_dd_flag").select("user_avatar")
 				.from(User.class).where("user_email", WhereType.EQUALS, user.getUserEmail())
 				.where("user_password", WhereType.EQUALS, sha512(user.getUserEmail() + user.getUserPassword()))
 				.endForList((rs, row) -> new User.Builder().userId(rs.getString("user_id"))
 						.userEmail(rs.getString("user_email")).username(rs.getString("user_name"))
 						.osuPerson(rs.getShort("user_osu_person")).osuTeam(rs.getShort("user_osu_team"))
-						.osuGrade(rs.getShort("user_osu_grade")).isDD(rs.getShort("user_dd_flag")).build());
+						.osuGrade(rs.getShort("user_osu_grade")).isDD(rs.getShort("user_dd_flag"))
+						.avatar(rs.getString("user_avatar")).build());
 		if (isNotNull(userResult.getResult())) {
 			return userResult.getResult().get(0);
 		} else {
@@ -65,12 +66,12 @@ public class UserDaoImpl implements IUserDao {
 	public User getUserInfoDao(String userId) {
 		kumaSqlDao.selectMode();
 		EntitySqlResult<User> result = kumaSqlDao.select("user_email").select("user_name").select("user_osu_person")
-				.select("user_osu_team").select("user_osu_grade").select("user_dd_flag").from(User.class)
+				.select("user_osu_team").select("user_osu_grade").select("user_dd_flag").select("user_avatar").from(User.class)
 				.where("user_id", WhereType.EQUALS, userId)
 				.endForObject((rs, row) -> new User.Builder().userEmail(rs.getString("user_email"))
 						.username(rs.getString("user_name")).osuPerson(rs.getShort("user_osu_person"))
 						.osuTeam(rs.getShort("user_osu_team")).osuGrade(rs.getShort("user_osu_grade"))
-						.isDD(rs.getShort("user_dd_flag")).build());
+						.isDD(rs.getShort("user_dd_flag")).avatar(rs.getString("user_avatar")).build());
 		return result.getResult();
 	}
 
@@ -90,5 +91,12 @@ public class UserDaoImpl implements IUserDao {
 		kumaSqlDao.updateMode();
 		kumaSqlDao.update("user_password", UpdateSetType.ASSIGN, sha512(user.getUserEmail() + user.getUserPassword()))
 				.table(User.class).where("user_id", WhereType.EQUALS, user.getUserId()).end();
+	}
+
+	@Override
+	public void updateUserAvatarDao(User user, String avatar) {
+		kumaSqlDao.updateMode();
+		kumaSqlDao.update("user_avatar", UpdateSetType.ASSIGN, avatar).table(User.class)
+				.where("user_id", WhereType.EQUALS, user.getUserId()).end();
 	}
 }

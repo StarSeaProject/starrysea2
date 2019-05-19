@@ -11,6 +11,7 @@ public class UserInfo {
 	private short osuTeam;
 	private short osuGrade;
 	private short isDD;
+	private String avatar;
 
 	public UserInfo(User user) {
 		this.userId = user.getUserId();
@@ -20,6 +21,7 @@ public class UserInfo {
 		this.osuTeam = user.getOsuTeam();
 		this.osuGrade = user.getOsuGrade();
 		this.isDD = user.getIsDD();
+		this.avatar = user.getAvatar();
 	}
 
 	public String getUserId() {
@@ -50,4 +52,7 @@ public class UserInfo {
 		return isDD;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
 }
