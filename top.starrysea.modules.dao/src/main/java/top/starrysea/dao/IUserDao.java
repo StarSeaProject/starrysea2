@@ -15,4 +15,6 @@ public interface IUserDao {
 	void updateUserDao(User user);
 
 	void updateUserPasswordDao(User user);
+
+	void updateUserAvatarDao(User user, String avatar);
 }

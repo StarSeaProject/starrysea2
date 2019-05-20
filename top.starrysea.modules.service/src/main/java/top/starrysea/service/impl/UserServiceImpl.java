@@ -1,27 +1,20 @@
 package top.starrysea.service.impl;
 
-import static top.starrysea.common.Common.isNotNull;
-import static top.starrysea.common.ResultKey.USER;
-import static top.starrysea.common.ResultKey.LIST_1;
-import static top.starrysea.common.ResultKey.LIST_2;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IFundingDao;
 import top.starrysea.dao.IOrderDetailDao;
 import top.starrysea.dao.IUserDao;
 import top.starrysea.dao.IWorkDao;
+import top.starrysea.exception.UpdateException;
+import top.starrysea.file.FileCondition;
+import top.starrysea.file.FileType;
+import top.starrysea.file.FileUtil;
 import top.starrysea.kql.facede.KumaRedisDao;
 import top.starrysea.object.dto.Funding;
 import top.starrysea.object.dto.OrderDetail;
@@ -32,6 +25,15 @@ import top.starrysea.object.view.out.UserFundingInfo;
 import top.starrysea.object.view.out.UserFundingWorkInfo;
 import top.starrysea.object.view.out.UserOrderInfo;
 import top.starrysea.service.IUserService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static top.starrysea.common.Common.isNotNull;
+import static top.starrysea.common.ResultKey.*;
 
 @Service("userService")
 public class UserServiceImpl implements IUserService {
@@ -48,11 +50,14 @@ public class UserServiceImpl implements IUserService {
 	private IWorkDao workDao;
 	@Autowired
 	private IOrderDetailDao orderDetailDao;
+	@Autowired
+	private FileUtil fileUtil;
 
 	@Override
 	public ServiceResult registerService(User user) {
 		try {
 			user.setUserId(Common.getCharId("U-", 20));
+			user.setAvatar("/头像.jpg");
 			List<User> userList = new ArrayList<>();
 			userList.add(user);
 			String activateCode = Common.getCharId(30);
@@ -125,8 +130,8 @@ public class UserServiceImpl implements IUserService {
 							workGroupByActivity.get(funding.getActivity().getActivityId()).stream()
 									.map(UserFundingWorkInfo::new).collect(Collectors.toList())))
 					.sorted((userFundingInfo1,
-							userFundingInfo2) -> Common.string2Time(userFundingInfo1.getFundingTime())
-									.before(Common.string2Time(userFundingInfo2.getFundingTime())) ? 1 : -1)
+					         userFundingInfo2) -> Common.string2Time(userFundingInfo1.getFundingTime())
+							.before(Common.string2Time(userFundingInfo2.getFundingTime())) ? 1 : -1)
 					.collect(Collectors.toList());
 			serviceResult.setResult(LIST_1, userFundingInfos);
 		} else {
@@ -181,6 +186,18 @@ public class UserServiceImpl implements IUserService {
 				}
 				return ServiceResult.of(true);
 			}
+		}
+	}
+
+	@Override
+	public ServiceResult changeAvatarService(MultipartFile multipartFile, User user) {
+		try {
+			String avatarFileName = fileUtil.saveFile(multipartFile, FileCondition.of(FileType.IMG, 1, "avatar_"));
+			userDao.updateUserAvatarDao(user, avatarFileName);
+			return ServiceResult.of(true);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new UpdateException(e);
 		}
 	}
 }
