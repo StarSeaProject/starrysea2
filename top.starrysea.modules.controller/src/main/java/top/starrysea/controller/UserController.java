@@ -214,15 +214,17 @@ public class UserController {
 		return mav;
 	}
 
+	@ApiOperation(value = "修改头像界面", notes = "修改头像界面")
 	@GetMapping("/changeAvatar")
 	public ModelAndView changeAvatar(Device device) {
 		return ModelAndViewFactory.newSuccessMav("修改头像页面", device);
 	}
 
+	@ApiOperation(value = "用户修改头像", notes = "用户修改头像")
 	@PostMapping("/changeAvatar")
-	public ModelAndView changeAvatarController(MultipartFile avatarImage, HttpSession httpSession, Device device) {
+	public ModelAndView changeAvatarController(@ApiParam(name = "avatarFile", required = true) MultipartFile avatarImage, @ApiIgnore HttpSession httpSession, @ApiIgnore Device device) {
 		User currentUser = (User) httpSession.getAttribute(USER_SESSION_KEY);
-		userService.changeAvatarService(avatarImage,currentUser);
+		userService.changeAvatarService(avatarImage, currentUser);
 		return ModelAndViewFactory.newSuccessMav("保存头像成功", device);
 	}
 }
