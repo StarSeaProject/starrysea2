@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
@@ -222,7 +219,8 @@ public class UserController {
 
 	@ApiOperation(value = "用户修改头像", notes = "用户修改头像")
 	@PostMapping("/changeAvatar")
-	public ModelAndView changeAvatarController(@ApiParam(name = "avatarFile", required = true) MultipartFile avatarImage, @ApiIgnore HttpSession httpSession, @ApiIgnore Device device) {
+	public ModelAndView changeAvatarController(@ApiParam(name = "avatarFile", required = true) @RequestParam("avatarFile") MultipartFile avatarImage,
+	                                           @ApiIgnore HttpSession httpSession, @ApiIgnore Device device) {
 		User currentUser = (User) httpSession.getAttribute(USER_SESSION_KEY);
 		userService.changeAvatarService(avatarImage, currentUser);
 		return ModelAndViewFactory.newSuccessMav("保存头像成功", device);
