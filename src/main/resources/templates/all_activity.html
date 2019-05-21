@@ -67,14 +67,14 @@
 			<div class="actlist text-center" th:each="activity:${result}">
 				<div class="actbox row">
 					<div class="col-xs-4 actname">
-						<a th:href="@{'/activity/'+${activity.activityId}}"
+						<a class="majorlink" th:href="@{'/activity/'+${activity.activityId}}"
 							th:text="${activity.activityName}"> 往期活动名 </a>
 					</div>
 					<div class="col-xs-4 endtime">
 						<p th:text="${activity.activityEndtime}">活动结束日期</p>
 					</div>
 					<div class="col-xs-4 actdetail">
-						<a class="detailbutton btn-lg"
+						<a class="majorlink detailbutton btn-lg"
 							th:href="@{'/activity/'+${activity.activityId}}"> <span
 							class="glyphicon glyphicon-circle-arrow-right"></span>
 						</a>
