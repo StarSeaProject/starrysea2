@@ -47,7 +47,7 @@
             </div>
             <div class="col-xs-6">
                 <div class="imgdiv">
-                    <img class="img-responsive" src="/头像.jpg"/>
+                    <img class="img-responsive" th:src="${session.userId.avatar}">
                 </div>
             </div>
         </div>
@@ -58,8 +58,8 @@
                 <a class="submitbt" id="submitbt1">提交</a>
             </div>
         </div>
-        <form id="resultform" action="/user/changeAvatar" method="post">
-            <input id="imgfile" name="avatarImage" type="file" value="">
+        <form id="resultform" enctype="multipart/form-data" action="/user/changeAvatar" method="post">
+            <input id="imgfile"  name="avatarFile" type="hidden" value="">
         </form>
         <div class="imgbox1">
             <img class="img-responsive" src="/70.png">
