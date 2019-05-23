@@ -1,5 +1,14 @@
 package top.starrysea.file;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+import top.starrysea.common.Common;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,16 +17,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import top.starrysea.common.Common;
 
 @Component
 public class FileUtil implements InitializingBean {
@@ -37,6 +36,10 @@ public class FileUtil implements InitializingBean {
 		Double fileSize = (double) file.getSize() / (double) (1024 * 1024);
 		if (fileCondition.getFileSize() != null && fileSize.compareTo(fileCondition.getFileSize()) > 0)
 			throw new IllegalArgumentException("文件太大");
+		//保存头像时前端传入的文件后缀为blob，需要还原成正确的后缀
+		if (fileType.equals("blob")) {
+			fileType = fileCondition.getFileType().getTrueFileType(bytesToHex(file.getBytes()));
+		}
 		String originFileName = fileCondition.getFileNamePrefix() + Common.getCharId(5) + "." + fileType;
 		String nowDate = sdf.format(new Date());
 		String filePathName = getFilePathName(fileCondition.getFileType());
