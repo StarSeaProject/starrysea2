@@ -213,8 +213,13 @@ public class UserController {
 
 	@ApiOperation(value = "修改头像界面", notes = "修改头像界面")
 	@GetMapping("/changeAvatar")
-	public ModelAndView changeAvatar(Device device) {
-		return ModelAndViewFactory.newSuccessMav("修改头像页面", device);
+	public ModelAndView changeAvatar(@ApiIgnore Device device, @ApiIgnore HttpSession httpSession) {
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "changeavatar" : "changeavatar");
+		User currentUser = (User) httpSession.getAttribute(USER_SESSION_KEY);
+		ServiceResult serviceResult = userService.getUserInfoService(currentUser.getUserId());
+		User user = serviceResult.getResult(USER);
+		modelAndView.addObject("userInfo", user.toVO());
+		return modelAndView;
 	}
 
 	@ApiOperation(value = "用户修改头像", notes = "用户修改头像")
