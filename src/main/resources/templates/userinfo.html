@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-xs-4">
             <div class="imgbox">
-                <img class="userimg img-responsive" th:src="${session.userId.avatar}"/>
+                <img class="userimg img-responsive" th:src="${userInfo.getAvatar()}"/>
             </div>
         </div>
         <div class="col-xs-4">
