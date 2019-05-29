@@ -79,19 +79,27 @@
 				<div class="col-xs-6">
 					<p>收货详细地址</p>
 				</div>
-				<div class="col-xs-6">
-					<input type="text" name="orderAddress" id="ordadddel" />
-				</div>
-			</div>
+				<div class="col-xs-6 container">
+					<div class="row">
+						<div class="col-xs-12">
+							<input type="text" name="orderAddress" id="ordadddel" />
+						</div>
+					</div>
+					<div class="row isPayOnlineRow">
+						<div class="col-xs-6">
+							<a data-id='0' class="PayOnlineUv PayOnlineBt">到付</a>
+						</div>
+						<div class="col-xs-6">
+							<a data-id='1' class="PayOnlineUv PayOnlineBt">在线支付</a>
 
-			<div class="row normalline" id="isPayOnlineRow">
-				<div class="col-xs-6">
-				</div>
-
-				<div class="col-xs-6">
-					<a id="PayOnlineBt" class="PayOnlineUv">不方便接收到付快递</a>
-					<p id="PayOnlineText">选中该选项时将使用在线支付的方式支付邮费</p>
-					<input type="hidden" name="isPayOnline" id="isPayOnline"/>
+						</div>
+					</div>
+					<div class="row isPayOnlineRow">
+						<div class="col-xs-12">
+							<p id="PayOnlineText">我们使用第四方支付进行管理收款，如果选择在线支付邮费，第四方支付会向您加收6%的手续费，所以我们建议您选择邮费到付。</p>
+							<input type="hidden" name="isPayOnline" id="isPayOnline"/>
+						</div>
+					</div>
 				</div>
 			</div>
 

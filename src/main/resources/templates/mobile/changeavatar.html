@@ -13,9 +13,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
           crossorigin="anonymous"></link>
-    <link rel="stylesheet" href="/changeavatar.min.css"></link>
-    <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
-    <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
+    <link rel="stylesheet" href="/mobile/changeavatar.min.css"></link>
+    <link rel="stylesheet" href="/mobile/mynavbar_mobilepage.min.css"></link>
 </head>
 <body>
 <div id="mainwindow">
@@ -47,7 +46,7 @@
             </div>
             <div class="col-xs-6">
                 <div class="imgdiv">
-                    <img class="img-responsive" src="/头像.jpg"/>
+                    <img class="img-responsive" th:src="${userInfo.getAvatar()}"/>
                 </div>
             </div>
         </div>
@@ -58,9 +57,6 @@
                 <a class="submitbt" id="submitbt1">提交</a>
             </div>
         </div>
-        <form id="resultform" action="/user/changeAvatar" method="post">
-            <input id="imgfile" name="avatarImage" type="file" value="">
-        </form>
         <div class="imgbox1">
             <img class="img-responsive" src="/70.png">
         </div>
@@ -81,8 +77,7 @@
     let user=[[${session.userId}]];
 </script>
 
-<script src="/header_and_footer.min.js"></script>
+<script src="/mobile/header_and_footer.min.js"></script>
 <script src="/changeavatar.min.js"></script>
-<script src="/mynavbar_commonpage.min.js"></script>
 </body>
 </html>
