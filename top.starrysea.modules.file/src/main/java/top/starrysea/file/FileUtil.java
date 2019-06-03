@@ -36,10 +36,7 @@ public class FileUtil implements InitializingBean {
 		Double fileSize = (double) file.getSize() / (double) (1024 * 1024);
 		if (fileCondition.getFileSize() != null && fileSize.compareTo(fileCondition.getFileSize()) > 0)
 			throw new IllegalArgumentException("文件太大");
-		//保存头像时前端传入的文件后缀为blob，需要还原成正确的后缀
-		if (fileType.equals("blob")) {
-			fileType = fileCondition.getFileType().getTrueFileType(bytesToHex(file.getBytes()));
-		}
+		fileType = fileCondition.getFileType().getTrueFileType(bytesToHex(file.getBytes()));
 		String originFileName = fileCondition.getFileNamePrefix() + Common.getCharId(5) + "." + fileType;
 		String nowDate = sdf.format(new Date());
 		String filePathName = getFilePathName(fileCondition.getFileType());
