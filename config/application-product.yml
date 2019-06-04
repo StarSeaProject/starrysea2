@@ -43,7 +43,7 @@ spring:
         max-wait: 1800
         max-idle: 8
         min-idle: 0
-    timeout: 0 
+    timeout: 20000 
   devtools: 
     add-properties: false
   banner:

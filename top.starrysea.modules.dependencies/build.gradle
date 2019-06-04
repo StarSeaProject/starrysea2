@@ -13,7 +13,8 @@ dependencies{
 		'org.springframework.boot:spring-boot-devtools',
 		'org.springframework.boot:spring-boot-configuration-processor',
 		'org.springframework.boot:spring-boot-starter-data-redis',
-		'org.springframework.boot:spring-boot-starter-amqp'
+		'org.springframework.boot:spring-boot-starter-amqp',
+		'org.springframework.session:spring-session-data-redis'
 	)
 	
 	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
