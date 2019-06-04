@@ -1,5 +1,6 @@
 package top.starrysea.file;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,12 +10,16 @@ public enum FileType {
 
 	private String[] magicNums;
 
-	private Map<String, String> fileTypeMap = new HashMap<String, String>() {{
-		put("FFD8FF", "jpg");
-		put("89504E47", "png");
-		put("47494638", "gif");
-		put("255044462D312E", "pdf");
-	}};
+	private static final Map<String, String> fileTypeMap;
+
+	static {
+		Map<String, String> map = new HashMap<>();
+		map.put("FFD8FF", "jpg");
+		map.put("89504E47", "png");
+		map.put("47494638", "gif");
+		map.put("255044462D312E", "pdf");
+		fileTypeMap = Collections.unmodifiableMap(map);
+	}
 
 	private FileType(String... magicNums) {
 		this.magicNums = magicNums;
@@ -35,6 +40,6 @@ public enum FileType {
 				return fileTypeMap.get(magicNum);
 			}
 		}
-		return "blob";
+		throw new IllegalArgumentException("文件类型不正确");
 	}
 }
