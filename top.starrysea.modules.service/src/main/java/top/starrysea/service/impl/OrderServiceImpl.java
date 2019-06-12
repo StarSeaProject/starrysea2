@@ -227,8 +227,9 @@ public class OrderServiceImpl implements IOrderService {
 			dataRow.createCell(4).setCellValue(orderDetail.getOrder().getOrderPhone());
 			dataRow.createCell(5).setCellValue(orderDetail.getOrder().getOrderRemark());
 			if (orderDetail.getOrder().getOrderMoney() == 0) {
-				dataRow.createCell(6).setCellValue("线下支付");
-				dataRow.createCell(7).setCellValue("已支付");
+				dataRow.createCell(6).setCellValue("到付");
+				dataRow.createCell(7).setCellValue("到付");
+				dataRow.createCell(8).setCellValue(orderDetail.getOrder().getOrderMoney());
 			} else if (orderDetail.getOrder().getOrderMoney() > 0) {
 				dataRow.createCell(6).setCellValue("支付宝支付");
 				if (orderDetail.getOrder().getOrderStatus() == 0) {
@@ -236,8 +237,8 @@ public class OrderServiceImpl implements IOrderService {
 				} else {
 					dataRow.createCell(7).setCellValue("已支付");
 				}
+				dataRow.createCell(8).setCellValue("");
 			}
-			dataRow.createCell(8).setCellValue(orderDetail.getOrder().getOrderMoney());
 		}
 		try (FileOutputStream fout = new FileOutputStream("/result.xls")) {
 			excel.write(fout);
