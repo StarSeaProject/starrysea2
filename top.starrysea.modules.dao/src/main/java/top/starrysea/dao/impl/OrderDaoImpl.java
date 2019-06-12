@@ -116,14 +116,15 @@ public class OrderDaoImpl implements IOrderDao {
 	public List<Orders> getAllOrderDao(Condition condition, Orders order) {
 		kumaSqlDao.selectMode();
 		ListSqlResult<Orders> theResult = kumaSqlDao.select("order_id").select("order_num").select("order_name")
-				.select("order_status").select("order_time").from(Orders.class)
+				.select("order_status").select("order_time").select("order_money").from(Orders.class)
 				.where("order_num", WhereType.FUZZY, order.getOrderNum())
 				.where("order_status", WhereType.EQUALS, order.getOrderStatus())
 				.where("order_name", WhereType.FUZZY, order.getOrderName()).orderBy("order_status")
 				.orderBy("order_time", OrderByType.DESC).limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
 				.endForList((rs, row) -> new Orders.Builder().orderId(rs.getString("order_id"))
 						.orderNum(rs.getString("order_num")).orderName(rs.getString("order_name"))
-						.orderStatus(rs.getShort("order_status")).orderTime(rs.getLong("order_time")).build());
+						.orderStatus(rs.getShort("order_status")).orderTime(rs.getLong("order_time"))
+						.orderMoney(rs.getInt("order_money")).build());
 		return theResult.getResult();
 	}
 

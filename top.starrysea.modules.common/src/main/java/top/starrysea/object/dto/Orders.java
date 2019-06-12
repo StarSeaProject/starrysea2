@@ -34,7 +34,7 @@ public class Orders implements Entity {
 		this.orderRemark = builder.orderRemark;
 		this.orderPhone = builder.orderPhone;
 		this.user = builder.user;
-		this.orderMoney=builder.orderMoney;
+		this.orderMoney = builder.orderMoney;
 	}
 
 	public Orders() {
@@ -118,10 +118,10 @@ public class Orders implements Entity {
 		}
 
 		public Builder orderMoney(int orderMoney) {
-			this.orderMoney=orderMoney;
+			this.orderMoney = orderMoney;
 			return this;
 		}
-		
+
 		@Override
 		public Orders build() {
 			return new Orders(this);
@@ -235,12 +235,16 @@ public class Orders implements Entity {
 
 	public OrderForAll toVoForAll() {
 		String status = "";
-		if (this.orderStatus == (short) 1) {
+		if (this.orderStatus == (short) 0) {
+			status = "未支付";
+		} else if (this.orderStatus == (short) 1) {
 			status = "未发货";
 		} else if (this.orderStatus == (short) 2) {
 			status = "已发货";
+		} else if (this.orderStatus == (short) 3) {
+			status = "已取消";
 		}
-		return new OrderForAll(orderId, orderNum, orderName, status, orderTime);
+		return new OrderForAll(orderId, orderNum, orderName, status, orderTime, orderMoney);
 	}
 
 	public OrderForOne toVoForOne() {
