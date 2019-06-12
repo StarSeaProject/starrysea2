@@ -43,9 +43,9 @@
     </div>
     <div class="row headrow1">
         <div class="col-xs-4">
-            <div class="imgbox">
-                <img class="userimg img-responsive" src="/头像.jpg"/>
-            </div>
+            <a class="imgbox" href="/user/changeAvatar">
+                <img class="userimg img-responsive" th:src="${userInfo.getAvatar()}"/>
+            </a>
         </div>
         <div class="col-xs-8">
         </div>
