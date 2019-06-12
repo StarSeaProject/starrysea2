@@ -210,6 +210,9 @@ public class OrderServiceImpl implements IOrderService {
 		row.createCell(3).setCellValue("收货地址");
 		row.createCell(4).setCellValue("收货人手机");
 		row.createCell(5).setCellValue("备注");
+		row.createCell(6).setCellValue("支付方式");
+		row.createCell(7).setCellValue("是否完成支付");
+		row.createCell(8).setCellValue("支付金额");
 		for (int i = 0; i < result.size(); i++) {
 			OrderDetail orderDetail = result.get(i);
 			HSSFRow dataRow = sheet.createRow(i + 1);
@@ -223,6 +226,18 @@ public class OrderServiceImpl implements IOrderService {
 							+ orderDetail.getOrder().getOrderAddress());
 			dataRow.createCell(4).setCellValue(orderDetail.getOrder().getOrderPhone());
 			dataRow.createCell(5).setCellValue(orderDetail.getOrder().getOrderRemark());
+			if (orderDetail.getOrder().getOrderMoney() == 0) {
+				dataRow.createCell(6).setCellValue("线下支付");
+				dataRow.createCell(7).setCellValue("已支付");
+			} else if (orderDetail.getOrder().getOrderMoney() > 0) {
+				dataRow.createCell(6).setCellValue("支付宝支付");
+				if (orderDetail.getOrder().getOrderStatus() == 0) {
+					dataRow.createCell(7).setCellValue("未支付");
+				} else {
+					dataRow.createCell(7).setCellValue("已支付");
+				}
+			}
+			dataRow.createCell(8).setCellValue(orderDetail.getOrder().getOrderMoney());
 		}
 		try (FileOutputStream fout = new FileOutputStream("/result.xls")) {
 			excel.write(fout);
@@ -286,7 +301,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
-	                                                         List<OrderDetailForAddOrder> orderDetailForAddOrders) {
+			List<OrderDetailForAddOrder> orderDetailForAddOrders) {
 		kumaRedisDao.set(redisKey, Common.toJson(orderDetailForAddOrders));
 		return SUCCESS_SERVICE_RESULT;
 	}
