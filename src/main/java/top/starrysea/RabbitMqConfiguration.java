@@ -65,6 +65,6 @@ public class RabbitMqConfiguration {
 
 	@Bean
 	public Binding cancelFundingBinding() {
-		return BindingBuilder.bind(cancelFundingQueue()).to(orderExchange()).with(CANCEL_FUNDING_QUEUE);
+		return BindingBuilder.bind(cancelFundingQueue()).to(fundingExchange()).with(CANCEL_FUNDING_QUEUE);
 	}
 }
