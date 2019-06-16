@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 import top.starrysea.common.Common;
+import top.starrysea.common.Const;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.OrderDetail;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -85,7 +87,7 @@ public class OrderController {
 	@PostMapping("/order/detail/ajax")
 	@ResponseBody
 	public Map<String, Object> queryOrderControllerAjax(@RequestBody @Valid OrderForRemove order,
-	                                                    BindingResult bindingResult) {
+			BindingResult bindingResult) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER);
 		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
@@ -113,7 +115,7 @@ public class OrderController {
 	@PostMapping("/order/add")
 	@ApiOperation(value = "下单", notes = "下单")
 	public ModelAndView addOrderController(@Valid @ApiParam(name = "订单对象", required = true) OrderForAdd order,
-	                                       @ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession session) {
+			@ApiIgnore BindingResult bindingResult, @ApiIgnore Device device, @ApiIgnore HttpSession session) {
 		if (!order.getToken().equals(session.getAttribute(TOKEN))) {
 			return ModelAndViewFactory.newErrorMav("您已经下单,请勿再次提交", device);
 		}
@@ -131,10 +133,15 @@ public class OrderController {
 		if (order.getIsPayOnline() == true && o.getOrderMoney() != 0) {
 			PayelvesPayBackParam backParam = new PayelvesPayBackParam();
 			backParam.setType(1);
-			String url = payelvesTradeService.createPaymentRequestRouteService(PayelvesPayRequest.builder()
-					.withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会").withChannel(1)
-					.withOrderId(o.getOrderId()).withPayType(1).withPrice(Double.parseDouble(o.getOrderMoney() + ""))
-					.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build()).getResult(STRING);
+			BigDecimal orderMoney = BigDecimal.valueOf(o.getOrderMoney());
+			// 在线支付(第四方支付)需要用户多付6%的手续费
+			orderMoney = orderMoney.multiply(BigDecimal.valueOf(Const.FOUR_PARTY_SERVICE_RACE));
+			String url = payelvesTradeService
+					.createPaymentRequestRouteService(PayelvesPayRequest.builder()
+							.withBackPara(Common.toJson(backParam)).withBody("星之海志愿者公会").withChannel(1)
+							.withOrderId(o.getOrderId()).withPayType(1).withPrice(orderMoney.doubleValue())
+							.withSubject("星之海志愿者公会-作品邮费").withUserId(currentUser.getUserId()).build())
+					.getResult(STRING);
 			return new ModelAndView("redirect:" + url);
 		} else {
 			return ModelAndViewFactory.newSuccessMav("下单成功", device);
@@ -172,7 +179,7 @@ public class OrderController {
 	@PostMapping("/order/resend")
 	@ResponseBody
 	public Map<String, Object> resendEmailController(@RequestBody @Valid OrderForRemove order,
-	                                                 BindingResult bindingResult) {
+			BindingResult bindingResult) {
 		orderService.resendEmailService(order.toDTO());
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("result", "success");
@@ -182,7 +189,7 @@ public class OrderController {
 	@PostMapping("/car/add")
 	@ResponseBody
 	public Map<String, Object> addWorkToShoppingCarController(HttpSession session,
-	                                                          @RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
+			@RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
 		List<OrderDetailForAddOrder> orderDetailList = orderService.queryShoppingCarListService(session.getId())
 				.getResult(LIST_1);
 		if (orderDetailList == null) {
@@ -205,7 +212,7 @@ public class OrderController {
 	@GetMapping("/car/remove/{index}")
 	@ResponseBody
 	public ModelAndView removeWorkFromShoppingCarController(HttpSession session, @Valid WorkTypeForRemoveCar workType,
-	                                                        BindingResult bindingResult, Device device) {
+			BindingResult bindingResult, Device device) {
 		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workType.getToken())) {
 			return ModelAndViewFactory.newErrorMav("您已经删除该作品,请勿再次提交", device);
 		}
@@ -236,7 +243,7 @@ public class OrderController {
 
 	@PostMapping("/car/removes")
 	public ModelAndView removeWorksFromShoppingCarController(HttpSession session,
-	                                                         @Valid WorkTypesForRemoveCar workTypes, BindingResult bindingResult, Device device) {
+			@Valid WorkTypesForRemoveCar workTypes, BindingResult bindingResult, Device device) {
 		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workTypes.getToken())) {
 			return ModelAndViewFactory.newErrorMav("您已经删除过这些作品,请勿再次提交", device);
 		}
@@ -252,7 +259,7 @@ public class OrderController {
 
 	@PostMapping("/order/address/modify")
 	public ModelAndView modifyAddressController(HttpSession session, @Valid OrderForAddress order,
-	                                            BindingResult bindingResult, Device device) {
+			BindingResult bindingResult, Device device) {
 		Orders result = orderService.queryOrderService(order.toDTO()).getResult(ORDER);
 		String key = (String) session.getAttribute(TOKEN);
 		@SuppressWarnings("unchecked")
@@ -269,7 +276,7 @@ public class OrderController {
 
 	@GetMapping("/order/address/toModifyAddr/{orderNum}")
 	public ModelAndView gotoModifyAddressController(HttpSession session, @Valid OrderDetailForModifyAddr order,
-	                                                BindingResult bindingResult, Device device) {
+			BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER);
 		@SuppressWarnings("unchecked")
@@ -290,7 +297,7 @@ public class OrderController {
 
 	@PostMapping("/order/address/send")
 	public ModelAndView modifyAddressEmailController(@Valid OrderForOne order, BindingResult bindingResult,
-	                                                 Device device) {
+			Device device) {
 		ServiceResult result = orderService.modifyAddressEmailService(order.toDTO());
 		if (!result.isSuccessed()) {
 			return ModelAndViewFactory.newErrorMav("您的订单已发货,不能再修改收货地址!", device);
@@ -302,7 +309,7 @@ public class OrderController {
 	@GetMapping("/order/postage/money")
 	@ResponseBody
 	public Map<String, Object> getPostage(@Valid @ApiParam(name = "省份对象", required = true) ProvinceForOne province,
-	                                      BindingResult bindingResult) {
+			BindingResult bindingResult) {
 		ServiceResult result = orderService.getPostageMoney(province.getProvinceId());
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("postageMoney", result.getResult(INTEGER));
@@ -312,7 +319,7 @@ public class OrderController {
 	@ApiOperation(value = "订单付款", notes = "订单付款")
 	@PostMapping("/order/pay")
 	public ModelAndView payOrder(@ApiIgnore HttpSession session,
-	                             @Valid @ApiParam(value = "付款用对象", required = true) OrderForPay order, @ApiIgnore Device device) {
+			@Valid @ApiParam(value = "付款用对象", required = true) OrderForPay order, @ApiIgnore Device device) {
 		User currentUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Orders o = orderService.queryOrderService(order.toDTO()).getResult(ORDER);
 		o.setOrderId(order.getOrderId());
@@ -330,7 +337,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/order/cancel/{orderId}")
-	public ModelAndView cancelOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device){
+	public ModelAndView cancelOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
 		orderService.cancelOrderService(Common.toJson(order));
 		return ModelAndViewFactory.newSuccessMav("订单取消成功!", device);
 	}
