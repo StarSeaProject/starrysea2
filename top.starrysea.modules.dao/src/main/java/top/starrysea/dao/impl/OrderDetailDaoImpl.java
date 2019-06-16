@@ -2,6 +2,7 @@ package top.starrysea.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,14 +93,15 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 		kumaSqlDao.selectMode();
 		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("order_name").select("province_name", "p")
 				.select("city_name", "c").select("area_name", "a").select("order_address").select("order_remark")
-				.select("order_phone").select("name", "wt").select("work_name", "w").from(Orders.class, "o")
+				.select("order_phone").select("name", "wt").select("work_name", "w").select("order_status", "o")
+				.select("order_money", "o").from(Orders.class, "o")
 				.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 				.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 				.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
 				.leftjoin(OrderDetail.class, "od", "order_id", Orders.class, "order_id")
 				.leftjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
-				.where("order_status", WhereType.EQUALS, 1)
+				.where("order_status", WhereType.IN, Arrays.asList(0, 1))
 				.where("order_time", WhereType.GREATER_EQUAL, exportXlsCondition.getStartTime())
 				.orderBy("order_time",
 						OrderByType.DESC)

@@ -29,6 +29,8 @@ public class Const {
 	public static final String ORIGINAL_FUNDING_QUEUE = "originalFundingQueue";
 	public static final String CANCEL_FUNDING_QUEUE = "cancelFundingQueue";
 	public static final Long QUEUE_TIMEOUT = 10 * 60 * 1000L;
+	// 第四方支付服务费
+	public static final double FOUR_PARTY_SERVICE_RACE = 1.06;
 
 	public static class HttpCode {
 		private HttpCode() {
