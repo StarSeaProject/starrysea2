@@ -229,7 +229,7 @@ public class OrderServiceImpl implements IOrderService {
 			if (orderDetail.getOrder().getOrderMoney() == 0) {
 				dataRow.createCell(6).setCellValue("到付");
 				dataRow.createCell(7).setCellValue("到付");
-				dataRow.createCell(8).setCellValue(orderDetail.getOrder().getOrderMoney());
+				dataRow.createCell(8).setCellValue("");
 			} else if (orderDetail.getOrder().getOrderMoney() > 0) {
 				dataRow.createCell(6).setCellValue("支付宝支付");
 				if (orderDetail.getOrder().getOrderStatus() == 0) {
@@ -237,7 +237,7 @@ public class OrderServiceImpl implements IOrderService {
 				} else {
 					dataRow.createCell(7).setCellValue("已支付");
 				}
-				dataRow.createCell(8).setCellValue("");
+				dataRow.createCell(8).setCellValue(orderDetail.getOrder().getOrderMoney() / 100);
 			}
 		}
 		try (FileOutputStream fout = new FileOutputStream("/result.xls")) {

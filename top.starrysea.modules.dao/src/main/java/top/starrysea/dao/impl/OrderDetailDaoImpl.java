@@ -113,7 +113,7 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 										.city(new City.Builder().cityName(rs.getString("city_name"))
 												.province(new Province(null, rs.getString("province_name"))).build())
 										.build())
-								.build())
+								.orderMoney(rs.getInt("order_money")).build())
 						.workType(new WorkType.Builder().name(rs.getString("wt.name"))
 								.work(new Work.Builder().workName(rs.getString("w.work_name")).build()).build())
 						.build());
