@@ -6,7 +6,7 @@ import top.starrysea.common.Common;
 import top.starrysea.object.dto.Orders;
 
 public class OrderForOne {
-	
+
 	private String orderName;
 	private String orderAddress;
 	private String orderStatus;
@@ -16,6 +16,7 @@ public class OrderForOne {
 	private String orderPhone;
 	private String orderRemark;
 	private String orderNum;
+	private int orderMoney;
 
 	public OrderForOne(Orders order) {
 		this.orderName = order.getOrderName();
@@ -38,6 +39,7 @@ public class OrderForOne {
 		this.orderPhone = order.getOrderPhone();
 		this.orderRemark = order.getOrderRemark();
 		this.orderNum = order.getOrderNum();
+		this.orderMoney = order.getOrderMoney();
 	}
 
 	public String getOrderName() {
@@ -74,6 +76,10 @@ public class OrderForOne {
 
 	public String getOrderNum() {
 		return orderNum;
+	}
+
+	public int getOrderMoney() {
+		return orderMoney;
 	}
 
 }
