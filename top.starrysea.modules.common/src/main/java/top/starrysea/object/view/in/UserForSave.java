@@ -19,6 +19,8 @@ public class UserForSave implements Serializable {
 	@NotBlank(message = "邮箱不能为空")
 	@Size(max = 100, message = "邮箱长度不能超过100")
 	private String userEmail;
+	@NotBlank(message = "头像不能为空")
+	private String avatar;
 	@NotBlank(message = "密码不能为空")
 	private String userPassword;
 	@NotBlank(message = "昵称不能为空")
@@ -97,8 +99,16 @@ public class UserForSave implements Serializable {
 		this.isDD = isDD;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 	public User toDTO() {
 		return new User.Builder().userId(userId).username(username).userEmail(userEmail).userPassword(userPassword)
-				.osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade).isDD(isDD).build();
+				.osuPerson(osuPerson).osuTeam(osuTeam).osuGrade(osuGrade).isDD(isDD).avatar(avatar).build();
 	}
 }
