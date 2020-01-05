@@ -6,8 +6,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: root1
-    url: jdbc:mysql://127.0.0.1:3306/starrysea?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://120.79.145.235:3306/starrysea?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: root
+    hikari: 
+        connection-timeout: 60000
+        idle-timeout: 60000
+        max-lifetime: 60000
+        maximum-pool-size: 60
+        minimum-idle: 10
   servlet:
     multipart:
       max-file-size: 20MB
