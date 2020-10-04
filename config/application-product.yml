@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: root1
-    url: jdbc:mysql://120.79.145.235:3306/starrysea?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-    username: root
+    password: Ans8xxnA287a
+    url: jdbc:mysql://sql395.main-hosting.eu:3306/u514354861_starrysea?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: u514354861_starrysea
     hikari: 
         connection-timeout: 60000
         idle-timeout: 60000
@@ -55,10 +55,7 @@ spring:
   banner:
     charset: UTF-8
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    addresses: amqps://dobskofp:kqPSst4dpSMJUQm34wYKAFHDuw61q7Sj@donkey.rmq.cloudamqp.com/dobskofp
     publisher-confirms: true
 management:
   endpoint:
